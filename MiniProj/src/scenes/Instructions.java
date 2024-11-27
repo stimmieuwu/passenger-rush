@@ -34,7 +34,7 @@ public class Instructions {
 		});
 		
 		VBox layout = new VBox(10); // Create a VBox, which arranges the things vertically
-        canvas.getChildren().addAll(about, back); // Add content to the VBox
+        layout.getChildren().addAll(about, back); // Add content to the VBox
 
         aboutScene = new Scene(layout, 568, 568); // Create the Scene with the layout as the root node.
    
