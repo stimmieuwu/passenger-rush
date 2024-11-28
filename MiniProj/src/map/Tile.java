@@ -8,7 +8,7 @@ public class Tile {
 	
 	Tile(){
 		for(int i = 0; i < 3; i++) {
-			img[i] = new Image("file:assets/tiles/tile" + i + ".png" );
+			img[i] = new Image("../../assets/tiles/tile" + i + ".png" );
 		}
 	}
 }

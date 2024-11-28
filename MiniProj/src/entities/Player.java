@@ -9,7 +9,7 @@ public class Player {
 	private double playerSpeed;
 	private Image playerImage;
 	
-	public final static Image PLAYER_IMAGE = new Image("assets/sprites/testing_car.png", 100, 100, true , true);
+	public final static Image PLAYER_IMAGE = new Image("../assets/sprites/testing_car.png", 100, 100, true , true);
 	
 	public Player(int xPos, int yPos, Image image) {
 		this.xPos = xPos;

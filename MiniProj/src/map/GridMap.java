@@ -17,7 +17,7 @@ public class GridMap {
 		this.gridMap = new int [40][40];
 		
 		// if ever we want to change maps
-		loadMap("assets/maps/map.txt");
+		loadMap("../../assets/maps/map.txt");
 	}
 
 	private void loadMap(String mapDir){
