@@ -1,7 +1,7 @@
 package effects;
 
 /**
- * Javadoc
+ * Javadoc I added comment
  */
 public class Debuff {
 
