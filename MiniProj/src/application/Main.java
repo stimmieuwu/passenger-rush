@@ -1,27 +1,32 @@
 package application;
 
 import javafx.application.Application;
-import javafx.stage.Stage;
-import map.GridMap;
-//import windows.Menu;
-import javafx.scene.Group;
+// import map.GridMap;
+// import windows.Menu;
+// import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import mechanics.GameTimer; //temp
-import entities.Player;
+// import entities.Player;
+import scenes.SceneManager;
 
 /**
- * This is the main class for the JavaFX application that implements a
- * game called Passenger Rush.
+ * This is the main class for the JavaFX application that implements a game
+ * called Passenger Rush.
  * 
  * @author Simonee Ezekiel M. Mariquit
  * @author Jan Zuriel Camba
  * @author Norman Marfa III
- * @created_date 2024-11-25 12:13 AM
+ * @created_date 2024-12-09
  */
 public class Main extends Application {
+	
+	/** The main window of the game */
+	Stage stage;
 
 	/**
 	 * Override the start method of the Application class to create the main
@@ -32,30 +37,21 @@ public class Main extends Application {
 	 */
 	@Override
 	public void start(Stage primaryStage) {
+		this.stage = primaryStage;
 		try {
-			BorderPane root = new BorderPane();
-			Scene scene = new Scene(root, 800, 800);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			primaryStage.setTitle("Passenger Rush Test");
-			primaryStage.setScene(scene);
-			primaryStage.show();
-
-//			gameTimer.setScene(scene);
-
-			// to test tiles
-			// remember to remove import
-
-			Canvas canvas = new Canvas(800, 800);
-			GraphicsContext gc = canvas.getGraphicsContext2D();
-			root.getChildren().add(canvas);
-
-			// Testing purposes of GameTImer
-			GameTimer gameTimer = new GameTimer(gc, scene);
-			gameTimer.start();
-//			GridMap map = new GridMap(gc);
-//
-//			map.drawMap(gc);
-
+			/** The mechanism responsible for switching scenes in the game */
+			@SuppressWarnings("unused")
+			SceneManager sceneManager = new SceneManager(stage);
+			
+			// Set some properties of the stage, then show it to the user
+			// Image icon = new Image("assets/tiles/tile0.png"); 
+            // stage.getIcons().add(icon);
+			stage.setTitle("Passenger Rush"); 
+			stage.setResizable(false);
+			stage.show();
+			
+			sceneManager.switchToMainMenu();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

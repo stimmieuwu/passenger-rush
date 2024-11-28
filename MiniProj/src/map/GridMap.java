@@ -5,6 +5,14 @@ import java.io.FileReader;
 
 import javafx.scene.canvas.GraphicsContext;
 
+/**
+ * 
+ * 
+ * @author Simonee Ezekiel M. Mariquit
+ * @author Jan Zuriel Camba
+ * @author Norman Marfa III
+ * @created_date 2024-12-09
+ */
 public class GridMap {
 	GraphicsContext gc;
 	Tile tiles;

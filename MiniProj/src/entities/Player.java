@@ -1,5 +1,13 @@
 package entities;
 
+/**
+ * 
+ * 
+ * @author Simonee Ezekiel M. Mariquit
+ * @author Jan Zuriel Camba
+ * @author Norman Marfa III
+ * @created_date 2024-12-09
+ */
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 

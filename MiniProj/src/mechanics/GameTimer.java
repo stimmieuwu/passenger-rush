@@ -9,7 +9,16 @@ import javafx.scene.input.KeyEvent;
 
 import entities.Player;
 import map.GridMap;
+import scenes.Game;
 
+/**
+ * 
+ * 
+ * @author Simonee Ezekiel M. Mariquit
+ * @author Jan Zuriel Camba
+ * @author Norman Marfa III
+ * @created_date 2024-12-09
+ */
 public class GameTimer extends AnimationTimer {
 	private GraphicsContext gc;
 	private Scene scene;
@@ -18,10 +27,10 @@ public class GameTimer extends AnimationTimer {
 
 	GridMap map = new GridMap(gc);
 
-	public GameTimer(GraphicsContext gc, Scene scene) {
+	public GameTimer(GraphicsContext gc, Game game) {
 
 		this.gc = gc;
-		this.scene = scene;
+		this.scene = game.getScene();
 
 		this.map = new GridMap(gc);
 		player1 = new Player(100, 100, Player.PLAYER_IMAGE);
