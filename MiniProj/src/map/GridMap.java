@@ -7,25 +7,16 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 /**
- * 
- * 
+ * This class represents a grid-based map for the game. It loads map data from a
+ * text file and renders the map using tiles.
+ *
  * @author Simonee Ezekiel M. Mariquit
  * @author Jan Zuriel Camba
  * @author Norman Marfa III
  * @created_date 2024-12-09
+ * @reference https://www.youtube.com/watch?v=ugzxCcpoSdE
  */
 public class GridMap {
-	GraphicsContext gc;
-	Tile tiles[] = new Tile[3];
-	int gridMap[][];
-
-	public GridMap(GraphicsContext gc) {
-		this.gc = gc;
-		
-
-		this.gridMap = new int[40][40];
-
-		// if ever we want to change maps
 		this.loadMap("assets/maps/map.txt");
 		loadTileAssets();
 	}
@@ -40,57 +31,61 @@ public class GridMap {
 		}
 	}
 
+	/**
+	 * Loads the map data from the specified text file. The file should contain a
+	 * grid of numbers representing different tile types.
+	 *
+	 * @param mapDir The path to the map file.
+	 */
 	private void loadMap(String mapDir) {
-		try {
-			// get data from text file
-			FileReader get = new FileReader(mapDir);
+		try { // In case the map file is not a text file containing a grid of numbers, print
+				// an error.
+			FileReader get = new FileReader(mapDir); // Gets the data from the text file
+			BufferedReader br = new BufferedReader(get); // Reads the data from the text file
 
-			// to read text file data
-
-			BufferedReader br = new BufferedReader(get);
-			// testing things out might cause performance issues
-			for (int r = 0; r < 40; r++) {
+			// This nested loop puts the map data inside an array.
+			for (int row = 0; row < ROWS; row++) {
 				String line = br.readLine();
-
-				for (int c = 0; c < 40; c++) {
-					String temp[] = line.split(" "); // won't read the spaces between map data
-					int mapData = Integer.parseInt(temp[c]);
-					gridMap[r][c] = mapData;
+				for (int col = 0; col < COLUMNS; col++) {
+					String[] temp = line.split(" "); // Don't read the spaces in between the map data.
+					int mapData = Integer.parseInt(temp[col]);
+					gridMap[row][col] = mapData;
 				}
-
 			}
 			br.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
+	/**
+	 * Draws the map on the canvas using the loaded tile data. Each tile is assumed
+	 * to be 20x20 pixels in size, which fits the 800x800 grid.
+	 *
+	 * @param gc The GraphicsContext for drawing the map.
+	 */
 	public void drawMap(GraphicsContext gc) {
-
-		int col = 0;
-		int row = 0;
-		int x = 0;
-		int y = 0;
+		// Initialize the column, row, x position, and y position to be zero. This will
+		// be manipulated later.
+		int col = 0, row = 0, x = 0, y = 0;
 
 		// assuming that a single tile is 20x20px I'll make this smaller in a later
 		// version
 		// use of constants for tile size and other things will be done.
 		// single while loop to avoid performance issues
-		while (row < 40) {
-
+		while (row < ROWS) {
 			int tileData = gridMap[row][col];
 
 			gc.drawImage(tiles[tileData].img, x, y);
 			col++;
-			x += 20;
-			if (col == 40) {
+			x += Tile.TILE_WIDTH;
+
+			if (col == COLUMNS) {
 				col = 0;
 				x = 0;
 				row++;
-				y += 20;
+				y += Tile.TILE_HEIGHT;
 			}
 		}
 	}
-
 }
