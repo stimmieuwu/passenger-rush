@@ -1,16 +1,8 @@
 package application;
 
 import javafx.application.Application;
-// import map.GridMap;
-// import windows.Menu;
-// import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import mechanics.GameTimer; //temp
 // import entities.Player;
 import scenes.SceneManager;
 
@@ -22,9 +14,11 @@ import scenes.SceneManager;
  * @author Jan Zuriel Camba
  * @author Norman Marfa III
  * @created_date 2024-12-09
+ * @reference Stage icon implementation inspired by
+ *            https://www.youtube.com/watch?v=UZKKaI8OnjY
  */
 public class Main extends Application {
-	
+
 	/** The main window of the game */
 	Stage stage;
 
@@ -34,24 +28,25 @@ public class Main extends Application {
 	 * 
 	 * @param primaryStage The primary stage for this application where scenes can
 	 *                     be set.
+	 * 
 	 */
 	@Override
 	public void start(Stage primaryStage) {
 		this.stage = primaryStage;
 		try {
 			/** The mechanism responsible for switching scenes in the game */
-			@SuppressWarnings("unused")
 			SceneManager sceneManager = new SceneManager(stage);
-			
+
+			sceneManager.switchToMainMenu();
+
 			// Set some properties of the stage, then show it to the user
-			// Image icon = new Image("assets/tiles/tile0.png"); 
-            // stage.getIcons().add(icon);
-			stage.setTitle("Passenger Rush"); 
+			Image icon = new Image("../assets/passenger_rush.png");
+			stage.getIcons().add(icon);
+			stage.setTitle("Passenger Rush");
 			stage.setResizable(false);
 			stage.show();
-			
-			sceneManager.switchToMainMenu();
-			
+
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

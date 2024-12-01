@@ -10,32 +10,30 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 /**
- * This class represents the "Winning" scene in the Passenger rush game, which
- * is displayed after the game is over. It provides a simple interface showing
- * what happened during the game
+ * This class represents is responsible for switching the jeepney skin of each player.
  *
  * @author Simonee Ezekiel M. Mariquit
  * @author Jan Zuriel Camba
  * @author Norman Marfa III
  * @created_date 2024-12-09
  */
-public class Winning {
+public class SkinSwitching {
 
 	/** The Scene object representing the winning scene. */
-	private Scene winningScene;
+	private Scene skinSwitchingScene;
 	/** The root node of the scene layout. */
 	private StackPane layout = new StackPane();
 	/** The Text object displaying a message on the winning scene. */
-	private Text gameOver = new Text("Menu");
+	private Text skinSwitching = new Text("Menu");
 
 	/**
-	 * Constructs a Winning object. Initializes the scene with a back button to
+	 * Constructs a SkinSwitching object. Initializes the scene with a back button to
 	 * return to the main menu.
 	 *
 	 * @param sceneManager The SceneManager object used for switching between
 	 *                     scenes.
 	 */
-	public Winning(SceneManager sceneManager) {
+	public SkinSwitching(SceneManager sceneManager) {
 		// Go back to the main menu upon the click of this button
 		Button back = new Button("Back");
 		back.setOnAction(new EventHandler<ActionEvent>() {
@@ -46,19 +44,19 @@ public class Winning {
 		});
 
 		VBox vbox = new VBox(SceneManager.BUTTON_SPACING);
-		vbox.getChildren().addAll(gameOver, back);
+		vbox.getChildren().addAll(skinSwitching, back);
 		vbox.setAlignment(Pos.CENTER); // Center the elements in the VBox
 
 		layout.getChildren().addAll(vbox);
-		winningScene = new Scene(layout, SceneManager.getWindowWidth(), SceneManager.getWindowHeight());
+		skinSwitchingScene = new Scene(layout, SceneManager.getWindowWidth(), SceneManager.getWindowHeight());
 	}
 
 	/**
-	 * Returns the Scene object representing the winning scene.
+	 * Returns the Scene object representing the skin switching scene.
 	 *
 	 * @return The winning scene.
 	 */
 	public Scene getScene() {
-		return winningScene;
+		return skinSwitchingScene;
 	}
 }
