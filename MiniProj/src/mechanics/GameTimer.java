@@ -24,86 +24,53 @@ public class GameTimer extends AnimationTimer {
 	private Scene scene;
 	private Player player1;
 	private Player player2;
-
+	private CollisionDetector collision;
 	GridMap map = new GridMap(gc);
 
 	public GameTimer(GraphicsContext gc, Game game) {
 
 		this.gc = gc;
 		this.scene = game.getScene();
-
+		this.collision = new CollisionDetector();
 		this.map = new GridMap(gc);
-		player1 = new Player(100, 100, Player.PLAYER_IMAGE);
-		player2 = new Player(100, 200, Player.PLAYER_IMAGE);
+		player1 = new Player(100, 100, Player.PLAYER_IMAGE,KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D);
+		player2 = new Player(100, 200, Player.PLAYER_IMAGE,KeyCode.UP, KeyCode.DOWN, KeyCode.LEFT, KeyCode.RIGHT);
+		keydetection();
 
-		this.handleKeyPressEvent();
 	}
-
-	public void handle(long currentNanoTime) {
-		gc.clearRect(0, 0, 800, 800);
-
-		map.drawMap(gc);
-
-		player1.render(gc);
-		player2.render(gc);
-
-		this.player1.move();
-		this.player2.move();
-	}
-
-	private void handleKeyPressEvent() {
+	
+	//TODO fix the bug when player hits both up and down button
+	// implementation of hash set
+	public void keydetection() {
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent e) {
 				KeyCode code = e.getCode();
-				movePlayer(code);
+				player1.setPlayerMovement(code);
+				player2.setPlayerMovement(code);
 			}
 		});
 
 		scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent e) {
 				KeyCode code = e.getCode();
-				stopPlayer(code);
+				player1.stopPlayerMovement(code);
+				player2.stopPlayerMovement(code);
 			}
 		});
 	}
+	
 
-	private void movePlayer(KeyCode key) {
-		if (key == KeyCode.W)
-			this.player1.setDY(-10);
-		if (key == KeyCode.S)
-			this.player1.setDY(10);
-		if (key == KeyCode.A)
-			this.player1.setDX(-10);
-		if (key == KeyCode.D)
-			this.player1.setDX(10);
+	public void handle(long currentNanoTime) {
+		gc.clearRect(0, 0, 800, 800);
 
-		if (key == KeyCode.UP)
-			this.player2.setDY(-10);
-		if (key == KeyCode.LEFT)
-			this.player2.setDX(-10);
-		if (key == KeyCode.DOWN)
-			this.player2.setDY(10);
-		if (key == KeyCode.RIGHT)
-			this.player2.setDX(10);
+		map.drawMap(gc);
+		player1.render(gc);
+		player2.render(gc);
+
+		this.player1.move();
+		this.player2.move();
+		
 	}
 
-	private void stopPlayer(KeyCode key) {
-		if (key == KeyCode.W)
-			this.player1.setDY(0);
-		if (key == KeyCode.S)
-			this.player1.setDY(0);
-		if (key == KeyCode.A)
-			this.player1.setDX(0);
-		if (key == KeyCode.D)
-			this.player1.setDX(0);
 
-		if (key == KeyCode.UP)
-			this.player2.setDY(0);
-		if (key == KeyCode.LEFT)
-			this.player2.setDX(0);
-		if (key == KeyCode.DOWN)
-			this.player2.setDY(0);
-		if (key == KeyCode.RIGHT)
-			this.player2.setDX(0);
-	}
 }

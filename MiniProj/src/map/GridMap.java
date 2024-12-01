@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 
 /**
  * 
@@ -15,17 +16,28 @@ import javafx.scene.canvas.GraphicsContext;
  */
 public class GridMap {
 	GraphicsContext gc;
-	Tile tiles;
+	Tile tiles[] = new Tile[3];
 	int gridMap[][];
 
 	public GridMap(GraphicsContext gc) {
 		this.gc = gc;
-		this.tiles = new Tile();
+		
 
 		this.gridMap = new int[40][40];
 
 		// if ever we want to change maps
 		this.loadMap("assets/maps/map.txt");
+		loadTileAssets();
+	}
+	
+	
+	private void loadTileAssets() {
+		for(int i = 0; i < 3; i++) {
+			tiles[i] = new Tile();
+			tiles[i].img = new Image("../assets/tiles/tile" + i + ".png");
+			
+			if(i == 2) tiles[i].isWall = true;
+		}
 	}
 
 	private void loadMap(String mapDir) {
@@ -69,7 +81,7 @@ public class GridMap {
 
 			int tileData = gridMap[row][col];
 
-			gc.drawImage(tiles.img[tileData], x, y);
+			gc.drawImage(tiles[tileData].img, x, y);
 			col++;
 			x += 20;
 			if (col == 40) {

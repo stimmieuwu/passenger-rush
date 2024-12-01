@@ -25,6 +25,7 @@ public class Game {
 		this.gameScene = new Scene(root);
 		this.canvas = new Canvas(SceneManager.getWindowWidth(), SceneManager.getWindowHeight());
 		this.root.getChildren().add(this.canvas);
+		
 	}
 
 	public Scene getScene() { // Getter for the scene

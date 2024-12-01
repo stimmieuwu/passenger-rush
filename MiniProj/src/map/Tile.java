@@ -11,11 +11,8 @@ import javafx.scene.image.Image;
  * @created_date 2024-12-09
  */
 public class Tile {
-	public Image[] img = new Image[3];
-
-	Tile() {
-		for (int i = 0; i < 3; i++) {
-			img[i] = new Image("../assets/tiles/tile" + i + ".png");
-		}
-	}
+	public Image img;
+	public boolean isWall = false;
+	
+	
 }
