@@ -36,8 +36,8 @@ public class GridMap {
     public GridMap(GraphicsContext gc) {
         this.gc = gc;
         this.gridMap = new int[ROWS][COLUMNS]; 
+		this.loadMap("assets/maps/map.txt");
         this.loadTileAssets(); // Load the tile images
-        this.loadMap("map.txt"); // Load the map data
     }
 
     /**
@@ -93,12 +93,12 @@ public class GridMap {
             int tileData = gridMap[row][col];
             gc.drawImage(tiles[tileData].img, x, y); 
             col++;
-            x += Tile.TILE_WIDTH; 
+            x += 20; 
             if (col == COLUMNS) {
                 col = 0;
                 x = 0;
                 row++;
-                y += Tile.TILE_HEIGHT; 
+                y += 20; 
             }
         }
     }
