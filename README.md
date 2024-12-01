@@ -11,10 +11,7 @@ Passenger Rush is a simple Java Application exported to an executable file. Two 
 ## Game Overview
 The goal is to transport passengers to the Junction Unloading Area and score higher than your opponent. Control your jeepney, pick up passengers, avoid obstacles, and utilize power-ups. The game only lasts a maximum of five minutes.
 To play Passenger Rush, launch the executable `passenger-rush.exe`, navigate to Start Game from the main menu, choose your name, and compete! 
-
-## Controls
-Player 1: WASD
-Player 2: Arrow Keys
+Control Player 1 with WASD and Player 2 with arrow keys.
 
 ## Power-ups and Debuffs
 Speed: Increases jeepney speed.
