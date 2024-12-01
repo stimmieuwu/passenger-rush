@@ -47,7 +47,7 @@ public class GameTimer extends AnimationTimer { /** The GraphicsContext used for
 	// implementation of hash set
 	/**
      * Sets up key event handling for player movement.
-     * When a key is pressed, the player moves in that direction.
+     * When a key is pressed, the player moves there
      * When a key is released, that movement is stopped.
      */
 	public void keyDetection() {
