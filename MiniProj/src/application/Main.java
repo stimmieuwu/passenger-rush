@@ -1,14 +1,18 @@
 package application;
 
 import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-// import entities.Player;
 import scenes.SceneManager;
 
+
 /**
- * This is the main class for the JavaFX application that implements a game
- * called Passenger Rush.
+ * This is the main class for the JavaFX application. The program implements a
+ * game called "Passenger Rush"
  * 
  * @author Simonee Ezekiel M. Mariquit
  * @author Jan Zuriel Camba
@@ -16,11 +20,13 @@ import scenes.SceneManager;
  * @created_date 2024-12-09
  * @reference Stage icon implementation inspired by
  *            https://www.youtube.com/watch?v=UZKKaI8OnjY
+ * @created_date 2024-11-25 12:13 AM
  */
 public class Main extends Application {
 
 	/** The main window of the game */
 	Stage stage;
+
 
 	/**
 	 * Override the start method of the Application class to create the main
@@ -28,7 +34,6 @@ public class Main extends Application {
 	 * 
 	 * @param primaryStage The primary stage for this application where scenes can
 	 *                     be set.
-	 * 
 	 */
 	@Override
 	public void start(Stage primaryStage) {
@@ -46,7 +51,11 @@ public class Main extends Application {
 			stage.setResizable(false);
 			stage.show();
 
-
+			BorderPane root = new BorderPane();
+			Scene scene = new Scene(root, 400, 400);
+			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			primaryStage.setScene(scene);
+			primaryStage.show();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

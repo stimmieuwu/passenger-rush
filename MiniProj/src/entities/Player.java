@@ -1,7 +1,9 @@
 package entities;
 
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.Scene;
+import javafx.event.EventHandler;
+import javafx.scene.input.KeyCode;
 
 /**
  * This class represents a player (jeepney) in the game. 
@@ -12,11 +14,7 @@ import javafx.scene.image.Image;
  * @author Norman Marfa III
  * @created_date 2024-12-09
  */
-public class Player {
-    /** The x-coordinate of the player's position. */
-    private double xPos;
-    /** The y-coordinate of the player's position. */
-    private double yPos;
+public class Player extends Sprite {
     /** The change in x-coordinate (horizontal movement). */
     private double dx;
     /** The change in y-coordinate (vertical movement). */
@@ -25,6 +23,7 @@ public class Player {
     private double speedMultiplier; 
     /** The image representing the player. */
     private Image playerImage;
+    
     /** The image for skin 1 */
     public static final Image SKIN_1 = new Image("../assets/sprites/testing_car.png");
     /** The image for skin 2 */
