@@ -15,7 +15,6 @@ import javafx.scene.image.Image;
  * @created_date 2024-12-09
  */
 public class GridMap {
-<<<<<<< HEAD
     /** Number of distinct tiles */
     private static final int TILES = 3;
     /** Number of rows */
@@ -37,24 +36,9 @@ public class GridMap {
     public GridMap(GraphicsContext gc) {
         this.gc = gc;
         this.gridMap = new int[ROWS][COLUMNS]; 
-        this.loadTileAssets(); // Load the tile images
-        this.loadMap("../assets/maps/map.txt"); // Load the map data
-    }
-=======
 		this.loadMap("assets/maps/map.txt");
-		loadTileAssets();
-	}
-	
-	
-	private void loadTileAssets() {
-		for(int i = 0; i < 3; i++) {
-			tiles[i] = new Tile();
-			tiles[i].img = new Image("../assets/tiles/tile" + i + ".png");
-			
-			if(i == 2) tiles[i].isWall = true;
-		}
-	}
->>>>>>> refs/remotes/origin/main
+        this.loadTileAssets(); // Load the tile images
+    }
 
     /**
      * Loads the tile assets (images) and sets the isWall property for applicablle tiles.
@@ -94,7 +78,6 @@ public class GridMap {
         }
     }
 
-<<<<<<< HEAD
     /**
      * Draws the map on the canvas using the loaded tile images.
      * 
@@ -105,41 +88,18 @@ public class GridMap {
         int row = 0;
         int x = 0;
         int y = 0;
-=======
-		// assuming that a single tile is 20x20px I'll make this smaller in a later
-		// version
-		// use of constants for tile size and other things will be done.
-		// single while loop to avoid performance issues
-		while (row < ROWS) {
-			int tileData = gridMap[row][col];
->>>>>>> refs/remotes/origin/main
 
-<<<<<<< HEAD
         while (row < ROWS) {
             int tileData = gridMap[row][col];
             gc.drawImage(tiles[tileData].img, x, y); 
             col++;
-            x += Tile.TILE_WIDTH; 
+            x += 20; 
             if (col == COLUMNS) {
                 col = 0;
                 x = 0;
                 row++;
-                y += Tile.TILE_HEIGHT; 
+                y += 20; 
             }
         }
     }
-=======
-			gc.drawImage(tiles[tileData].img, x, y);
-			col++;
-			x += Tile.TILE_WIDTH;
-
-			if (col == COLUMNS) {
-				col = 0;
-				x = 0;
-				row++;
-				y += Tile.TILE_HEIGHT;
-			}
-		}
-	}
->>>>>>> refs/remotes/origin/main
 }

@@ -151,9 +151,9 @@ public class Player extends Sprite {
 	 */
 	private void move(KeyCode key) {
 		if (key == this.up)
-			this.setDY(MOVE_AMOUNT);
-		if (key == this.down)
 			this.setDY(-MOVE_AMOUNT);
+		if (key == this.down)
+			this.setDY(MOVE_AMOUNT);
 		if (key == this.right)
 			this.setDX(MOVE_AMOUNT);
 		if (key == this.left)
