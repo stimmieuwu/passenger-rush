@@ -1,10 +1,6 @@
 package application;
 
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
-import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import scenes.SceneManager;
@@ -20,13 +16,10 @@ import scenes.SceneManager;
  * @created_date 2024-12-09
  * @reference Stage icon implementation inspired by
  *            https://www.youtube.com/watch?v=UZKKaI8OnjY
- * @created_date 2024-11-25 12:13 AM
  */
 public class Main extends Application {
-
 	/** The main window of the game */
 	Stage stage;
-
 
 	/**
 	 * Override the start method of the Application class to create the main
@@ -50,12 +43,6 @@ public class Main extends Application {
 			stage.setTitle("Passenger Rush");
 			stage.setResizable(false);
 			stage.show();
-
-			BorderPane root = new BorderPane();
-			Scene scene = new Scene(root, 400, 400);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			primaryStage.setScene(scene);
-			primaryStage.show();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

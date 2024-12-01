@@ -12,6 +12,16 @@ import javafx.scene.image.Image;
  * @created_date 2024-12-09
  */
 public class Tile {
+<<<<<<< HEAD
+	/** Texture of the tile */
+	protected Image img;
+	/** Indicator as to whether or not the tile is a wall */
+	protected boolean isWall = false;
+	/** Height of each tile */
+	protected static final int TILE_HEIGHT = 20;
+	/** Width of each tile */
+	protected static final int TILE_WIDTH = 20;
+=======
 	/** The number of tiles */
     protected static final int NO_OF_TILES = 3;
     /** An array to store the loaded tile images. */
@@ -32,4 +42,5 @@ public class Tile {
             img[i] = new Image("../assets/tiles/tile" + i + ".png"); 
         }
     }
+>>>>>>> refs/remotes/origin/main
 }
