@@ -14,40 +14,29 @@ import javafx.scene.input.KeyCode;
  * @author Norman Marfa III
  * @created_date 2024-12-09
  */
-public class Player extends Sprite {
-    /** The change in x-coordinate (horizontal movement). */
-    private double dx;
-    /** The change in y-coordinate (vertical movement). */
-    private double dy;
-    /** The speed multiplier of the player's movement. */
-    private double speedMultiplier; 
-    /** The image representing the player. */
-    private Image playerImage;
-    
-    /** The image for skin 1 */
-    public static final Image SKIN_1 = new Image("../assets/sprites/testing_car.png");
-    /** The image for skin 2 */
-    public static final Image SKIN_2 = new Image("../assets/sprites/testing_car.png");
-    /** The image for skin 3 */
-    public static final Image SKIN_3 = new Image("../assets/sprites/testing_car.png");
-    /** The image for skin 4 */
-    public static final Image SKIN_4 = new Image("../assets/sprites/testing_car.png");
-    /** The image for skin 5 */
-    public static final Image SKIN_5 = new Image("../assets/sprites/testing_car.png");
+
+public class Player extends Sprite{
+  /** The change in x-coordinate and y-coordinate (horizontal and vertical movement). */
+	private double dx, dy;
+  /** The objects to listen for key presses for each player's movement */
+	private KeyCode up, down, left, right
+  /** The image for skin 1 */
+  public static final Image SKIN_1 = new Image("../assets/sprites/testing_car.png");
+  /** The image for skin 2 */
+  public static final Image SKIN_2 = new Image("../assets/sprites/testing_car.png");
+  /** The image for skin 3 */
+  public static final Image SKIN_3 = new Image("../assets/sprites/testing_car.png");
+  /** The image for skin 4 */
+  public static final Image SKIN_4 = new Image("../assets/sprites/testing_car.png");
+  /** The image for skin 5 */
+  public static final Image SKIN_5 = new Image("../assets/sprites/testing_car.png");
 	
-    /**
-     * Constructs a Player object.
-     * Initializes the player's position, speed, and texture.
-     *
-     * @param xPos The initial x-coordinate of the player.
-     * @param yPos The initial y-coordinate of the player.
-     * @param image The image to use for the player (currently not used).
-     */
-	public Player(int xPos, int yPos, Image image) {
-		this.xPos = xPos;
-		this.yPos = yPos;
-		this.speedMultiplier = 1.0;
-		this.playerImage = new Image("../assets/sprites/testing_car.png", 100, 100, true , true);
+	public Player(int xPos, int yPos, Image image, KeyCode up, KeyCode down, KeyCode left, KeyCode right) {
+		super(xPos, yPos, PLAYER_IMAGE);
+		this.up = up;
+		this.down = down;
+		this.left = left;
+		this.right = right;
 	}
 	
     /**
@@ -66,88 +55,47 @@ public class Player extends Sprite {
     public void render(GraphicsContext gc) {
         gc.drawImage(playerImage, xPos, yPos);
     }
+  
+	public void setDY(double dy){
+		this.dy = dy;
+	}
 	
-    /**
-     * Returns the player's image.
-     *
-     * @return The player's image.
-     */
-    public Image getPlayerImage() {
-        return playerImage;
-    }
+	public void move() {
+		this.setXPos(this.getXPos() + dx);
+		this.setYPos(this.getYPos() + dy);
 
-    /**
-     * Sets the player's image.
-     *
-     * @param playerImage The new image for the player.
-     */
-    public void setPlayerImage(Image playerImage) {
-        this.playerImage = playerImage;
-    }
+  }
+	
+	// actual player movement methods
+	private void move(KeyCode key) {
+		if (key == this.up)
+			this.setDY(-10);
+		if (key == this.down)
+			this.setDY(10);
+		if (key == this.left)
+			this.setDX(-10);
+		if (key == this.right)
+			this.setDX(10);
+	}
+	
+	private void stop(KeyCode key) {
+		if (key == this.up)
+			this.setDY(0);
+		if (key == this.down)
+			this.setDY(0);
+		if (key == this.left)
+			this.setDX(0);
+		if (key == this.right)
+			this.setDX(0);
+	}
+	
+	//sets player movement
+	public void setPlayerMovement(KeyCode key) {
+		move(key);
+	}
 
-    /**
-     * Returns the player's speed multiplier.
-     *
-     * @return The speed multiplier.
-     */
-    public double getSpeedMultiplier() {
-        return speedMultiplier;
-    }
+	public void stopPlayerMovement(KeyCode key) {
+		stop(key);
+	}
 
-    /**
-     * Sets the player's speed multiplier.
-     *
-     * @param speedMultiplier The new speed multiplier.
-     */
-    public void setSpeedMultiplier(double speedMultiplier) {
-        this.speedMultiplier = speedMultiplier;
-    }
-
-    /** 
-     * Returns the player's x-coordinate.
-     * @return The x-coordinate.
-     */
-    public double getXPos() {
-        return xPos;
-    }
-
-    /** 
-     * Returns the player's y-coordinate.
-     * @return The y-coordinate.
-     */
-    public double getYPos() {
-        return yPos;
-    }
-
-    /** 
-     * Returns the player's horizontal movement (change in x).
-     * @return The horizontal movement (dx).
-     */
-    public double getDX() {
-        return this.dx;
-    }
-
-    /** 
-     * Returns the player's vertical movement (change in y).
-     * @return The vertical movement (dy).
-     */
-    public double getDY() {
-        return this.dy;
-    }
-
-    /** 
-     * Sets the player's horizontal movement (change in x).
-     * @param dx The new horizontal movement.
-     */
-    public void setDX(double dx){
-        this.dx = dx;
-    }
-
-    /** 
-     * Sets the player's vertical movement (change in y).
-     * @param dy The new vertical movement.
-     */
-    public void setDY(double dy){
-        this.dy = dy;
-    }
 }

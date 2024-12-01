@@ -20,6 +20,7 @@ public class Tile {
     protected static final int TILE_HEIGHT = 20;
     /** The width of each tile */
     protected static final int TILE_WIDTH = 20;
+	  public boolean isWall = false;
 
     /**
      * Constructs a Tile object.

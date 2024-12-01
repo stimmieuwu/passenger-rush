@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 
 /**
  * This class represents a grid-based map for the game. It loads map data from a
@@ -16,28 +17,18 @@ import javafx.scene.canvas.GraphicsContext;
  * @reference https://www.youtube.com/watch?v=ugzxCcpoSdE
  */
 public class GridMap {
-	/** The GraphicsContext used for drawing the map. */
-	private GraphicsContext gc;
-	/** The Tile object containing tile images. */
-	private Tile tiles;
-	/** The 2D array storing the map data. */
-	private int[][] gridMap;
-	/** The number of columns */
-	private static final int COLUMNS = 40;
-	/** The number of rows */
-	private static final int ROWS = 40;
-
-	/**
-	 * Constructs a GridMap object. Initializes the GraphicsContext, Tile object,
-	 * and loads the map data from the specified file.
-	 *
-	 * @param gc The GraphicsContext for drawing the map.
-	 */
-	public GridMap(GraphicsContext gc) {
-		this.gc = gc;
-		this.tiles = new Tile();
-		this.gridMap = new int[ROWS][COLUMNS];
 		this.loadMap("assets/maps/map.txt");
+		loadTileAssets();
+	}
+	
+	
+	private void loadTileAssets() {
+		for(int i = 0; i < 3; i++) {
+			tiles[i] = new Tile();
+			tiles[i].img = new Image("../assets/tiles/tile" + i + ".png");
+			
+			if(i == 2) tiles[i].isWall = true;
+		}
 	}
 
 	/**
@@ -84,8 +75,8 @@ public class GridMap {
 		// single while loop to avoid performance issues
 		while (row < ROWS) {
 			int tileData = gridMap[row][col];
-			gc.drawImage(tiles.img[tileData], x, y);
 
+			gc.drawImage(tiles[tileData].img, x, y);
 			col++;
 			x += Tile.TILE_WIDTH;
 
