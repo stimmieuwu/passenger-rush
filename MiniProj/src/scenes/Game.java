@@ -3,6 +3,7 @@ package scenes;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.text.Text;
 
 /**
  * This class represents the main game scene where the gameplay takes place. It
@@ -22,6 +23,8 @@ public class Game {
 	/** The Canvas object where game elements are drawn. */
 	protected Canvas canvas;
 
+    public Text fpsCounter;
+
 	/**
 	 * Constructs a Game object. Initializes the scene, root node, and canvas with
 	 * appropriate dimensions. Adds the canvas to the scene graph.
@@ -32,7 +35,13 @@ public class Game {
 		this.root = new Group();
 		this.gameScene = new Scene(root);
 		this.canvas = new Canvas(SceneManager.getWindowWidth(), SceneManager.getWindowHeight());
-		this.root.getChildren().add(this.canvas);
+		this.fpsCounter = new Text();
+		this.fpsCounter.setX(20);
+		this.fpsCounter.setY(20);
+		this.fpsCounter.setScaleX(1.5);
+		this.fpsCounter.setScaleY(1.5);
+		this.root.getChildren().addAll(this.canvas, fpsCounter);
+		
 		
 	}
 
