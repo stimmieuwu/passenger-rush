@@ -24,6 +24,7 @@ public class Game {
 	protected Canvas canvas;
 
     public Text fpsCounter;
+    public Text timeElapsed;
 
 	/**
 	 * Constructs a Game object. Initializes the scene, root node, and canvas with
@@ -35,12 +36,20 @@ public class Game {
 		this.root = new Group();
 		this.gameScene = new Scene(root);
 		this.canvas = new Canvas(SceneManager.getWindowWidth(), SceneManager.getWindowHeight());
+		
 		this.fpsCounter = new Text();
 		this.fpsCounter.setX(20);
 		this.fpsCounter.setY(20);
 		this.fpsCounter.setScaleX(1.5);
 		this.fpsCounter.setScaleY(1.5);
-		this.root.getChildren().addAll(this.canvas, fpsCounter);
+		
+		this.timeElapsed = new Text();
+		this.timeElapsed.setX(750);
+		this.timeElapsed.setY(20);
+		this.timeElapsed.setScaleX(1.5);
+		this.timeElapsed.setScaleY(1.5);
+		
+		this.root.getChildren().addAll(this.canvas, fpsCounter, timeElapsed);
 		
 		
 	}
