@@ -35,6 +35,14 @@ public class Player extends Sprite {
 	/** The image for skin 5 */
 	public static final Image SKIN_5 = new Image("../assets/sprites/testing_car.png");
 	private static final int MOVE_AMOUNT = 10;
+	
+	private boolean hasSpeedBuff;
+	private boolean hasInsurance;
+	private boolean hasInvincibility;
+	
+	private boolean hasOilSpillDebuff;
+	
+	public int score;
 
 	/**
 	 * Constructs a Player object. Initializes the player's position, speed, and
@@ -52,6 +60,7 @@ public class Player extends Sprite {
 		this.down = down;
 		this.left = left;
 		this.right = right;
+		this.score = 0;
 	}
 
 	/**
