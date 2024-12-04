@@ -24,7 +24,7 @@ public class SkinSwitching {
 	/** The root node of the scene layout. */
 	private StackPane layout = new StackPane();
 	/** The Text object displaying a message on the winning scene. */
-	private Text skinSwitching = new Text("Menu");
+	private Text skinSwitching = new Text("Select Skin");
 
 	/**
 	 * Constructs a SkinSwitching object. Initializes the scene with a back button to
@@ -35,16 +35,16 @@ public class SkinSwitching {
 	 */
 	public SkinSwitching(SceneManager sceneManager) {
 		// Go back to the main menu upon the click of this button
-		Button back = new Button("Back");
-		back.setOnAction(new EventHandler<ActionEvent>() {
+		Button start = new Button("Start");
+		start.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				sceneManager.switchToMainMenu();
+				sceneManager.switchToGameScene();
 			}
 		});
 
 		VBox vbox = new VBox(SceneManager.BUTTON_SPACING);
-		vbox.getChildren().addAll(skinSwitching, back);
+		vbox.getChildren().addAll(skinSwitching, start);
 		vbox.setAlignment(Pos.CENTER); // Center the elements in the VBox
 
 		layout.getChildren().addAll(vbox);

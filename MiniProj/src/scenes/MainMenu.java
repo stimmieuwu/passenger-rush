@@ -36,7 +36,6 @@ public class MainMenu {
         Button instructions = new Button("Instructions");
         Button about = new Button("About the Developer");
         Button start = new Button("Start/Play");
-        Button skinSwitching = new Button("Change Skins");
 
         // Instructions button action
         instructions.setOnAction(new EventHandler<ActionEvent>() {
@@ -58,17 +57,10 @@ public class MainMenu {
         start.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                sceneManager.switchToGameScene();
-            }
-        });
-        
-        // Start game button action
-        skinSwitching.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
                 sceneManager.switchToSkinSwitchingScene();
             }
         });
+        
 
         // Create the layout and add elements
         VBox layout = new VBox(SceneManager.BUTTON_SPACING);
@@ -77,7 +69,7 @@ public class MainMenu {
         layout.setAlignment(Pos.CENTER); 
 
         layout.getChildren().add(heading);
-        layout.getChildren().addAll(instructions, about, start, skinSwitching);
+        layout.getChildren().addAll(instructions, about, start);
     }
 
     /**

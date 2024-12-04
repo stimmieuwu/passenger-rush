@@ -25,6 +25,9 @@ public class Game {
 
     public Text fpsCounter;
     public Text timeElapsed;
+    
+    public Text player1Score;
+    public Text player2Score;
 
 	/**
 	 * Constructs a Game object. Initializes the scene, root node, and canvas with
@@ -49,7 +52,19 @@ public class Game {
 		this.timeElapsed.setScaleX(1.5);
 		this.timeElapsed.setScaleY(1.5);
 		
-		this.root.getChildren().addAll(this.canvas, fpsCounter, timeElapsed);
+		this.player1Score = new Text();
+		this.player1Score.setX(20);
+		this.player1Score.setY(750);
+		this.player1Score.setScaleX(1.5);
+		this.player1Score.setScaleY(1.5);
+		
+		this.player2Score = new Text();
+		this.player2Score.setX(750);
+		this.player2Score.setY(750);
+		this.player2Score.setScaleX(1.5);
+		this.player2Score.setScaleY(1.5);
+		
+		this.root.getChildren().addAll(this.canvas, fpsCounter, timeElapsed, player1Score, player2Score);
 		
 		
 	}
