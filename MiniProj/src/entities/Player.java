@@ -1,7 +1,5 @@
 package entities;
 
-
-
 import java.awt.Rectangle;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -25,6 +23,8 @@ public class Player extends Sprite {
 	private double dy;
 	/** The speed multiplier of the player's movement. */
 	private double speedMultiplier;
+	
+	private double rotationAngle;
 	/** The image representing the player. */
 	private Image playerImage;
 	/** The key objects in order to listen for the player controls. */
@@ -64,7 +64,7 @@ public class Player extends Sprite {
 	public Player(int xPos, int yPos, Image image, KeyCode up, KeyCode down, KeyCode left, KeyCode right) {
 		super(xPos, yPos, SKIN_1);
 		this.speedMultiplier = 1.0;
-		this.playerImage = new Image("../assets/sprites/testing_car.png", 30, 15, true, true);
+		this.playerImage = new Image("../assets/sprites/testing_car.png", 50, 50, true, true);
 		this.up = up;
 		this.down = down;
 		this.left = left;
@@ -89,8 +89,13 @@ public class Player extends Sprite {
 	 * @param gc The GraphicsContext used for drawing.
 	 */
 	public void render(GraphicsContext gc) {
-		gc.drawImage(playerImage, this.getXPos(), this.getYPos(), 30, 15);
+		gc.save();
+		gc.translate(this.getXPos() + playerImage.getWidth() / 2, this.getYPos() + playerImage.getHeight() / 2);
+		gc.rotate(rotationAngle);
+		gc.drawImage(playerImage, -playerImage.getWidth() / 2, -playerImage.getHeight() / 2);
+		gc.restore();
 		renderBox(gc);
+		
 //		slowDown();
 	}
 	
@@ -189,19 +194,24 @@ public class Player extends Sprite {
 	 * 
 	 * @param key The KeyCode representing the direction of movement.
 	 */
-	private void move(KeyCode key) {
-	
-		
+	private void move(KeyCode key) {	
+		/** value of setRotationAngle is not yet final, will change depending on the orientation of the jeepney icons;
+		 * current value based on testing_car's orientation*/
 		
 		if(!isColliding) {
-			if (key == this.up)
+			if (key == this.up) {
 				this.setDY(-MOVE_AMOUNT);
-			if (key == this.down)
+				this.setRotationAngle(90);
+			} else if (key == this.down) {
 				this.setDY(MOVE_AMOUNT);
-			if (key == this.right)
+				this.setRotationAngle(270);
+			} else if (key == this.right) {
 				this.setDX(MOVE_AMOUNT);
-			if (key == this.left)
+				this.setRotationAngle(180);
+			} else if (key == this.left) {
 				this.setDX(-MOVE_AMOUNT);
+				this.setRotationAngle(0);
+			}
 		}
 	}
 
@@ -231,7 +241,6 @@ public class Player extends Sprite {
 		move(key);
 	}
 	
-
 	/**
 	 * Stops the player's movement based on the provided KeyCode.
 	 * 
@@ -239,5 +248,11 @@ public class Player extends Sprite {
 	 */
 	public void stopPlayerMovement(KeyCode key) {
 		stop(key);
+	}
+	
+	/** 
+	 * Sets the rotationAngle of the playerImage given @param double rotationAngle*/
+	public void setRotationAngle(double rotationAngle) {
+		this.rotationAngle = rotationAngle;
 	}
 }
