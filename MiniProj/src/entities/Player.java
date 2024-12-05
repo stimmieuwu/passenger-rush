@@ -42,6 +42,13 @@ public class Player extends Sprite {
 	public static final double MOVE_AMOUNT = 0.70;
 	
 	private CollisionDetector collision;
+	private boolean hasSpeedBuff;
+	private boolean hasInsurance;
+	private boolean hasInvincibility;
+	
+	private boolean hasOilSpillDebuff;
+	
+	public int score;
 	
 	public Rectangle hitbox;
 	
