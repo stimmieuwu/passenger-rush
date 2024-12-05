@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
 import mechanics.CollisionDetector;
 
 /**
@@ -41,7 +42,7 @@ public class Player extends Sprite {
 	public static final Image SKIN_5 = new Image("../assets/sprites/testing_car.png");
 	public static final double MOVE_AMOUNT = 0.70;
 	
-	private CollisionDetector collision;
+	public CollisionDetector collision;
 	private boolean hasSpeedBuff;
 	private boolean hasInsurance;
 	private boolean hasInvincibility;
@@ -63,7 +64,7 @@ public class Player extends Sprite {
 	public Player(int xPos, int yPos, Image image, KeyCode up, KeyCode down, KeyCode left, KeyCode right) {
 		super(xPos, yPos, SKIN_1);
 		this.speedMultiplier = 1.0;
-		this.playerImage = new Image("../assets/sprites/testing_car.png", 100, 100, true, true);
+		this.playerImage = new Image("../assets/sprites/testing_car.png", 30, 15, true, true);
 		this.up = up;
 		this.down = down;
 		this.left = left;
@@ -76,10 +77,10 @@ public class Player extends Sprite {
 	
 	// TODO improve upon hitbox generation
 	public void generateHitBox() {
-		this.hitbox.x = (int) this.getXPos();
-		this.hitbox.y = (int) this.getYPos();
+		this.hitbox.x = (int) this.getXPos() + 5;
+		this.hitbox.y = (int) this.getYPos() + 4;
 		this.hitbox.width = (int) (playerImage.getWidth() - 5);
-		this.hitbox.width = (int) (playerImage.getHeight() - 5);
+		this.hitbox.height = (int) (playerImage.getHeight() - 5);
 	}
 
 	/**
@@ -89,7 +90,15 @@ public class Player extends Sprite {
 	 */
 	public void render(GraphicsContext gc) {
 		gc.drawImage(playerImage, this.getXPos(), this.getYPos(), 30, 15);
+		renderBox(gc);
 //		slowDown();
+	}
+	
+	private void renderBox(GraphicsContext gc) {
+		gc.setFill(Color.TRANSPARENT);
+		gc.setStroke(Color.AQUA);
+		gc.setLineWidth(2);
+		gc.strokeRect(hitbox.x, hitbox.y,hitbox.width, hitbox.height);
 	}
 
 	/**
@@ -182,8 +191,7 @@ public class Player extends Sprite {
 	 */
 	private void move(KeyCode key) {
 	
-		this.isColliding = false;
-		collision.detectTile(this, key);
+		
 		
 		if(!isColliding) {
 			if (key == this.up)

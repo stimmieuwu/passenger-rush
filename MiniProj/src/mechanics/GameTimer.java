@@ -61,7 +61,12 @@ public class GameTimer extends AnimationTimer { /** The GraphicsContext used for
 			public void handle(KeyEvent e) {
 				KeyCode code = e.getCode();
 //				System.out.println(code);
-				
+				// only works half the time and not even greatly
+				player1.isColliding = false;
+				player2.isColliding = false;
+				player1.collision.detectTile(player1, code);
+				player2.collision.detectTile(player2, code);
+
 				player1.setPlayerMovement(code);
 				player2.setPlayerMovement(code);
 
