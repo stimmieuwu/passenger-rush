@@ -22,7 +22,7 @@ public class Game {
 	protected Group root;
 	/** The Canvas object where game elements are drawn. */
 	protected Canvas canvas;
-
+	protected Canvas bg;
     public Text fpsCounter;
     public Text timeElapsed;
 
@@ -36,7 +36,7 @@ public class Game {
 		this.root = new Group();
 		this.gameScene = new Scene(root);
 		this.canvas = new Canvas(SceneManager.getWindowWidth(), SceneManager.getWindowHeight());
-		
+		this.bg = new Canvas(SceneManager.getWindowWidth(), SceneManager.getWindowHeight());
 		this.fpsCounter = new Text();
 		this.fpsCounter.setX(20);
 		this.fpsCounter.setY(20);
@@ -49,7 +49,7 @@ public class Game {
 		this.timeElapsed.setScaleX(1.5);
 		this.timeElapsed.setScaleY(1.5);
 		
-		this.root.getChildren().addAll(this.canvas, fpsCounter, timeElapsed);
+		this.root.getChildren().addAll(this.bg, this.canvas, fpsCounter, timeElapsed);
 		
 		
 	}

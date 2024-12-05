@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
+import java.util.HashSet;
+
 import entities.Player;
 import map.GridMap;
 import scenes.Game;
@@ -30,17 +32,21 @@ public class GameTimer extends AnimationTimer { /** The GraphicsContext used for
     private Player player2;
     /** The map object. */
     private GridMap map; 
+    
+   
+    // scatched hashset based input due to performance issues
+//    private final HashSet<KeyCode> inputs = new HashSet<KeyCode>();
 
-	public GameTimer(GraphicsContext gc, Game game) {
+	public GameTimer(GraphicsContext gc, GraphicsContext bg, Game game) {
 		this.gc = gc;
 		this.scene = game.getScene();
-//		this.collision = new CollisionDetector();
-		this.map = new GridMap(gc);
+		
+		this.map = new GridMap(bg);
 		
 		player1 = new Player(300, 20, Player.SKIN_1, KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D);
 		player2 = new Player(400, 20, Player.SKIN_2, KeyCode.UP, KeyCode.DOWN, KeyCode.LEFT, KeyCode.RIGHT);
 		keyDetection();
-
+		map.drawMap(bg);
 	}
 
 	// TODO fix the bug when player hits both up and down button
@@ -54,8 +60,11 @@ public class GameTimer extends AnimationTimer { /** The GraphicsContext used for
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent e) {
 				KeyCode code = e.getCode();
+//				System.out.println(code);
+				
 				player1.setPlayerMovement(code);
 				player2.setPlayerMovement(code);
+
 			}
 		});
 
@@ -79,10 +88,10 @@ public class GameTimer extends AnimationTimer { /** The GraphicsContext used for
 	public void handle(long currentNanoTime) {
 		gc.clearRect(0, 0, 800, 800);
 
-		map.drawMap(gc);
 		player1.render(gc);
 		player2.render(gc);
-
+		player1.generateHitBox();
+		player2.generateHitBox();
 		this.player1.move();
 		this.player2.move();
 

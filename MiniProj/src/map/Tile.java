@@ -15,9 +15,9 @@ public class Tile {
 	/** Texture of the tile */
 	protected Image img;
 	/** Indicator as to whether or not the tile is a wall */
-	protected boolean isWall = false;
+	public boolean isWall = false;
 	/** Height of each tile */
-	protected static final int TILE_HEIGHT = 20;
+	public static final int TILE_HEIGHT = 20;
 	/** Width of each tile */
-	protected static final int TILE_WIDTH = 20;
+	public static final int TILE_WIDTH = 20;
 }

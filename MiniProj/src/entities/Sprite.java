@@ -21,7 +21,7 @@ public class Sprite {
 	/** The y-coordinate of the sprite's position. */
 	private double yPos;
 	/** An indicator whether the sprite is currently colliding with another object. */
-	private boolean isColliding;
+	public boolean isColliding;
 
 	/**
 	 * Constructs a Sprite object with a passed x/y position and image.
@@ -79,7 +79,7 @@ public class Sprite {
 	 * @param gc The GraphicsContext used for drawing.
 	 */
 	public void render(GraphicsContext gc) {
-		gc.drawImage(spriteImage, xPos, yPos);
+		gc.drawImage(spriteImage, xPos, yPos, 20, 20);
 	}
 
 	/**

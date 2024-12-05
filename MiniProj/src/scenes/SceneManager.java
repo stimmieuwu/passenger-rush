@@ -116,9 +116,9 @@ public class SceneManager {
         stage.setScene(gameScene.getScene());
 
         GraphicsContext gc = gameScene.canvas.getGraphicsContext2D();
-
+        GraphicsContext bg = gameScene.bg.getGraphicsContext2D();
         // Start the game loop using GameTimer
-        GameTimer gameTimer = new GameTimer(gc, gameScene); 
+        GameTimer gameTimer = new GameTimer(gc, bg, gameScene); 
         gameTimer.start();
     }
 }

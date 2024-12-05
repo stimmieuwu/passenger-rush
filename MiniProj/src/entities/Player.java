@@ -1,8 +1,12 @@
 package entities;
 
+
+
+import java.awt.Rectangle;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import mechanics.CollisionDetector;
 
 /**
  * This class represents a player (jeepney) in the game. It handles the player's
@@ -23,7 +27,8 @@ public class Player extends Sprite {
 	/** The image representing the player. */
 	private Image playerImage;
 	/** The key objects in order to listen for the player controls. */
-	private KeyCode up, down, left, right;
+	public KeyCode up, down, left, right;
+	
 	/** The image for skin 1 */
 	public static final Image SKIN_1 = new Image("../assets/sprites/testing_car.png");
 	/** The image for skin 2 */
@@ -34,8 +39,12 @@ public class Player extends Sprite {
 	public static final Image SKIN_4 = new Image("../assets/sprites/testing_car.png");
 	/** The image for skin 5 */
 	public static final Image SKIN_5 = new Image("../assets/sprites/testing_car.png");
-	private static final int MOVE_AMOUNT = 10;
-
+	public static final double MOVE_AMOUNT = 0.70;
+	
+	private CollisionDetector collision;
+	
+	public Rectangle hitbox;
+	
 	/**
 	 * Constructs a Player object. Initializes the player's position, speed, and
 	 * texture.
@@ -52,6 +61,18 @@ public class Player extends Sprite {
 		this.down = down;
 		this.left = left;
 		this.right = right;
+		this.collision = new CollisionDetector();
+		this.hitbox  = new Rectangle();
+		
+	}
+	
+	
+	// TODO improve upon hitbox generation
+	public void generateHitBox() {
+		this.hitbox.x = (int) this.getXPos();
+		this.hitbox.y = (int) this.getYPos();
+		this.hitbox.width = (int) (playerImage.getWidth() - 5);
+		this.hitbox.width = (int) (playerImage.getHeight() - 5);
 	}
 
 	/**
@@ -60,7 +81,8 @@ public class Player extends Sprite {
 	 * @param gc The GraphicsContext used for drawing.
 	 */
 	public void render(GraphicsContext gc) {
-		gc.drawImage(playerImage, this.getXPos(), this.getYPos());
+		gc.drawImage(playerImage, this.getXPos(), this.getYPos(), 30, 15);
+//		slowDown();
 	}
 
 	/**
@@ -142,6 +164,8 @@ public class Player extends Sprite {
 		this.setXPos(this.getXPos() + dx);
 		this.setYPos(this.getYPos() + dy);
 	}
+	
+
 
 	/**
 	 * Sets the dx or dy based on the given KeyCode. This method is used to initiate
@@ -150,14 +174,20 @@ public class Player extends Sprite {
 	 * @param key The KeyCode representing the direction of movement.
 	 */
 	private void move(KeyCode key) {
-		if (key == this.up)
-			this.setDY(-MOVE_AMOUNT);
-		if (key == this.down)
-			this.setDY(MOVE_AMOUNT);
-		if (key == this.right)
-			this.setDX(MOVE_AMOUNT);
-		if (key == this.left)
-			this.setDX(-MOVE_AMOUNT);
+	
+		this.isColliding = false;
+		collision.detectTile(this, key);
+		
+		if(!isColliding) {
+			if (key == this.up)
+				this.setDY(-MOVE_AMOUNT);
+			if (key == this.down)
+				this.setDY(MOVE_AMOUNT);
+			if (key == this.right)
+				this.setDX(MOVE_AMOUNT);
+			if (key == this.left)
+				this.setDX(-MOVE_AMOUNT);
+		}
 	}
 
 	/**
@@ -185,6 +215,7 @@ public class Player extends Sprite {
 	public void setPlayerMovement(KeyCode key) {
 		move(key);
 	}
+	
 
 	/**
 	 * Stops the player's movement based on the provided KeyCode.

@@ -18,15 +18,15 @@ public class GridMap {
     /** Number of distinct tiles */
     private static final int TILES = 3;
     /** Number of rows */
-    private static final int ROWS = 3;
+    private static final int ROWS = 40;
     /** Number of columns*/
-    private static final int COLUMNS = 3;
+    private static final int COLUMNS = 40;
     /** The GraphicsContext used for drawing on the Canvas object */
     GraphicsContext gc;
     /** Array to store the different tile objects*/
-    Tile tiles[] = new Tile[TILES]; 
+    public static Tile tiles[] = new Tile[TILES]; 
     /** 2D array representing the map grid. */
-    int gridMap[][];
+    public static int gridMap[][];
 
     /**
      * Construct a GridMap object, which loads the map array and the map data.
@@ -35,7 +35,7 @@ public class GridMap {
      */
     public GridMap(GraphicsContext gc) {
         this.gc = gc;
-        this.gridMap = new int[ROWS][COLUMNS]; 
+        GridMap.gridMap = new int[ROWS][COLUMNS]; 
 		this.loadMap("assets/maps/map.txt");
         this.loadTileAssets(); // Load the tile images
     }
@@ -47,7 +47,7 @@ public class GridMap {
         for (int i = 0; i < TILES; i++) {
             tiles[i] = new Tile();
             tiles[i].img = new Image("../assets/tiles/tile" + i + ".png"); 
-            if (i == 2) {
+            if (i == 0) {
                 tiles[i].isWall = true;
             }
         }
