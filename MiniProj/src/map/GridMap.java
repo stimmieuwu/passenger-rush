@@ -47,7 +47,7 @@ public class GridMap {
         for (int i = 0; i < TILES; i++) {
             tiles[i] = new Tile();
             tiles[i].img = new Image("../assets/tiles/tile" + i + ".png"); 
-            if (i == 0) {
+            if (i < 9) {
                 tiles[i].isWall = true;
             }
         }
