@@ -17,7 +17,8 @@ import mechanics.GameTimer;
 public class SceneManager {
     /** The main Stage object for displaying scenes. */
     private Stage stage;
-
+    
+    // Initialize all the scenes
     /** The main menu scene. */
     private MainMenu mainMenu;
     /** The instructions scene. */
