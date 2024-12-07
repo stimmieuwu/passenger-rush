@@ -16,7 +16,7 @@ import javafx.scene.media.MediaPlayer;
 public class Audio {
 	private MediaPlayer mediaPlayer;
 
-	public Audio(String audioFile) {
+	public Audio(String audioFile, float volume) {
 
 		File file = new File(audioFile);
 		String filePath = file.toURI().toString();
@@ -24,6 +24,7 @@ public class Audio {
 		Media sound = new Media(filePath);
 		mediaPlayer = new MediaPlayer(sound);
 		mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Loop the music
+		mediaPlayer.setVolume(volume);
 		mediaPlayer.play();
 	}
 
