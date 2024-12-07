@@ -38,6 +38,8 @@ public class Main extends Application {
 			sceneManager.switchToMainMenu();
 
 			// Set some properties of the stage, then show it to the user
+			
+			/** App icon of the Passenger Rush game */
 			Image icon = new Image("../assets/passenger_rush.png");
 			stage.getIcons().add(icon);
 			stage.setTitle("Passenger Rush");
