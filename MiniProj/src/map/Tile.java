@@ -1,5 +1,6 @@
 package map;
 
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 /**
@@ -14,10 +15,20 @@ import javafx.scene.image.Image;
 public class Tile {
 	/** Texture of the tile */
 	protected Image img;
+	/** The tile number which denotes what kind of tile it is */
+	protected int number;
 	/** Indicator as to whether or not the tile is a wall */
 	public boolean isWall = false;
 	/** Height of each tile */
 	public static final int TILE_HEIGHT = 20;
 	/** Width of each tile */
 	public static final int TILE_WIDTH = 20;
+	/** Width of each tile */
+	public int x;
+	/** Width of each tile */
+	public int y;
+	
+    public void draw(GraphicsContext gc) {
+        gc.drawImage(img, x, y);
+    }	
 }

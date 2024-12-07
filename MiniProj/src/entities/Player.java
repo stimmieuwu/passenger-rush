@@ -17,19 +17,20 @@ import mechanics.CollisionDetector;
  * @created_date 2024-12-09
  */
 public class Player extends Sprite {
+
+	// Variables for movement
 	/** The change in x-coordinate (horizontal movement). */
 	private double dx;
 	/** The change in y-coordinate (vertical movement). */
 	private double dy;
 	/** The speed multiplier of the player's movement. */
 	private double speedMultiplier;
-	
-	private double rotationAngle;
+	/** The amount of pixels that a jeepney moves per game tick */
+	public static final double MOVE_AMOUNT = 0.70;
+
+	// Objects related to images
 	/** The image representing the player. */
 	private Image playerImage;
-	/** The key objects in order to listen for the player controls. */
-	public KeyCode up, down, left, right;
-	
 	/** The image for skin 1 */
 	public static final Image SKIN_1 = new Image("../assets/sprites/blueJeep.png", 80, 80, true, true);
 	/** The image for skin 2 */
@@ -40,21 +41,27 @@ public class Player extends Sprite {
 	public static final Image SKIN_4 = new Image("../assets/sprites/testing_car.png");
 	/** The image for skin 5 */
 	public static final Image SKIN_5 = new Image("../assets/sprites/testing_car.png");
-	public static final double MOVE_AMOUNT = 0.70;
-	
+
+	// Movement and colission related
+	/** The key objects in order to listen for the player controls. */
+	public KeyCode up, down, left, right;
+	public Rectangle hitbox;
+	public Rectangle collisionBox;
 	public CollisionDetector collision;
+	private double rotationAngle;
+
+	// Buffs
 	private boolean hasSpeedBuff;
 	private boolean hasInsurance;
 	private boolean hasInvincibility;
+
+	// Debuffs
 	private boolean isLeft = false;
-	
 	private boolean hasOilSpillDebuff;
-	
+
+	// Game attributes
 	public int score;
-	
-	public Rectangle hitbox;
-	public Rectangle collisionBox;
-	
+
 	/**
 	 * Constructs a Player object. Initializes the player's position, speed, and
 	 * texture.
@@ -62,22 +69,27 @@ public class Player extends Sprite {
 	 * @param xPos  The initial x-coordinate of the player.
 	 * @param yPos  The initial y-coordinate of the player.
 	 * @param image The image to use for the player (currently not used).
+	 * @param up, down, left, right The buttons for moving the player
 	 */
 	public Player(int xPos, int yPos, Image image, KeyCode up, KeyCode down, KeyCode left, KeyCode right) {
-		super(xPos, yPos, image);
+		super(xPos, yPos, image); // From Sprite class
+		// Player-related
 		this.speedMultiplier = 1.0;
 		this.playerImage = image;
+		
+		// Controls-related
 		this.up = up;
 		this.down = down;
 		this.left = left;
 		this.right = right;
-		this.collision = new CollisionDetector();
-		this.hitbox  = new Rectangle();
-		this.collisionBox = new Rectangle();
 		
+		// Colission-related
+		this.collision = new CollisionDetector();
+		this.collisionBox = new Rectangle();
+		this.hitbox = new Rectangle();
+
 	}
-	
-	
+
 	// TODO improve upon hitbox generation
 	public void generateHitBox() {
 		this.hitbox.x = (int) this.getXPos() + 30;
@@ -85,8 +97,7 @@ public class Player extends Sprite {
 		this.hitbox.width = (int) (playerImage.getWidth() - 60);
 		this.hitbox.height = (int) (playerImage.getHeight() - 25);
 	}
-	
-	
+
 	public void generateCollisionBox() {
 		this.collisionBox.x = (int) this.getXPos();
 		this.collisionBox.y = (int) this.getYPos();
@@ -102,8 +113,9 @@ public class Player extends Sprite {
 	public void render(GraphicsContext gc) {
 		gc.save();
 		gc.translate(this.getXPos() + playerImage.getWidth() / 2, this.getYPos() + playerImage.getHeight() / 2);
-		
-		if(this.isLeft) gc.scale(-1,1);
+
+		if (this.isLeft)
+			gc.scale(-1, 1);
 //		gc.rotate(rotationAngle);
 		gc.drawImage(playerImage, -playerImage.getWidth() / 2, -playerImage.getHeight() / 2);
 		gc.restore();
@@ -111,12 +123,12 @@ public class Player extends Sprite {
 		renderBox(gc, this.collisionBox);
 //		slowDown();
 	}
-	
+
 	private void renderBox(GraphicsContext gc, Rectangle box) {
 		gc.setFill(Color.TRANSPARENT);
 		gc.setStroke(Color.AQUA);
 		gc.setLineWidth(2);
-		gc.strokeRect(box.x, box.y,box.width, box.height);
+		gc.strokeRect(box.x, box.y, box.width, box.height);
 	}
 
 	/**
@@ -198,8 +210,6 @@ public class Player extends Sprite {
 		this.setXPos(this.getXPos() + dx);
 		this.setYPos(this.getYPos() + dy);
 	}
-	
-
 
 	/**
 	 * Sets the dx or dy based on the given KeyCode. This method is used to initiate
@@ -207,11 +217,14 @@ public class Player extends Sprite {
 	 * 
 	 * @param key The KeyCode representing the direction of movement.
 	 */
-	private void move(KeyCode key) {	
-		/** value of setRotationAngle is not yet final, will change depending on the orientation of the jeepney icons;
-		 * current value based on testing_car's orientation*/
-		
-		if(!isColliding) {
+	private void move(KeyCode key) {
+		/**
+		 * value of setRotationAngle is not yet final, will change depending on the
+		 * orientation of the jeepney icons; current value based on testing_car's
+		 * orientation
+		 */
+
+		if (!isColliding) {
 			if (key == this.up) {
 				this.setDY(-MOVE_AMOUNT);
 			} else if (key == this.down) {
@@ -252,7 +265,7 @@ public class Player extends Sprite {
 	public void setPlayerMovement(KeyCode key) {
 		move(key);
 	}
-	
+
 	/**
 	 * Stops the player's movement based on the provided KeyCode.
 	 * 
@@ -261,10 +274,11 @@ public class Player extends Sprite {
 	public void stopPlayerMovement(KeyCode key) {
 		stop(key);
 	}
-	
-	/** 
-	 * Sets the rotationAngle of the playerImage given @param double rotationAngle*/
+
+	/**
+	 * Sets the rotationAngle of the playerImage given @param double rotationAngle
+	 */
 	public void setRotationAngle(double rotationAngle) {
-		this.rotationAngle =+ rotationAngle;
+		this.rotationAngle = +rotationAngle;
 	}
 }

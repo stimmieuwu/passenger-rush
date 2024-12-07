@@ -2,6 +2,10 @@ package map;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -22,11 +26,11 @@ public class GridMap {
     /** Number of columns*/
     private static final int COLUMNS = 40;
     /** The GraphicsContext used for drawing on the Canvas object */
-    GraphicsContext gc;
-    /** Array to store the different tile objects*/
+    private GraphicsContext gc;
+    /** Array to store the different tile textures*/
     public static Tile tiles[] = new Tile[TILES]; 
     /** 2D array representing the map grid. */
-    public static int gridMap[][];
+    public static Tile gridMap[][];
 
     /**
      * Construct a GridMap object, which loads the map array and the map data.
@@ -35,9 +39,9 @@ public class GridMap {
      */
     public GridMap(GraphicsContext gc) {
         this.gc = gc;
-        GridMap.gridMap = new int[ROWS][COLUMNS]; 
-		this.loadMap("assets/maps/map.txt");
+        GridMap.gridMap = new Tile[ROWS][COLUMNS]; 
         this.loadTileAssets(); // Load the tile images
+		this.loadMap("assets/maps/map.txt");
     }
 
     /**
@@ -68,13 +72,39 @@ public class GridMap {
                 String line = br.readLine();
                 String temp[] = line.split(" "); 
                 for (int col = 0; col < COLUMNS; col++) {
-                    int mapData = Integer.parseInt(temp[col]);
-                    gridMap[row][col] = mapData;
+                    int tileData = Integer.parseInt(temp[col]);
+                    gridMap[row][col] = new Tile();
+                    gridMap[row][col].img = tiles[tileData].img;
+                    gridMap[row][col].number = tileData;
+                    gridMap[row][col].x = col * 20;
+                    gridMap[row][col].y = row * 20;
                 }
             }
             br.close();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+    
+    public Tile getRandomTile(int tileNumber) {
+        ArrayList<Tile> matchingTiles = new ArrayList<Tile>();
+        Random random = new Random();
+
+        // Find all tiles with the given tileNumber
+        for (int row = 0; row < ROWS; row++) {
+            for (int col = 0; col < COLUMNS; col++) {
+                if (gridMap[row][col].number == tileNumber) {
+                    matchingTiles.add(gridMap[row][col]); 
+                }
+            }
+        }
+
+        // Return a random tile from the list
+        if (!matchingTiles.isEmpty()) {
+            int randomIndex = random.nextInt(matchingTiles.size());
+            return matchingTiles.get(randomIndex);
+        } else {
+            return null; // No tile found with that number
         }
     }
 
@@ -84,21 +114,9 @@ public class GridMap {
      * @param gc The GraphicsContext to use for drawing.
      */
     public void drawMap(GraphicsContext gc) {
-        int col = 0;
-        int row = 0;
-        int x = 0;
-        int y = 0;
-
-        while (row < ROWS) {
-            int tileData = gridMap[row][col];
-            gc.drawImage(tiles[tileData].img, x, y); 
-            col++;
-            x += 20; 
-            if (col == COLUMNS) {
-                col = 0;
-                x = 0;
-                row++;
-                y += 20; 
+        for (int row = 0; row < ROWS; row++) {
+            for (int col = 0; col < COLUMNS; col++) {
+                gridMap[row][col].draw(gc); 
             }
         }
     }

@@ -1,16 +1,17 @@
 package mechanics;
 
+import java.util.ArrayList;
+
+import entities.Passenger;
+import entities.Player;
 import javafx.animation.AnimationTimer;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-
-import java.util.HashSet;
-
-import entities.Player;
 import map.GridMap;
+import map.Tile;
 import scenes.Game;
 
 /**
@@ -32,6 +33,11 @@ public class GameTimer extends AnimationTimer { /** The GraphicsContext used for
     private Player player2;
     /** The map object. */
     private GridMap map; 
+    private Game game;
+    /** Timer for spawning */
+    ArrayList<Passenger> passengers = new ArrayList<>();
+    private Spawn passengerSpawn;
+    private Spawn powerUpSpawn;
     
    
     // scatched hashset based input due to performance issues
@@ -40,6 +46,7 @@ public class GameTimer extends AnimationTimer { /** The GraphicsContext used for
 	public GameTimer(GraphicsContext gc, GraphicsContext bg, Game game) {
 		this.gc = gc;
 		this.scene = game.getScene();
+		this.game = game;
 		
 		this.map = new GridMap(bg);
 		
@@ -49,6 +56,7 @@ public class GameTimer extends AnimationTimer { /** The GraphicsContext used for
 		bg.drawImage(Graphics.background, 0, 0);
 		map.drawMap(bg);
 		bg.drawImage(Graphics.routes, 0, 0);
+		passengerSpawn = new Spawn();
 	}
 
 	// TODO fix the bug when player hits both up and down button
@@ -100,8 +108,19 @@ public class GameTimer extends AnimationTimer { /** The GraphicsContext used for
 		player2.generateHitBox();
 		player1.generateCollisionBox();
 		player2.generateCollisionBox();
+		
 		this.player1.move();
 		this.player2.move();
+		game.fpsCounter.setText(Double.toString(FPS.getAverageFPS()));
+		game.timeElapsed.setText(Double.toString(TimeElapsed.getElapsedSeconds()));
+		if(passengerSpawn.shouldSpawn(currentNanoTime)) {
+			Tile tempTile = map.getRandomTile(10);
+			passengers.add(new Passenger(tempTile.x, tempTile.y, Passenger.PASSENGER));
+		}
+		
+		for(Passenger passenger : passengers) {
+			passenger.render(gc);
+		}
 
 	}
 

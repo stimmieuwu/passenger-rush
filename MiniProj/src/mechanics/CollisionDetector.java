@@ -18,7 +18,8 @@ public class CollisionDetector {
 		int playerTopRow = playerTopLocation / Tile.TILE_HEIGHT;
 		int playerBottomRow = playerBottomLocation / Tile.TILE_HEIGHT;
 		
-		int detectedTile1, detectedTile2;
+		Tile detectedTile1;
+		Tile detectedTile2;
 		
 		System.out.println(playerTopRow + " " + playerRightColumn);
 //		System.out.println(GridMap.gridMap[playerLeftColumn][playerTopRow]);
@@ -30,7 +31,7 @@ public class CollisionDetector {
 			detectedTile1 = GridMap.gridMap[playerLeftColumn][playerTopRow];
 			detectedTile2 = GridMap.gridMap[playerRightColumn][playerTopRow];
 			System.out.println(detectedTile1);
-			if(GridMap.tiles[detectedTile1].isWall || GridMap.tiles[detectedTile2].isWall) {
+			if(detectedTile1.isWall || detectedTile2.isWall) {
 				player.isColliding = true;
 			}
 		}

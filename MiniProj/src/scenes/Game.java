@@ -22,10 +22,12 @@ public class Game {
 	protected Group root;
 	/** The Canvas object where game elements are drawn. */
 	protected Canvas canvas;
+	/** The Canvas object for the non-game assets*/
 	protected Canvas bg;
+	
+	// Text displays in the game scene
     public Text fpsCounter;
     public Text timeElapsed;
-    
     public Text player1Score;
     public Text player2Score;
 
@@ -46,7 +48,7 @@ public class Game {
         this.player1Score = addText(20, 750, 1.5);
         this.player2Score = addText(750, 750, 1.5);
 		
-		this.root.getChildren().addAll(this.bg, this.canvas, fpsCounter, timeElapsed);
+		this.root.getChildren().addAll(this.bg, this.canvas, fpsCounter, timeElapsed, player1Score, player2Score);
 		
 		
 	}
