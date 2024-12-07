@@ -38,6 +38,7 @@ public class FPS {
 		lastFrameTime = now;
 	}
 
+	/** Getter for the average FPS in the last 100 frames.*/
 	public static double getAverageFPS() {
 		int total = 0;
 
