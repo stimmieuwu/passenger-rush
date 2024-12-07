@@ -40,34 +40,33 @@ public class Game {
 		this.gameScene = new Scene(root);
 		this.canvas = new Canvas(SceneManager.getWindowWidth(), SceneManager.getWindowHeight());
 		this.bg = new Canvas(SceneManager.getWindowWidth(), SceneManager.getWindowHeight());
-		this.fpsCounter = new Text();
-		this.fpsCounter.setX(20);
-		this.fpsCounter.setY(20);
-		this.fpsCounter.setScaleX(1.5);
-		this.fpsCounter.setScaleY(1.5);
 		
-		this.timeElapsed = new Text();
-		this.timeElapsed.setX(750);
-		this.timeElapsed.setY(20);
-		this.timeElapsed.setScaleX(1.5);
-		this.timeElapsed.setScaleY(1.5);
-		
-		this.player1Score = new Text();
-		this.player1Score.setX(20);
-		this.player1Score.setY(750);
-		this.player1Score.setScaleX(1.5);
-		this.player1Score.setScaleY(1.5);
-		
-		this.player2Score = new Text();
-		this.player2Score.setX(750);
-		this.player2Score.setY(750);
-		this.player2Score.setScaleX(1.5);
-		this.player2Score.setScaleY(1.5);
+        this.fpsCounter = addText(20, 20, 1.5);
+        this.timeElapsed = addText(750, 20, 1.5);
+        this.player1Score = addText(20, 750, 1.5);
+        this.player2Score = addText(750, 750, 1.5);
 		
 		this.root.getChildren().addAll(this.bg, this.canvas, fpsCounter, timeElapsed);
 		
 		
 	}
+	
+    /**
+     * Utility function to add text to the scene.
+     * 
+     * @param x The x-coordinate or horizontal position of the text.
+     * @param y The y-coordinate or vertical position of the text.
+     * @param scale The scale of the text.
+     * @return The created Text object.
+     */
+    private Text addText(double x, double y, double scale) {
+        Text text = new Text();
+        text.setX(x);
+        text.setY(y);
+        text.setScaleX(scale);
+        text.setScaleY(scale);
+        return text;
+    }
 
 	/**
 	 * Getter for the game scene
