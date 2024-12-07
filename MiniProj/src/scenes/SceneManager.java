@@ -2,6 +2,7 @@ package scenes;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
+import mechanics.Audio;
 import mechanics.GameTimer;
 
 /**
@@ -32,6 +33,7 @@ public class SceneManager {
     /** The skin switching scene. */
     private SkinSwitching skinSwitchingScene;
 
+    // Layout variables
     /** The width of the game window. */
     private final static int WINDOW_WIDTH = 800;
     /** The height of the game window. */
@@ -121,5 +123,6 @@ public class SceneManager {
         // Start the game loop using GameTimer
         GameTimer gameTimer = new GameTimer(gc, bg, gameScene); 
         gameTimer.start();
+        Audio bgMusic = new Audio("./assets/music/game_music.mp3", 0.5f);
     }
 }
