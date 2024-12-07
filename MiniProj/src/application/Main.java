@@ -20,6 +20,8 @@ import scenes.SceneManager;
 public class Main extends Application {
 	/** The main window of the game */
 	Stage stage;
+	/** Game title */
+	private static final String GAME_TITLE = "Passenger Rush";
 
 	/**
 	 * Override the start method of the Application class to create the main
@@ -42,7 +44,7 @@ public class Main extends Application {
 			/** App icon of the Passenger Rush game */
 			Image icon = new Image("../assets/passenger_rush.png");
 			stage.getIcons().add(icon);
-			stage.setTitle("Passenger Rush");
+			stage.setTitle(GAME_TITLE);
 			stage.setResizable(false);
 			stage.show();
 		} catch (Exception e) {
