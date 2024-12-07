@@ -1,5 +1,7 @@
 package mechanics;
 
+import javafx.scene.image.Image;
+
 /**
  * 
  * 
@@ -10,5 +12,8 @@ package mechanics;
  */
 
 public class Graphics {
-
+	public static final Image background = new Image("../assets/tiles/bg.png");
+	public static final Image routes = new Image("../assets/sprites/stops.png");
+	
+	
 }

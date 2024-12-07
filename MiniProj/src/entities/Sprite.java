@@ -15,7 +15,7 @@ import javafx.scene.image.Image;
  */
 public class Sprite {
 	/** The image representing the sprite. */
-	private Image spriteImage;
+	protected Image spriteImage;
 	/** The x-coordinate of the sprite's position. */
 	private double xPos;
 	/** The y-coordinate of the sprite's position. */

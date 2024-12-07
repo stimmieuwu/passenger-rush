@@ -31,9 +31,9 @@ public class Player extends Sprite {
 	public KeyCode up, down, left, right;
 	
 	/** The image for skin 1 */
-	public static final Image SKIN_1 = new Image("../assets/sprites/testing_car.png");
+	public static final Image SKIN_1 = new Image("../assets/sprites/blueJeep.png", 80, 80, true, true);
 	/** The image for skin 2 */
-	public static final Image SKIN_2 = new Image("../assets/sprites/testing_car.png");
+	public static final Image SKIN_2 = new Image("../assets/sprites/redJeep.png", 80, 80, true, true);
 	/** The image for skin 3 */
 	public static final Image SKIN_3 = new Image("../assets/sprites/testing_car.png");
 	/** The image for skin 4 */
@@ -46,12 +46,14 @@ public class Player extends Sprite {
 	private boolean hasSpeedBuff;
 	private boolean hasInsurance;
 	private boolean hasInvincibility;
+	private boolean isLeft = false;
 	
 	private boolean hasOilSpillDebuff;
 	
 	public int score;
 	
 	public Rectangle hitbox;
+	public Rectangle collisionBox;
 	
 	/**
 	 * Constructs a Player object. Initializes the player's position, speed, and
@@ -62,25 +64,34 @@ public class Player extends Sprite {
 	 * @param image The image to use for the player (currently not used).
 	 */
 	public Player(int xPos, int yPos, Image image, KeyCode up, KeyCode down, KeyCode left, KeyCode right) {
-		super(xPos, yPos, SKIN_1);
+		super(xPos, yPos, image);
 		this.speedMultiplier = 1.0;
-		this.playerImage = new Image("../assets/sprites/testing_car.png", 50, 50, true, true);
+		this.playerImage = image;
 		this.up = up;
 		this.down = down;
 		this.left = left;
 		this.right = right;
 		this.collision = new CollisionDetector();
 		this.hitbox  = new Rectangle();
+		this.collisionBox = new Rectangle();
 		
 	}
 	
 	
 	// TODO improve upon hitbox generation
 	public void generateHitBox() {
-		this.hitbox.x = (int) this.getXPos() + 5;
-		this.hitbox.y = (int) this.getYPos() + 4;
-		this.hitbox.width = (int) (playerImage.getWidth() - 5);
-		this.hitbox.height = (int) (playerImage.getHeight() - 5);
+		this.hitbox.x = (int) this.getXPos() + 30;
+		this.hitbox.y = (int) this.getYPos() + 20;
+		this.hitbox.width = (int) (playerImage.getWidth() - 60);
+		this.hitbox.height = (int) (playerImage.getHeight() - 25);
+	}
+	
+	
+	public void generateCollisionBox() {
+		this.collisionBox.x = (int) this.getXPos();
+		this.collisionBox.y = (int) this.getYPos();
+		this.collisionBox.width = (int) (playerImage.getWidth());
+		this.collisionBox.height = (int) (playerImage.getHeight());
 	}
 
 	/**
@@ -91,19 +102,21 @@ public class Player extends Sprite {
 	public void render(GraphicsContext gc) {
 		gc.save();
 		gc.translate(this.getXPos() + playerImage.getWidth() / 2, this.getYPos() + playerImage.getHeight() / 2);
-		gc.rotate(rotationAngle);
+		
+		if(this.isLeft) gc.scale(-1,1);
+//		gc.rotate(rotationAngle);
 		gc.drawImage(playerImage, -playerImage.getWidth() / 2, -playerImage.getHeight() / 2);
 		gc.restore();
-		renderBox(gc);
-		
+		renderBox(gc, this.hitbox);
+		renderBox(gc, this.collisionBox);
 //		slowDown();
 	}
 	
-	private void renderBox(GraphicsContext gc) {
+	private void renderBox(GraphicsContext gc, Rectangle box) {
 		gc.setFill(Color.TRANSPARENT);
 		gc.setStroke(Color.AQUA);
 		gc.setLineWidth(2);
-		gc.strokeRect(hitbox.x, hitbox.y,hitbox.width, hitbox.height);
+		gc.strokeRect(box.x, box.y,box.width, box.height);
 	}
 
 	/**
@@ -201,16 +214,15 @@ public class Player extends Sprite {
 		if(!isColliding) {
 			if (key == this.up) {
 				this.setDY(-MOVE_AMOUNT);
-				this.setRotationAngle(90);
 			} else if (key == this.down) {
 				this.setDY(MOVE_AMOUNT);
-				this.setRotationAngle(270);
 			} else if (key == this.right) {
 				this.setDX(MOVE_AMOUNT);
-				this.setRotationAngle(180);
+				this.isLeft = false;
 			} else if (key == this.left) {
 				this.setDX(-MOVE_AMOUNT);
-				this.setRotationAngle(0);
+				this.isLeft = true;
+
 			}
 		}
 	}
@@ -253,6 +265,6 @@ public class Player extends Sprite {
 	/** 
 	 * Sets the rotationAngle of the playerImage given @param double rotationAngle*/
 	public void setRotationAngle(double rotationAngle) {
-		this.rotationAngle = rotationAngle;
+		this.rotationAngle =+ rotationAngle;
 	}
 }

@@ -46,7 +46,9 @@ public class GameTimer extends AnimationTimer { /** The GraphicsContext used for
 		player1 = new Player(300, 20, Player.SKIN_1, KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D);
 		player2 = new Player(400, 20, Player.SKIN_2, KeyCode.UP, KeyCode.DOWN, KeyCode.LEFT, KeyCode.RIGHT);
 		keyDetection();
+		bg.drawImage(Graphics.background, 0, 0);
 		map.drawMap(bg);
+		bg.drawImage(Graphics.routes, 0, 0);
 	}
 
 	// TODO fix the bug when player hits both up and down button
@@ -92,11 +94,12 @@ public class GameTimer extends AnimationTimer { /** The GraphicsContext used for
     @Override
 	public void handle(long currentNanoTime) {
 		gc.clearRect(0, 0, 800, 800);
-
 		player1.render(gc);
 		player2.render(gc);
 		player1.generateHitBox();
 		player2.generateHitBox();
+		player1.generateCollisionBox();
+		player2.generateCollisionBox();
 		this.player1.move();
 		this.player2.move();
 
