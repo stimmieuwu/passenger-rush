@@ -13,7 +13,7 @@ import javafx.scene.image.Image;
  */
 public class Passenger extends Sprite{
 
-	public static final Image PASSENGER = new Image("../assets/sprites/passenger1.png", 50, 50, true, true);
+	public static final Image PASSENGER = new Image("./../assets/sprites/passenger1.png", 50, 50, true, true);
 	
 	public Passenger(int xPos, int yPos, Image image) {
 		super(xPos, yPos, image);

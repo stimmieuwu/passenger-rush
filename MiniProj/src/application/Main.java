@@ -42,7 +42,7 @@ public class Main extends Application {
 			// Set some properties of the stage, then show it to the user
 			
 			/** App icon of the Passenger Rush game */
-			Image icon = new Image("../assets/passenger_rush.png");
+			Image icon = new Image("./../assets/passenger_rush.png");
 			stage.getIcons().add(icon);
 			stage.setTitle(GAME_TITLE);
 			stage.setResizable(false);

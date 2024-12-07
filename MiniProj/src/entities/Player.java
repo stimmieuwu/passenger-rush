@@ -32,31 +32,37 @@ public class Player extends Sprite {
 	/** The image representing the player. */
 	private Image playerImage;
 	/** The image for skin 1 */
-	public static final Image SKIN_1 = new Image("../assets/sprites/blueJeep.png", 80, 80, true, true);
+	public static final Image SKIN_1 = new Image("./../assets/sprites/blueJeep.png", 80, 80, true, true);
 	/** The image for skin 2 */
-	public static final Image SKIN_2 = new Image("../assets/sprites/redJeep.png", 80, 80, true, true);
+	public static final Image SKIN_2 = new Image("./../assets/sprites/redJeep.png", 80, 80, true, true);
 	/** The image for skin 3 */
-	public static final Image SKIN_3 = new Image("../assets/sprites/testing_car.png");
+	public static final Image SKIN_3 = new Image("./../assets/sprites/testing_car.png");
 	/** The image for skin 4 */
-	public static final Image SKIN_4 = new Image("../assets/sprites/testing_car.png");
+	public static final Image SKIN_4 = new Image("./../assets/sprites/testing_car.png");
 	/** The image for skin 5 */
-	public static final Image SKIN_5 = new Image("../assets/sprites/testing_car.png");
+	public static final Image SKIN_5 = new Image("./../assets/sprites/testing_car.png");
+	/** Check whether or not the player is facing left */
+	private boolean isLeft = false;
 
 	// Movement and colission related
 	/** The key objects in order to listen for the player controls. */
 	public KeyCode up, down, left, right;
+	/** Hitbox for picking up passengers and effects */
 	public Rectangle hitbox;
+	/** Hitbox for colliding with walls */
 	public Rectangle collisionBox;
+	/** Mechanism for detecting colission with walls */
 	public CollisionDetector collision;
-	private double rotationAngle;
 
 	// Buffs
+	/** Indicates whether the player has the speed buff */
 	private boolean hasSpeedBuff;
+	/** Indicates whether the player has the insurance buff */
 	private boolean hasInsurance;
+	/** Indicates whether the player has the invincibility buff */
 	private boolean hasInvincibility;
 
 	// Debuffs
-	private boolean isLeft = false;
 	private boolean hasOilSpillDebuff;
 
 	// Game attributes
@@ -69,20 +75,20 @@ public class Player extends Sprite {
 	 * @param xPos  The initial x-coordinate of the player.
 	 * @param yPos  The initial y-coordinate of the player.
 	 * @param image The image to use for the player (currently not used).
-	 * @param up, down, left, right The buttons for moving the player
+	 * @param up,   down, left, right The buttons for moving the player
 	 */
 	public Player(int xPos, int yPos, Image image, KeyCode up, KeyCode down, KeyCode left, KeyCode right) {
 		super(xPos, yPos, image); // From Sprite class
 		// Player-related
 		this.speedMultiplier = 1.0;
 		this.playerImage = image;
-		
+
 		// Controls-related
 		this.up = up;
 		this.down = down;
 		this.left = left;
 		this.right = right;
-		
+
 		// Colission-related
 		this.collision = new CollisionDetector();
 		this.collisionBox = new Rectangle();
@@ -129,6 +135,70 @@ public class Player extends Sprite {
 		gc.setStroke(Color.AQUA);
 		gc.setLineWidth(2);
 		gc.strokeRect(box.x, box.y, box.width, box.height);
+	}
+
+	/**
+	 * Sets the dx or dy based on the given KeyCode. This method is used to initiate
+	 * movement in a specific direction.
+	 * 
+	 * @param key The KeyCode representing the direction of movement.
+	 */
+	private void move(KeyCode key) {
+		/**
+		 * value of setRotationAngle is not yet final, will change depending on the
+		 * orientation of the jeepney icons; current value based on testing_car's
+		 * orientation
+		 */
+
+		if (!isColliding) {
+			if (key == this.up) {
+				this.setDY(-MOVE_AMOUNT);
+			} else if (key == this.down) {
+				this.setDY(MOVE_AMOUNT);
+			} else if (key == this.right) {
+				this.setDX(MOVE_AMOUNT);
+				this.isLeft = false;
+			} else if (key == this.left) {
+				this.setDX(-MOVE_AMOUNT);
+				this.isLeft = true;
+
+			}
+		}
+	}
+
+	/**
+	 * Stops the player's movement in the direction specified by the KeyCode. This
+	 * method sets the corresponding dx or dy to 0.
+	 * 
+	 * @param key The KeyCode representing the direction to stop.
+	 */
+	private void stop(KeyCode key) {
+		if (key == this.up)
+			this.setDY(0);
+		if (key == this.down)
+			this.setDY(0);
+		if (key == this.left)
+			this.setDX(0);
+		if (key == this.right)
+			this.setDX(0);
+	}
+
+	/**
+	 * Sets the player's movement based on the provided KeyCode.
+	 * 
+	 * @param key The KeyCode that triggers the movement.
+	 */
+	public void setPlayerMovement(KeyCode key) {
+		move(key);
+	}
+
+	/**
+	 * Stops the player's movement based on the provided KeyCode.
+	 * 
+	 * @param key The KeyCode that triggers the stop.
+	 */
+	public void stopPlayerMovement(KeyCode key) {
+		stop(key);
 	}
 
 	/**
@@ -211,74 +281,4 @@ public class Player extends Sprite {
 		this.setYPos(this.getYPos() + dy);
 	}
 
-	/**
-	 * Sets the dx or dy based on the given KeyCode. This method is used to initiate
-	 * movement in a specific direction.
-	 * 
-	 * @param key The KeyCode representing the direction of movement.
-	 */
-	private void move(KeyCode key) {
-		/**
-		 * value of setRotationAngle is not yet final, will change depending on the
-		 * orientation of the jeepney icons; current value based on testing_car's
-		 * orientation
-		 */
-
-		if (!isColliding) {
-			if (key == this.up) {
-				this.setDY(-MOVE_AMOUNT);
-			} else if (key == this.down) {
-				this.setDY(MOVE_AMOUNT);
-			} else if (key == this.right) {
-				this.setDX(MOVE_AMOUNT);
-				this.isLeft = false;
-			} else if (key == this.left) {
-				this.setDX(-MOVE_AMOUNT);
-				this.isLeft = true;
-
-			}
-		}
-	}
-
-	/**
-	 * Stops the player's movement in the direction specified by the KeyCode. This
-	 * method sets the corresponding dx or dy to 0.
-	 * 
-	 * @param key The KeyCode representing the direction to stop.
-	 */
-	private void stop(KeyCode key) {
-		if (key == this.up)
-			this.setDY(0);
-		if (key == this.down)
-			this.setDY(0);
-		if (key == this.left)
-			this.setDX(0);
-		if (key == this.right)
-			this.setDX(0);
-	}
-
-	/**
-	 * Sets the player's movement based on the provided KeyCode.
-	 * 
-	 * @param key The KeyCode that triggers the movement.
-	 */
-	public void setPlayerMovement(KeyCode key) {
-		move(key);
-	}
-
-	/**
-	 * Stops the player's movement based on the provided KeyCode.
-	 * 
-	 * @param key The KeyCode that triggers the stop.
-	 */
-	public void stopPlayerMovement(KeyCode key) {
-		stop(key);
-	}
-
-	/**
-	 * Sets the rotationAngle of the playerImage given @param double rotationAngle
-	 */
-	public void setRotationAngle(double rotationAngle) {
-		this.rotationAngle = +rotationAngle;
-	}
 }

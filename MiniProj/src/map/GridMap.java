@@ -41,7 +41,7 @@ public class GridMap {
         this.gc = gc;
         GridMap.gridMap = new Tile[ROWS][COLUMNS]; 
         this.loadTileAssets(); // Load the tile images
-		this.loadMap("assets/maps/map.txt");
+		this.loadMap("./assets/maps/map.txt");
     }
 
     /**
@@ -50,7 +50,7 @@ public class GridMap {
     private void loadTileAssets() {
         for (int i = 0; i < TILES; i++) {
             tiles[i] = new Tile();
-            tiles[i].img = new Image("../assets/tiles/tile" + i + ".png"); 
+            tiles[i].img = new Image("./../assets/tiles/tile" + i + ".png"); 
             if (i < 9) {
                 tiles[i].isWall = true;
             }
