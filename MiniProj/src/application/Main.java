@@ -5,7 +5,6 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import scenes.SceneManager;
 
-
 /**
  * This is the main class for the JavaFX application. The program implements a
  * game called "Passenger Rush"
@@ -40,7 +39,7 @@ public class Main extends Application {
 			sceneManager.switchToMainMenu();
 
 			// Set some properties of the stage, then show it to the user
-			
+
 			/** App icon of the Passenger Rush game */
 			Image icon = new Image("./../assets/passenger_rush.png");
 			stage.getIcons().add(icon);

@@ -41,6 +41,9 @@ public class SceneManager {
     /** The spacing of buttons*/
     protected final static int BUTTON_SPACING = 10;
     
+    private Audio lobbyMusic;
+    private Audio bgMusic;
+    
 
     /**
      * Returns the width of the game window.
@@ -81,6 +84,7 @@ public class SceneManager {
      */
     public void switchToMainMenu() {
         stage.setScene(mainMenu.getScene());
+        this.lobbyMusic = new Audio("./assets/music/lobby_music.mp3", 0.5f);
     }
 
     /**
@@ -123,6 +127,7 @@ public class SceneManager {
         // Start the game loop using GameTimer
         GameTimer gameTimer = new GameTimer(gc, bg, gameScene); 
         gameTimer.start();
-        Audio bgMusic = new Audio("./assets/music/game_music.mp3", 0.5f);
+        lobbyMusic.stopMusic();
+        this.bgMusic = new Audio("./assets/music/game_music.mp3", 0.5f);
     }
 }
