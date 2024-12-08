@@ -40,16 +40,6 @@ public class Player extends Sprite {
 	// Objects related to images
 	/** The image representing the player. */
 	private Image playerImage;
-	/** The image for skin 1 */
-	public static final Image SKIN_1 = new Image("./../assets/sprites/blueJeep.png", 80, 80, true, true);
-	/** The image for skin 2 */
-	public static final Image SKIN_2 = new Image("./../assets/sprites/redJeep.png", 80, 80, true, true);
-	/** The image for skin 3 */
-	public static final Image SKIN_3 = new Image("./../assets/sprites/testing_car.png");
-	/** The image for skin 4 */
-	public static final Image SKIN_4 = new Image("./../assets/sprites/testing_car.png");
-	/** The image for skin 5 */
-	public static final Image SKIN_5 = new Image("./../assets/sprites/testing_car.png");
 	/** Check whether or not the player is facing left */
 	private boolean isLeft = false;
 

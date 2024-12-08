@@ -1,7 +1,7 @@
 package mechanics;
 
 import java.util.ArrayList;
-
+import scenes.SkinSwitching;
 import entities.Passenger;
 import entities.Player;
 import javafx.animation.AnimationTimer;
@@ -50,8 +50,8 @@ public class GameTimer extends AnimationTimer { /** The GraphicsContext used for
 		
 		this.map = new GridMap(bg);
 		
-		player1 = new Player(300, 20, Player.SKIN_1, KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D);
-		player2 = new Player(400, 20, Player.SKIN_2, KeyCode.UP, KeyCode.DOWN, KeyCode.LEFT, KeyCode.RIGHT);
+		player1 = new Player(300, 20, SkinSwitching.selectedImageP1, KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D);
+		player2 = new Player(400, 20, SkinSwitching.selectedImageP2, KeyCode.UP, KeyCode.DOWN, KeyCode.LEFT, KeyCode.RIGHT);
 		keyDetection();
 		bg.drawImage(Graphics.background, 0, 0);
 		map.drawMap(bg);
@@ -110,8 +110,7 @@ public class GameTimer extends AnimationTimer { /** The GraphicsContext used for
     @Override
 	public void handle(long currentNanoTime) {
 		gc.clearRect(0, 0, 800, 800);
-		player1.render(gc);
-		player2.render(gc);
+	
 		player1.hitbox = player1.generateHitBox();
 		player2.hitbox = player2.generateHitBox();
 		player1.collisionBox = player1.generateCollisionBox();
@@ -130,9 +129,14 @@ public class GameTimer extends AnimationTimer { /** The GraphicsContext used for
 			passengers.add(new Passenger(tempTile.x, tempTile.y, Passenger.PASSENGER));
 		}
 		
+	
+		
 		for(Passenger passenger : passengers) {
 			passenger.render(gc);
 		}
+		
+		player1.render(gc);
+		player2.render(gc);
 
 	}
 

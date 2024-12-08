@@ -1,0 +1,74 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+.start{
+	-fx-text-fill:transparent;
+    -fx-padding: 0;
+    -fx-background-color:transparent;
+    -fx-background-image: url("file:assets/buttonImages/beginNH.png");
+    -fx-pref-height: 122px;
+    -fx-pref-width: 465px;
+    
+}
+
+.start:hover {
+        -fx-text-fill: transparent;
+        -fx-background-image: url("file:assets/buttonImages/beginH.png");
+        -fx-scale-y: 1.1;
+        -fx-scale-x:1.1;
+}
+
+.back{
+	-fx-text-fill:transparent;
+    -fx-padding: 0;
+    -fx-background-color:transparent;
+    -fx-background-image: url("file:assets/buttonImages/backNH.png");
+    -fx-pref-height: 122px;
+    -fx-pref-width: 182px;
+    
+}
+
+ .back:hover {
+        -fx-text-fill: transparent;
+        -fx-background-image: url("file:assets/buttonImages/backH.png");
+        -fx-scale-y: 1.1;
+        -fx-scale-x:1.1;
+}
+
+
+.prev{
+	-fx-text-fill:transparent;
+    -fx-padding: 0;
+    -fx-background-color:transparent;
+    -fx-background-image: url("file:assets/buttonImages/prevNH.png");
+    -fx-pref-height: 92px;
+    -fx-pref-width: 49px;
+    
+}
+
+ .prev:hover {
+        -fx-text-fill: transparent;
+        -fx-background-image: url("file:assets/buttonImages/prevH.png");
+        -fx-scale-y: 1.1;
+        -fx-scale-x:1.1;
+}
+
+
+.next{
+	-fx-text-fill:transparent;
+    -fx-padding: 0;
+    -fx-background-color:transparent;
+    -fx-background-image: url("file:assets/buttonImages/nextNH.png");
+    -fx-pref-height: 92px;
+    -fx-pref-width: 49px;
+    
+}
+
+ .next:hover {
+        -fx-text-fill: transparent;
+        -fx-background-image: url("file:assets/buttonImages/nextH.png");
+        -fx-scale-y: 1.1;
+        -fx-scale-x:1.1;
+}
+
+
+
+

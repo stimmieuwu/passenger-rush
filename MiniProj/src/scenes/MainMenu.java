@@ -84,24 +84,21 @@ public class MainMenu {
         this.canvas = new Canvas( SceneManager.getWindowWidth(), SceneManager.getWindowHeight() );
         layout.getChildren().add(canvas);
         
-        
-        
-        
-        // for css
-        splashScene.getStylesheets()
-		.add((getClass())
-		.getResource("application.css")
-		.toExternalForm());
-        
-        Graphics.generateMenuGraphics();
+       
         renderAnimation(layout);
         assignStyleSheets();
         layout.getChildren().addAll(start,instructions, about,exit);
         
     }
     
-    
+    // for css
     private void assignStyleSheets() {
+        splashScene.getStylesheets()
+    		.add((getClass())
+    		.getResource("application.css")
+    		.toExternalForm());
+            
+        
     	this.instructions.getStyleClass().add("instructions");
 		this.about.getStyleClass().add("about");
 		this.start.getStyleClass().add("start");
@@ -130,7 +127,7 @@ public class MainMenu {
 		// inherits constant
 		GraphicsContext gc = canvas.getGraphicsContext2D();
         final long startNanoTime = System.nanoTime();
-
+        Graphics.generateMenuGraphics(); // initializing frames
 		new AnimationTimer()
 		{
 			public void handle(long currentNanoTime)
@@ -138,9 +135,12 @@ public class MainMenu {
 			{
 				
 		        gc.clearRect(0, 0, SceneManager.getWindowWidth(), SceneManager.getWindowHeight());
-		        int time = (int) ((currentNanoTime - startNanoTime) / 100000000);
-		        // menu animation
+		        int time = (int) ((currentNanoTime - startNanoTime) / 90000000);
+		        
+		        // crumpled paper background
 		        gc.drawImage(Graphics.background, 0, 0);
+		        
+		        // animated menu elements
 		        gc.drawImage(Graphics.menuAnimation[time%Graphics.FRAMES], 0, 0);
 			}
 		}.start();
