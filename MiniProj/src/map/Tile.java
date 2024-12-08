@@ -28,6 +28,8 @@ public class Tile {
 	public int x;
 	/** Width of each tile */
 	public int y;
+	/** Is the tile occupied by a something, i.e. a passenger or a powerup? */
+	public boolean occupied = false;
 	
 	public Rectangle2D tileBox = new Rectangle2D(x, y, TILE_HEIGHT, TILE_WIDTH);
 	
