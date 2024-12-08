@@ -24,9 +24,11 @@ public class Graphics {
 	/** The image for skin 3 */
 	public static final Image SKIN_3 = new Image("./../assets/sprites/jeep2.png",  80, 80, true, true);
 	/** The image for skin 4 */
-	public static final Image SKIN_4 = new Image("./../assets/sprites/testing_car.png");
+	public static final Image SKIN_4 = new Image("./../assets/sprites/jeep3.png",  80, 80, true, true);
 	/** The image for skin 5 */
-	public static final Image SKIN_5 = new Image("./../assets/sprites/testing_car.png");
+	public static final Image SKIN_5 = new Image("./../assets/sprites/jeep4.png",  80, 80, true, true);
+	/** The image for skin 6 */
+	public static final Image SKIN_6 = new Image("./../assets/sprites/jeep5.png",  80, 80, true, true);
 	
 	public static void generateMenuGraphics() {
 		for (int i = 0; i < FRAMES; i++) {
