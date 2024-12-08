@@ -63,9 +63,11 @@ public class Player extends Sprite {
 	private boolean hasInvincibility;
 
 	// Debuffs
+	/** Indicates whether the player has the oil spill debuff */
 	private boolean hasOilSpillDebuff;
 
 	// Game attributes
+	/** Amount of passengers the player has transported */
 	public int score;
 
 	/**
@@ -97,6 +99,7 @@ public class Player extends Sprite {
 	}
 
 	// TODO improve upon hitbox generation
+	/** Create a hitbox for powerup and passenger collection */
 	public void generateHitBox() {
 		this.hitbox.x = (int) this.getXPos() + 30;
 		this.hitbox.y = (int) this.getYPos() + 20;
@@ -104,6 +107,7 @@ public class Player extends Sprite {
 		this.hitbox.height = (int) (playerImage.getHeight() - 25);
 	}
 
+	/** Create a hitbox to detect colission with the map boundaries */
 	public void generateCollisionBox() {
 		this.collisionBox.x = (int) this.getXPos();
 		this.collisionBox.y = (int) this.getYPos();
@@ -130,6 +134,12 @@ public class Player extends Sprite {
 //		slowDown();
 	}
 
+	/**
+	 * Debugging class that visualizes the hitboxes
+	 * 
+	 * @param gc  The GraphicsContext used for drawing.
+	 * @param box The hitbox to visualize
+	 */
 	private void renderBox(GraphicsContext gc, Rectangle box) {
 		gc.setFill(Color.TRANSPARENT);
 		gc.setStroke(Color.AQUA);
