@@ -1,5 +1,6 @@
 package map;
 
+import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -28,7 +29,12 @@ public class Tile {
 	/** Width of each tile */
 	public int y;
 	
+	public Rectangle2D tileBox = new Rectangle2D(x, y, TILE_HEIGHT, TILE_WIDTH);
+	
     public void draw(GraphicsContext gc) {
         gc.drawImage(img, x, y);
+        if(isWall) {
+        	gc.strokeRect(x, y, TILE_HEIGHT, TILE_WIDTH);
+        }
     }	
 }
