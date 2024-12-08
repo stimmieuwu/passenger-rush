@@ -1,7 +1,15 @@
 package mechanics;
 
 import java.util.ArrayList;
-import scenes.SkinSwitching;
+import java.util.HashMap;
+
+import effects.Effect;
+import effects.OilBarrel;
+import effects.Speed;
+import effects.Debuff;
+import effects.OilSpill;
+import entities.Obstacle;
+import entities.PowerUp;
 import entities.Passenger;
 import entities.Player;
 import javafx.animation.AnimationTimer;
@@ -35,10 +43,20 @@ public class GameTimer extends AnimationTimer { /** The GraphicsContext used for
     public GridMap map; 
     private Game game;
     /** Timer for spawning */
-    ArrayList<Passenger> passengers = new ArrayList<>();
+    private ArrayList<Passenger> passengers = new ArrayList<>();
     private Spawn passengerSpawn;
+    
+    private ArrayList<PowerUp> powerUps = new ArrayList<>();
     private Spawn powerUpSpawn;
     
+    private ArrayList<Obstacle> obstacles = new ArrayList<>();
+    private Spawn obstacleSpawn;
+    //ArrayList<Effect> effects = new ArrayList<>();
+    private HashMap<Player, ArrayList<Effect>> activeEffects = new HashMap<>();
+    private HashMap<Player, ArrayList<Debuff>> activeDebuffs = new HashMap<>();
+    
+    int randomIndex = (int) (Math.random() * PowerUp.TYPES.length);
+    String randomType = PowerUp.TYPES[randomIndex];
    
     // scatched hashset based input due to performance issues
 //    private final HashSet<KeyCode> inputs = new HashSet<KeyCode>();
@@ -50,13 +68,22 @@ public class GameTimer extends AnimationTimer { /** The GraphicsContext used for
 		
 		this.map = new GridMap(bg);
 		
-		player1 = new Player(300, 20, SkinSwitching.selectedImageP1, KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D);
-		player2 = new Player(400, 20, SkinSwitching.selectedImageP2, KeyCode.UP, KeyCode.DOWN, KeyCode.LEFT, KeyCode.RIGHT);
+		player1 = new Player(300, 20, Player.SKIN_1, KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D);
+		player2 = new Player(400, 20, Player.SKIN_2, KeyCode.UP, KeyCode.DOWN, KeyCode.LEFT, KeyCode.RIGHT);
 		keyDetection();
 		bg.drawImage(Graphics.background, 0, 0);
 		map.drawMap(bg);
 		bg.drawImage(Graphics.routes, 0, 0);
 		passengerSpawn = new Spawn();
+		powerUpSpawn = new Spawn();
+		obstacleSpawn = new Spawn();
+		
+		activeEffects.put(player1, new ArrayList<>());
+		activeEffects.put(player2, new ArrayList<>());
+		
+		activeDebuffs.put(player1, new ArrayList<>());
+		activeDebuffs.put(player2, new ArrayList<>());
+		
 	}
 
 	// TODO fix the bug when player hits both up and down button
@@ -87,7 +114,20 @@ public class GameTimer extends AnimationTimer { /** The GraphicsContext used for
 	                player2.isColliding = player2.collision.detectTile(player2, code, dx, dy);
 	                player2.setPlayerMovement(code);
 				}
-
+				
+				if (code == KeyCode.F) {
+					Obstacle newOilSpill = player1.placeOilSpill();
+					if (newOilSpill != null) {
+						obstacles.add(newOilSpill);
+					}
+				}
+				
+				if (code == KeyCode.L) {
+					Obstacle newOilSpill = player2.placeOilSpill();
+					if (newOilSpill != null) {
+						obstacles.add(newOilSpill);
+					}
+				}
 			}
 		});
 
@@ -110,7 +150,8 @@ public class GameTimer extends AnimationTimer { /** The GraphicsContext used for
     @Override
 	public void handle(long currentNanoTime) {
 		gc.clearRect(0, 0, 800, 800);
-	
+		player1.render(gc);
+		player2.render(gc);
 		player1.hitbox = player1.generateHitBox();
 		player2.hitbox = player2.generateHitBox();
 		player1.collisionBox = player1.generateCollisionBox();
@@ -124,20 +165,126 @@ public class GameTimer extends AnimationTimer { /** The GraphicsContext used for
 		this.player2.move();
 		game.fpsCounter.setText(Double.toString(FPS.getAverageFPS()));
 		game.timeElapsed.setText(Double.toString(TimeElapsed.getElapsedSeconds()));
+		
+		//Passenger spawning code
 		if(passengerSpawn.shouldSpawn(currentNanoTime)) {
 			Tile tempTile = map.getRandomTile(10);
 			passengers.add(new Passenger(tempTile.x, tempTile.y, Passenger.PASSENGER));
 		}
 		
-	
-		
 		for(Passenger passenger : passengers) {
 			passenger.render(gc);
 		}
 		
-		player1.render(gc);
-		player2.render(gc);
-
+		//Powerups spawning code
+		if(powerUpSpawn.shouldSpawn(currentNanoTime)) {
+//			Tile tempTile = map.getRandomTile(9);
+//			powerUps.add(new PowerUp(tempTile.x, tempTile.y, PowerUp.SPEED_BUFF, "speed"));
+//			
+//			Tile tempTile2 = map.getRandomTile(9);
+//			powerUps.add(new PowerUp(tempTile2.x, tempTile2.y, PowerUp.OILSPILL_DEBUFF, "oilspill"));
+//			
+			Tile tempTile = map.getRandomTile(9);
+			powerUps.add(new PowerUp(tempTile.x, tempTile.y, PowerUp.POWERUP_ICON, randomType));
+		}
+		
+		for (PowerUp powerUp: powerUps) {
+			powerUp.render(gc);
+		}
+		
+		for (int i = 0; i < powerUps.size(); i++) {
+			PowerUp powerUp = powerUps.get(i);
+			if (player1.hitbox.intersects(powerUp.getHitbox())) {
+				Effect effect = createEffectFromPowerUp(powerUp);
+				applyEffect(player1, effect);
+				powerUps.remove(i);
+				i--;
+			} else if (player2.hitbox.intersects(powerUp.getHitbox())) {
+				Effect effect = createEffectFromPowerUp(powerUp);
+				applyEffect(player2, effect);
+				powerUps.remove(i);
+				i--;
+			}
+		}
+		
+//		//Obstacles Spawning Code
+//		if (obstacleSpawn.shouldSpawn(currentNanoTime)) {
+//			Tile tempTile = map.getRandomTile(9);
+//			obstacles.add(new Obstacle(tempTile.x, tempTile.y, Obstacle.OILSPILL_OBSTACLE, "oilspill_obstacle"));
+//		}
+//		
+		for (Obstacle obstacle: obstacles) {
+			obstacle.render(gc);	
+		}
+		
+		for (int i = 0; i < obstacles.size(); i++) {
+			Obstacle obstacle = obstacles.get(i);
+			if (player1.hitbox.intersects(obstacle.getHitbox())) {
+				Debuff debuff = createObstacleFromDebuff(obstacle);
+				applyDebuff(player1, debuff);
+				obstacles.remove(i);
+			} else if (player2.hitbox.intersects(obstacle.getHitbox())) {
+				Debuff debuff = createObstacleFromDebuff(obstacle);
+				applyDebuff(player2, debuff);
+				obstacles.remove(i);
+			}
+		}
 	}
-
+    private void applyEffect(Player player, Effect effect) {
+    	effect.apply(player);
+    	activeEffects.get(player).add(effect);
+    	
+    	new Thread(() -> {
+    		try {
+    			Thread.sleep(effect.getDuration());
+    			effect.remove(player);
+    			activeEffects.get(player).remove(effect);
+    		} catch (InterruptedException e){
+    			
+    		}
+    	}).start();
+    }
+    
+    private void applyDebuff(Player player, Debuff debuff) {
+    	debuff.apply(player);
+    	activeDebuffs.get(player).add(debuff);
+    	
+    	new Thread(() -> {
+    		try {
+    			Thread.sleep(debuff.getDuration());
+    			debuff.remove(player);
+    			activeDebuffs.get(player).remove(debuff);
+    		} catch (InterruptedException e){
+    			
+    		}
+    	}).start();
+    }
+    private Effect createEffectFromPowerUp(PowerUp powerUp) {
+    	switch(powerUp.getType()) {
+    		case "speed":
+    			return new Speed(5000, 2.0);
+    		case "oilbarrel":
+    			return new OilBarrel(5000, false) {
+    				public void apply(Player player) {
+    					player.setOilSpillDebuff(true);
+    				}
+    				
+    				public void remove(Player player) {
+    				}
+    			};
+    		case "oilspill_obstacle":
+    			//
+    		default:
+    			throw new IllegalArgumentException("Unknown power-up type");
+    	}
+    }
+    
+    private Debuff createObstacleFromDebuff(Obstacle obstacle) {
+    	switch(obstacle.getType()) {
+    		case "oilspill_obstacle":
+				return new OilSpill(5000, true);
+			default:
+				throw new IllegalArgumentException("Unknown obstacle type");
+    	}
+    }
 }
