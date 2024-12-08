@@ -1,8 +1,10 @@
 package scenes;
 
+import entities.Player;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.image.Image;
 import javafx.scene.text.Text;
 
 /**
@@ -30,6 +32,13 @@ public class Game {
     public Text timeElapsed;
     public Text player1Score;
     public Text player2Score;
+    
+    public SceneManager sceneManager;
+    
+
+    
+    public Image player1Icon = new Image("./../assets/sprites/jeep0.png");
+    public Image player2Icon = new Image("./../assets/sprites/jeep3.png");
 
 	/**
 	 * Constructs a Game object. Initializes the scene, root node, and canvas with
@@ -47,6 +56,9 @@ public class Game {
         this.timeElapsed = addText(750, 20, 1.5);
         this.player1Score = addText(20, 750, 1.5);
         this.player2Score = addText(750, 750, 1.5);
+        
+        this.sceneManager = sceneManager;
+              
 		
 		this.root.getChildren().addAll(this.bg, this.canvas, fpsCounter, timeElapsed, player1Score, player2Score);
 		

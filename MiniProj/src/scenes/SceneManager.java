@@ -106,7 +106,9 @@ public class SceneManager {
      */
     public void switchToWinningScene() {
         stage.setScene(winningScene.getScene());
+        bgMusic.stopMusic();
     }
+   
     
     /**
      * Switches the current scene to the winning/game over scene.

@@ -13,7 +13,7 @@ public class TimeElapsed {
 
 	private static long startTime;
 	private static int elapsedSeconds;
-	private static final int NANO = 1_000_000_000;
+	private static final long NANO = 1_000_000_000L;
 	
 	/** Start the timer */
 	public static void start() {

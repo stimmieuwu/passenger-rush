@@ -1,18 +1,17 @@
 package mechanics;
 
 import java.util.ArrayList;
-import scenes.SkinSwitching;
 import java.util.HashMap;
 
+import effects.Debuff;
 import effects.Effect;
 import effects.OilBarrel;
-import effects.Speed;
-import effects.Debuff;
 import effects.OilSpill;
+import effects.Speed;
 import entities.Obstacle;
-import entities.PowerUp;
 import entities.Passenger;
 import entities.Player;
+import entities.PowerUp;
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -22,6 +21,8 @@ import javafx.scene.input.KeyEvent;
 import map.GridMap;
 import map.Tile;
 import scenes.Game;
+import scenes.SceneManager;
+import scenes.SkinSwitching;
 
 /**
  * This class is the game loop. It extends the AnimationTimer of JavaFX and
@@ -43,6 +44,7 @@ public class GameTimer extends AnimationTimer { /** The GraphicsContext used for
     /** The map object. */
     public GridMap map; 
     private Game game;
+    private SceneManager sceneManager;
     /** Timer for spawning */
     private ArrayList<Passenger> passengers = new ArrayList<>();
     private Spawn passengerSpawn;
@@ -58,6 +60,10 @@ public class GameTimer extends AnimationTimer { /** The GraphicsContext used for
     
     int randomIndex = (int) (Math.random() * PowerUp.TYPES.length);
     String randomType = PowerUp.TYPES[randomIndex];
+    
+    public boolean isGameOver;
+    
+    public final int GAME_DURATION_SECS = 300;
    
     // scatched hashset based input due to performance issues
 //    private final HashSet<KeyCode> inputs = new HashSet<KeyCode>();
@@ -85,6 +91,9 @@ public class GameTimer extends AnimationTimer { /** The GraphicsContext used for
 		
 		activeDebuffs.put(player1, new ArrayList<>());
 		activeDebuffs.put(player2, new ArrayList<>());
+		
+		this.isGameOver = false;
+		TimeElapsed.start();
 		
 	}
 
@@ -151,6 +160,11 @@ public class GameTimer extends AnimationTimer { /** The GraphicsContext used for
      */
     @Override
 	public void handle(long currentNanoTime) {
+    	if(TimeElapsed.getElapsedSeconds() >= GAME_DURATION_SECS) {
+    		this.isGameOver = true;
+    		this.game.sceneManager.switchToWinningScene();
+    	}
+    	
 		gc.clearRect(0, 0, 800, 800);
 		player1.render(gc);
 		player2.render(gc);
@@ -167,6 +181,8 @@ public class GameTimer extends AnimationTimer { /** The GraphicsContext used for
 		this.player2.move();
 		game.fpsCounter.setText(Double.toString(FPS.getAverageFPS()));
 		game.timeElapsed.setText(Double.toString(TimeElapsed.getElapsedSeconds()));
+		
+		TimeElapsed.update();
 		
 		//Passenger spawning code
 		if(passengerSpawn.shouldSpawn(currentNanoTime)) {
