@@ -68,7 +68,7 @@ public class SceneManager {
      */
     public SceneManager(Stage stage) {
         this.stage = stage;
-        mainMenu = new MainMenu(this);
+        mainMenu = new MainMenu(this, stage);
         instructionsScene = new Instructions(this);
         gameScene = new Game(this);
         developersScene = new Developers(this);

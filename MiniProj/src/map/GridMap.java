@@ -18,7 +18,7 @@ import javafx.scene.image.Image;
  */
 public class GridMap {
 	/** Number of distinct tiles */
-	private static final int TILES = 11;
+	private static final int TILES = 12;
 	/** Number of rows */
 	public static final int ROWS = 40;
 	/** Number of columns */

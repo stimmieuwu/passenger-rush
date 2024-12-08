@@ -1,12 +1,16 @@
 package scenes;
 
+import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import mechanics.Graphics;
 
 /**
  * This class represents the main menu (splash screen) of the Passenger Rush game.
@@ -24,19 +28,21 @@ public class MainMenu {
     private Scene splashScene; 
     /** The heading text displayed on the main menu. */
     Text heading = new Text("Passenger Rush"); 
-
+    private Button instructions = new Button("Instructions");
+    private Button about = new Button("About the Developer");
+    private Button start = new Button("Start/Play");
+    private Button exit = new Button("Exit");
+    private Canvas canvas;
+    
+    
     /**
      * Constructs a MainMenu object.
      * Initializes the main menu scene with buttons for navigation and sets up their actions.
      *
      * @param sceneManager The SceneManager object used for switching between scenes.
      */
-    public MainMenu(SceneManager sceneManager) {
+    public MainMenu(SceneManager sceneManager, Stage stage) {
         // Create buttons for navigation
-        Button instructions = new Button("Instructions");
-        Button about = new Button("About the Developer");
-        Button start = new Button("Start/Play");
-
         // Instructions button action
         instructions.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -60,17 +66,85 @@ public class MainMenu {
                 sceneManager.switchToSkinSwitchingScene();
             }
         });
+        // Exit game button action
+        exit.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+    			stage.close();
+    		}
+        });
         
-
+        
         // Create the layout and add elements
-        VBox layout = new VBox(SceneManager.BUTTON_SPACING);
+        Group layout = new Group();
         splashScene = new Scene(layout, SceneManager.getWindowWidth(), SceneManager.getWindowHeight());
+        setButtonLayout();
 
-        layout.setAlignment(Pos.CENTER); 
-
-        layout.getChildren().add(heading);
-        layout.getChildren().addAll(instructions, about, start);
+        // drawing of images
+        this.canvas = new Canvas( SceneManager.getWindowWidth(), SceneManager.getWindowHeight() );
+        layout.getChildren().add(canvas);
+        
+        
+        
+        
+        // for css
+        splashScene.getStylesheets()
+		.add((getClass())
+		.getResource("application.css")
+		.toExternalForm());
+        
+        Graphics.generateMenuGraphics();
+        renderAnimation(layout);
+        assignStyleSheets();
+        layout.getChildren().addAll(start,instructions, about,exit);
+        
     }
+    
+    
+    private void assignStyleSheets() {
+    	this.instructions.getStyleClass().add("instructions");
+		this.about.getStyleClass().add("about");
+		this.start.getStyleClass().add("start");
+		this.exit.getStyleClass().add("exit");
+		
+    }
+    
+    // hard coded button layout
+    private void setButtonLayout() {
+    	
+    	this.about.setLayoutX(56);
+    	this.about.setLayoutY(322);
+		
+    	this.start.setLayoutX(280);
+    	this.start.setLayoutY(298);
+		
+     	this.instructions.setLayoutX(526);
+    	this.instructions.setLayoutY(308);
+		
+    	this.exit.setLayoutX(310);
+    	this.exit.setLayoutY(447);
+    }
+    
+    
+	protected void renderAnimation(Group layout) {
+		// inherits constant
+		GraphicsContext gc = canvas.getGraphicsContext2D();
+        final long startNanoTime = System.nanoTime();
+
+		new AnimationTimer()
+		{
+			public void handle(long currentNanoTime)
+	
+			{
+				
+		        gc.clearRect(0, 0, SceneManager.getWindowWidth(), SceneManager.getWindowHeight());
+		        int time = (int) ((currentNanoTime - startNanoTime) / 100000000);
+		        // menu animation
+		        gc.drawImage(Graphics.background, 0, 0);
+		        gc.drawImage(Graphics.menuAnimation[time%Graphics.FRAMES], 0, 0);
+			}
+		}.start();
+	}
 
     /**
      * Getter for the main menu scene

@@ -164,7 +164,6 @@ public class Player extends Sprite {
 		 * orientation of the jeepney icons; current value based on testing_car's
 		 * orientation
 		 */
-
 		if (!this.isColliding) {
 			if (key == this.up) {
 				this.setDY(-MOVE_AMOUNT);
