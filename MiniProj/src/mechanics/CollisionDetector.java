@@ -1,51 +1,25 @@
 package mechanics;
+
 import entities.Player;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.input.KeyCode;
 import map.GridMap;
 import map.Tile;
 
 public class CollisionDetector {
-	public void detectTile(Player player, KeyCode key) {
-		int playerLeftLocation = player.hitbox.x;
-		int playerRightLocation = player.hitbox.x;
-		int playerTopLocation = player.hitbox.y;
-		int playerBottomLocation = player.hitbox.y;
-		
-		
-		// gets tile index based on player position for now
-		int playerLeftColumn = playerLeftLocation / Tile.TILE_WIDTH;
-		int playerRightColumn = playerRightLocation / Tile.TILE_WIDTH;
-		int playerTopRow = playerTopLocation / Tile.TILE_HEIGHT;
-		int playerBottomRow = playerBottomLocation / Tile.TILE_HEIGHT;
-		
-		Tile detectedTile1;
-		Tile detectedTile2;
-		
-		System.out.println(playerTopRow + " " + playerRightColumn);
-//		System.out.println(GridMap.gridMap[playerLeftColumn][playerTopRow]);
-		
-		// predicts what the next tile will be hit based on the player move amount
-		if(key == player.up) {
-			playerTopRow = (int) ((playerLeftLocation - Player.MOVE_AMOUNT) / Tile.TILE_WIDTH);
-			
-			detectedTile1 = GridMap.gridMap[playerLeftColumn][playerTopRow];
-			detectedTile2 = GridMap.gridMap[playerRightColumn][playerTopRow];
-			System.out.println(detectedTile1);
-			if(detectedTile1.isWall || detectedTile2.isWall) {
-				player.isColliding = true;
-			}
-		}
-		
-		if(key == player.down) {
-			
-		}
-		
-		if(key == player.left) {
-			
-		}
-		
-		if(key == player.right) {
-			
-		}
+
+	public boolean detectTile(Player player, KeyCode key, double dx, double dy) {
+		player.isColliding = false;
+        Rectangle2D predictedHitbox = new Rectangle2D(player.hitbox.getMinX() + dx, player.hitbox.getMinY() + dy, 
+                player.hitbox.getWidth(), player.hitbox.getHeight());
+
+        // Check if the predicted hitbox intersects with any corner
+        if (GridMap.isWallAt((int) predictedHitbox.getMinX(), (int) predictedHitbox.getMinY()) || // Top-left
+        	    GridMap.isWallAt((int) predictedHitbox.getMaxX(), (int) predictedHitbox.getMinY()) || // Top-right
+        	    GridMap.isWallAt((int) predictedHitbox.getMinX(), (int) predictedHitbox.getMaxY()) || // Bottom-left
+        	    GridMap.isWallAt((int) predictedHitbox.getMaxX(), (int) predictedHitbox.getMaxY())) { // Bottom-right
+        	    return true;
+        }
+		return false;
 	}
 }

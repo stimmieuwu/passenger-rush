@@ -32,7 +32,7 @@ public class GameTimer extends AnimationTimer { /** The GraphicsContext used for
     /** The second player object. */
     private Player player2;
     /** The map object. */
-    private GridMap map; 
+    public GridMap map; 
     private Game game;
     /** Timer for spawning */
     ArrayList<Passenger> passengers = new ArrayList<>();
@@ -70,15 +70,23 @@ public class GameTimer extends AnimationTimer { /** The GraphicsContext used for
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent e) {
 				KeyCode code = e.getCode();
-//				System.out.println(code);
-				// only works half the time and not even greatly
-				player1.isColliding = false;
-				player2.isColliding = false;
-				player1.collision.detectTile(player1, code);
-				player2.collision.detectTile(player2, code);
-
-				player1.setPlayerMovement(code);
-				player2.setPlayerMovement(code);
+				if(code == player1.up || code == player1.down || code == player1.left || code == player1.right) {
+					System.out.print(player1.isColliding);
+					player1.simulateMove(code);
+					double dx = player1.getPredictDX();
+					double dy = player1.getPredictDY();
+	                player1.isColliding = player1.collision.detectTile(player1, code, dx, dy);
+	                player1.setPlayerMovement(code);
+				}
+				
+				if(code == player2.up || code == player2.down || code == player2.left || code == player2.right) {
+					System.out.print(player2.isColliding);
+					player2.simulateMove(code);
+					double dx = player2.getPredictDX();
+					double dy = player2.getPredictDY();
+	                player2.isColliding = player2.collision.detectTile(player2, code, dx, dy);
+	                player2.setPlayerMovement(code);
+				}
 
 			}
 		});
@@ -104,10 +112,14 @@ public class GameTimer extends AnimationTimer { /** The GraphicsContext used for
 		gc.clearRect(0, 0, 800, 800);
 		player1.render(gc);
 		player2.render(gc);
-		player1.generateHitBox();
-		player2.generateHitBox();
-		player1.generateCollisionBox();
-		player2.generateCollisionBox();
+		player1.hitbox = player1.generateHitBox();
+		player2.hitbox = player2.generateHitBox();
+		player1.collisionBox = player1.generateCollisionBox();
+		player2.collisionBox = player2.generateCollisionBox();
+		player1.renderBox(gc, player1.collisionBox);
+		player1.renderBox(gc, player1.hitbox);
+		player1.renderBox(gc, player2.collisionBox);
+		player1.renderBox(gc, player2.hitbox);
 		
 		this.player1.move();
 		this.player2.move();

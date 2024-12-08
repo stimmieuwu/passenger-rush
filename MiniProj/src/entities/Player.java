@@ -1,11 +1,16 @@
 package entities;
 
 import java.awt.Rectangle;
+
+import javafx.event.EventHandler;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import mechanics.CollisionDetector;
+import mechanics.GameTimer;
 
 /**
  * This class represents a player (jeepney) in the game. It handles the player's
@@ -23,6 +28,10 @@ public class Player extends Sprite {
 	private double dx;
 	/** The change in y-coordinate (vertical movement). */
 	private double dy;
+	/** The change in x-coordinate (horizontal movement). */
+	private double predictDX;
+	/** The change in y-coordinate (vertical movement). */
+	private double predictDY;
 	/** The speed multiplier of the player's movement. */
 	private double speedMultiplier;
 	/** The amount of pixels that a jeepney moves per game tick */
@@ -48,11 +57,12 @@ public class Player extends Sprite {
 	/** The key objects in order to listen for the player controls. */
 	public KeyCode up, down, left, right;
 	/** Hitbox for picking up passengers and effects */
-	public Rectangle hitbox;
+	public Rectangle2D hitbox;
 	/** Hitbox for colliding with walls */
-	public Rectangle collisionBox;
+	public Rectangle2D collisionBox;
 	/** Mechanism for detecting colission with walls */
 	public CollisionDetector collision;
+	public boolean isColliding;
 
 	// Buffs
 	/** Indicates whether the player has the speed buff */
@@ -93,26 +103,21 @@ public class Player extends Sprite {
 
 		// Colission-related
 		this.collision = new CollisionDetector();
-		this.collisionBox = new Rectangle();
-		this.hitbox = new Rectangle();
+		this.collisionBox = new Rectangle2D(this.getXPos() + 30, this.getYPos() + 20, playerImage.getWidth() - 60,
+				playerImage.getHeight() - 25);
+		this.hitbox = new Rectangle2D(this.getXPos() + 30, this.getYPos() + 30, playerImage.getWidth() - 30,
+				playerImage.getHeight() - 30);
 
 	}
 
-	// TODO improve upon hitbox generation
-	/** Create a hitbox for powerup and passenger collection */
-	public void generateHitBox() {
-		this.hitbox.x = (int) this.getXPos() + 30;
-		this.hitbox.y = (int) this.getYPos() + 20;
-		this.hitbox.width = (int) (playerImage.getWidth() - 60);
-		this.hitbox.height = (int) (playerImage.getHeight() - 25);
+	public Rectangle2D generateHitBox() {
+	    return new Rectangle2D(this.getXPos() + 30, this.getYPos() + 30, 
+	                            playerImage.getWidth() - 30, playerImage.getHeight() - 30);
 	}
 
-	/** Create a hitbox to detect colission with the map boundaries */
-	public void generateCollisionBox() {
-		this.collisionBox.x = (int) this.getXPos();
-		this.collisionBox.y = (int) this.getYPos();
-		this.collisionBox.width = (int) (playerImage.getWidth());
-		this.collisionBox.height = (int) (playerImage.getHeight());
+	public Rectangle2D generateCollisionBox() {
+	    return new Rectangle2D(this.getXPos() + 30, this.getYPos() + 20, 
+	                            playerImage.getWidth() - 60, playerImage.getHeight() - 25);
 	}
 
 	/**
@@ -140,11 +145,11 @@ public class Player extends Sprite {
 	 * @param gc  The GraphicsContext used for drawing.
 	 * @param box The hitbox to visualize
 	 */
-	private void renderBox(GraphicsContext gc, Rectangle box) {
+	public void renderBox(GraphicsContext gc, Rectangle2D box) {
 		gc.setFill(Color.TRANSPARENT);
 		gc.setStroke(Color.AQUA);
 		gc.setLineWidth(2);
-		gc.strokeRect(box.x, box.y, box.width, box.height);
+		gc.strokeRect(box.getMinX(), box.getMinY(), box.getWidth(), box.getHeight());
 	}
 
 	/**
@@ -160,7 +165,7 @@ public class Player extends Sprite {
 		 * orientation
 		 */
 
-		if (!isColliding) {
+		if (!this.isColliding) {
 			if (key == this.up) {
 				this.setDY(-MOVE_AMOUNT);
 			} else if (key == this.down) {
@@ -171,8 +176,44 @@ public class Player extends Sprite {
 			} else if (key == this.left) {
 				this.setDX(-MOVE_AMOUNT);
 				this.isLeft = true;
-
 			}
+	    } else { // If colliding, stop movement in that direction
+	        if (key == this.up) {
+	        	this.setDY(0); 
+	        } else if (key == this.down) {
+	            this.setDY(0); 
+	        } else if (key == this.left) {
+	        	this.setDX(0);
+	        } else if(key == this.right) {
+	            this.setDX(0);
+	        }
+	    }
+	}
+
+	/**
+	 * Sets the dx or dy based on the given KeyCode. This method is used to initiate
+	 * movement in a specific direction.
+	 * 
+	 * @param key The KeyCode representing the direction of movement.
+	 */
+	public void simulateMove(KeyCode key) {
+		/**
+		 * value of setRotationAngle is not yet final, will change depending on the
+		 * orientation of the jeepney icons; current value based on testing_car's
+		 * orientation
+		 */
+
+		if (key == this.up) {
+			this.setDY(-MOVE_AMOUNT);
+		} else if (key == this.down) {
+			this.setDY(MOVE_AMOUNT);
+		} else if (key == this.right) {
+			this.setDX(MOVE_AMOUNT);
+			this.isLeft = false;
+		} else if (key == this.left) {
+			this.setDX(-MOVE_AMOUNT);
+			this.isLeft = true;
+
 		}
 	}
 
@@ -282,6 +323,42 @@ public class Player extends Sprite {
 	public void setDY(double dy) {
 		this.dy = dy;
 	}
+	
+	/**
+	 * Sets the player's vertical movement (change in y).
+	 * 
+	 * @param dy The new vertical movement.
+	 */
+	public void setPredictDY(double dy) {
+		this.predictDY = dy;
+	}
+	
+	/**
+	 * Sets the player's horizontal movement (change in x).
+	 * 
+	 * @param dx The new horizontal movement.
+	 */
+	public void setPredictDX(double dx) {
+		this.predictDX = dx;
+	}
+	
+	/**
+	 * Sets the player's vertical movement (change in y).
+	 * 
+	 * @param dy The new vertical movement.
+	 */
+	public double getPredictDY() {
+		return this.predictDY;
+	}
+	
+	/**
+	 * Sets the player's horizontal movement (change in x).
+	 * 
+	 * @param dx The new horizontal movement.
+	 */
+	public double getPredictDX() {
+		return this.predictDX;
+	}
 
 	/**
 	 * Move the player based on the current dx and dy values.
@@ -289,6 +366,16 @@ public class Player extends Sprite {
 	public void move() {
 		this.setXPos(this.getXPos() + dx);
 		this.setYPos(this.getYPos() + dy);
+	}
+
+	public void setOnKeyPressed(EventHandler<KeyEvent> eventHandler) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void setOnKeyReleased(EventHandler<KeyEvent> eventHandler) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

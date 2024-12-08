@@ -20,11 +20,9 @@ public class GridMap {
 	/** Number of distinct tiles */
 	private static final int TILES = 11;
 	/** Number of rows */
-	private static final int ROWS = 40;
+	public static final int ROWS = 40;
 	/** Number of columns */
-	private static final int COLUMNS = 40;
-	/** The GraphicsContext used for drawing on the Canvas object */
-	private GraphicsContext gc;
+	public static final int COLUMNS = 40;
 	/** Array to store the different tile textures */
 	public static Image tiles[] = new Image[TILES];
 	/** 2D array representing the map grid. */
@@ -36,17 +34,16 @@ public class GridMap {
 	 * @param gc The GraphicsContext to use for drawing.
 	 */
 	public GridMap(GraphicsContext gc) {
-		this.gc = gc;
 		GridMap.gridMap = new Tile[ROWS][COLUMNS];
-		this.loadTileAssets(); // Load the tile images
-		this.loadMap("./assets/maps/map.txt");
+		loadTileAssets(); // Load the tile images
+		loadMap("./assets/maps/map.txt");
 	}
 
 	/**
 	 * Loads the tile assets in an array. The index of the image will be matched to
 	 * determine what image to render in the map.
 	 */
-	private void loadTileAssets() {
+	private static void loadTileAssets() {
 		for (int i = 0; i < TILES; i++) {
 			tiles[i]= new Image("./../assets/tiles/tile" + i + ".png");
 		}
@@ -58,7 +55,7 @@ public class GridMap {
 	 *
 	 * @param mapDir The path to the map file.
 	 */
-	private void loadMap(String mapDir) {
+	private static void loadMap(String mapDir) {
 		try {
 			FileReader get = new FileReader(mapDir);
 			BufferedReader br = new BufferedReader(get);
@@ -73,12 +70,20 @@ public class GridMap {
 					gridMap[row][col].number = tileData;
 					gridMap[row][col].x = col * 20;
 					gridMap[row][col].y = row * 20;
+					if(tileData < 9) gridMap[row][col].isWall = true;
 				}
 			}
 			br.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static boolean isWallAt(int x, int y) {
+		int column = Math.floorDiv(x, Tile.TILE_WIDTH);
+		int row = Math.floorDiv(y, Tile.TILE_HEIGHT);
+
+		return gridMap[row][column].isWall;
 	}
 
 	/**
@@ -88,7 +93,7 @@ public class GridMap {
 	 * @param tileNumber The number of the tile to select from
 	 * @return The random tile, if found
 	 */
-	public Tile getRandomTile(int tileNumber) {
+	public static Tile getRandomTile(int tileNumber) {
 		ArrayList<Tile> matchingTiles = new ArrayList<Tile>();
 		Random random = new Random();
 
