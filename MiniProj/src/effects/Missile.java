@@ -1,7 +1,8 @@
 package effects;
 
 /**
- * 
+ * This directly hits the opponent, resulting in the loss of at least one
+ * passenger for the affected jeepeny.
  * 
  * @author Simonee Ezekiel M. Mariquit
  * @author Jan Zuriel Camba

@@ -1,8 +1,8 @@
 package mechanics;
 
 /**
- * This class maintains an FPS variable for the game.
- * We followed the instructions in the StackOverflow link below.
+ * This class maintains an FPS variable for the game. We followed the
+ * instructions in the StackOverflow link below.
  * 
  * @author Simonee Ezekiel M. Mariquit
  * @author Jan Zuriel Camba
@@ -19,7 +19,7 @@ public class FPS {
 	/** Stores the last 100 frames */
 	private static double[] frameRates = new double[100];
 
-	/** Initialize the frameRates arra with an initial 60FPS*/
+	/** Initialize the frameRates arra with an initial 60FPS */
 	static {
 		for (int i = 0; i < frameRates.length; i++) {
 			frameRates[i] = 60.0;
@@ -38,7 +38,7 @@ public class FPS {
 		lastFrameTime = now;
 	}
 
-	/** Getter for the average FPS in the last 100 frames.*/
+	/** Getter for the average FPS in the last 100 frames. */
 	public static double getAverageFPS() {
 		int total = 0;
 

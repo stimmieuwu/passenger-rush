@@ -1,6 +1,5 @@
 package scenes;
 
-import entities.Player;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -24,21 +23,19 @@ public class Game {
 	protected Group root;
 	/** The Canvas object where game elements are drawn. */
 	protected Canvas canvas;
-	/** The Canvas object for the non-game assets*/
+	/** The Canvas object for the non-game assets */
 	protected Canvas bg;
-	
-	// Text displays in the game scene
-    public Text fpsCounter;
-    public Text timeElapsed;
-    public Text player1Score;
-    public Text player2Score;
-    
-    public SceneManager sceneManager;
-    
 
-    
-    public Image player1Icon = new Image("./../assets/sprites/jeep0.png");
-    public Image player2Icon = new Image("./../assets/sprites/jeep3.png");
+	// Text displays in the game scene
+	public Text fpsCounter;
+	public Text timeElapsed;
+	public Text player1Score;
+	public Text player2Score;
+
+	public SceneManager sceneManager;
+
+	public Image player1Icon = new Image("./../assets/sprites/jeep0.png");
+	public Image player2Icon = new Image("./../assets/sprites/jeep3.png");
 
 	/**
 	 * Constructs a Game object. Initializes the scene, root node, and canvas with
@@ -51,36 +48,34 @@ public class Game {
 		this.gameScene = new Scene(root);
 		this.canvas = new Canvas(SceneManager.getWindowWidth(), SceneManager.getWindowHeight());
 		this.bg = new Canvas(SceneManager.getWindowWidth(), SceneManager.getWindowHeight());
-		
-        this.fpsCounter = addText(20, 20, 1.5);
-        this.timeElapsed = addText(750, 20, 1.5);
-        this.player1Score = addText(20, 750, 1.5);
-        this.player2Score = addText(750, 750, 1.5);
-        
-        this.sceneManager = sceneManager;
-              
-		
+
+		this.fpsCounter = addText(20, 20, 1.5);
+		this.timeElapsed = addText(750, 20, 1.5);
+		this.player1Score = addText(20, 750, 1.5);
+		this.player2Score = addText(750, 750, 1.5);
+
+		this.sceneManager = sceneManager;
+
 		this.root.getChildren().addAll(this.bg, this.canvas, fpsCounter, timeElapsed, player1Score, player2Score);
-		
-		
+
 	}
-	
-    /**
-     * Utility function to add text to the scene.
-     * 
-     * @param x The x-coordinate or horizontal position of the text.
-     * @param y The y-coordinate or vertical position of the text.
-     * @param scale The scale of the text.
-     * @return The created Text object.
-     */
-    private Text addText(double x, double y, double scale) {
-        Text text = new Text();
-        text.setX(x);
-        text.setY(y);
-        text.setScaleX(scale);
-        text.setScaleY(scale);
-        return text;
-    }
+
+	/**
+	 * Utility function to add text to the scene.
+	 * 
+	 * @param x     The x-coordinate or horizontal position of the text.
+	 * @param y     The y-coordinate or vertical position of the text.
+	 * @param scale The scale of the text.
+	 * @return The created Text object.
+	 */
+	private Text addText(double x, double y, double scale) {
+		Text text = new Text();
+		text.setX(x);
+		text.setY(y);
+		text.setScaleX(scale);
+		text.setScaleY(scale);
+		return text;
+	}
 
 	/**
 	 * Getter for the game scene

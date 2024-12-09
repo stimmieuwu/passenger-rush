@@ -1,6 +1,5 @@
 package scenes;
 
-import javafx.scene.image.Image;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -8,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.text.Text;
 import mechanics.Graphics;
 
@@ -41,7 +41,7 @@ public class SkinSwitching {
 	private int player2Selection = 0;
 	public static Image selectedImageP1 = Graphics.SKIN_1;
 	public static Image selectedImageP2 = Graphics.SKIN_1;
-	
+
 	boolean[] skinsSelected = new boolean[3];
 
 	/**
@@ -183,17 +183,17 @@ public class SkinSwitching {
 
 	private void showSelections(GraphicsContext draw, boolean isPlayer1, int selection) {
 		draw.clearRect(0, 0, SceneManager.getWindowWidth(), SceneManager.getWindowHeight());
-		
-	    int finalSelection = selection;
 
-	    if (skinsSelected[selection]) {
-	        for (int i = 0; i < skinsSelected.length; i++) {
-	            selection = (selection + i) % skinsSelected.length; 
-	            if (!skinsSelected[finalSelection]) {
-	                break; 
-	            }
-	        }
-	    }
+		int finalSelection = selection;
+
+		if (skinsSelected[selection]) {
+			for (int i = 0; i < skinsSelected.length; i++) {
+				selection = (selection + i) % skinsSelected.length;
+				if (!skinsSelected[finalSelection]) {
+					break;
+				}
+			}
+		}
 
 		switch (selection) {
 		// case where player selects first skin (white jeep)
@@ -225,9 +225,9 @@ public class SkinSwitching {
 				selectedImageP2 = Graphics.SKIN_4;
 			break;
 		}
-		
-	    skinsSelected[finalSelection] = true;
-		
+
+		skinsSelected[finalSelection] = true;
+
 		if (isPlayer1)
 			draw.drawImage(selectedImageP1, 345, 227, 104, 66);
 		else

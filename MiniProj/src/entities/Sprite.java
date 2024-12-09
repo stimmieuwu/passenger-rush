@@ -20,7 +20,9 @@ public class Sprite {
 	private double xPos;
 	/** The y-coordinate of the sprite's position. */
 	private double yPos;
-	/** An indicator whether the sprite is currently colliding with another object. */
+	/**
+	 * An indicator whether the sprite is currently colliding with another object.
+	 */
 	public boolean isColliding;
 
 	/**

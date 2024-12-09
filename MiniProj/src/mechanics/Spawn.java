@@ -18,9 +18,9 @@ public class Spawn {
 	private Random random = new Random();
 	private long lastSpawnTime = 0;
 	private int nextSpawnDelay;
-	
+
 	public Spawn() {
-		 nextSpawnDelay = random.nextInt(1) + 1;
+		nextSpawnDelay = random.nextInt(1) + 1;
 	}
 
 	public boolean shouldSpawn(long now) {

@@ -8,6 +8,6 @@ package effects;
  * @author Norman Marfa III
  * @created_date 2024-12-09
  */
-public class Truck {
+public class CrackInTheRoad {
 
 }

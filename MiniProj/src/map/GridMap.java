@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Random;
+
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -45,7 +46,7 @@ public class GridMap {
 	 */
 	private static void loadTileAssets() {
 		for (int i = 0; i < TILES; i++) {
-			tiles[i]= new Image("./../assets/tiles/tile" + i + ".png");
+			tiles[i] = new Image("./../assets/tiles/tile" + i + ".png");
 		}
 	}
 
@@ -70,7 +71,8 @@ public class GridMap {
 					gridMap[row][col].number = tileData;
 					gridMap[row][col].x = col * 20;
 					gridMap[row][col].y = row * 20;
-					if(tileData < 9) gridMap[row][col].isWall = true;
+					if (tileData < 9)
+						gridMap[row][col].isWall = true;
 				}
 			}
 			br.close();
@@ -78,7 +80,14 @@ public class GridMap {
 			e.printStackTrace();
 		}
 	}
-	
+
+	/**
+	 * Checks if there is a wall at the specified x and y coordinates.
+	 *
+	 * @param x The x-coordinate to check.
+	 * @param y The y-coordinate to check.
+	 * @return true if there is a wall at the coordinates, false otherwise.
+	 */
 	public static boolean isWallAt(int x, int y) {
 		int column = Math.floorDiv(x, Tile.TILE_WIDTH);
 		int row = Math.floorDiv(y, Tile.TILE_HEIGHT);
@@ -87,11 +96,26 @@ public class GridMap {
 	}
 
 	/**
-	 * Get a random tile within the set of all tiles of a specified number.
-	 * This is used for spawning purposes.
+	 * Checks if there is a wall at the specified x and y coordinates.
+	 *
+	 * @param x The x-coordinate to check.
+	 * @param y The y-coordinate to check.
+	 * @return true if there is a Junction Unloading Area at the coordinates, false
+	 *         otherwise.
+	 */
+	public static boolean isJunctionAt(int x, int y) {
+		int column = Math.floorDiv(x, Tile.TILE_WIDTH);
+		int row = Math.floorDiv(y, Tile.TILE_HEIGHT);
+
+		return gridMap[row][column].isWall;
+	}
+
+	/**
+	 * Get a random tile within the set of all tiles of a specified number. This is
+	 * used for spawning purposes.
 	 * 
 	 * @param tileNumber The number of the tile to select from
-	 * @return The random tile, if found
+	 * @return The random tile, if found, otherwise null
 	 */
 	public static Tile getRandomTile(int tileNumber) {
 		ArrayList<Tile> matchingTiles = new ArrayList<Tile>();
