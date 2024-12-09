@@ -1,7 +1,7 @@
 package mechanics;
 
 /**
- * 
+ * Scoring mechanism for the Passenger Rush game
  * 
  * @author Simonee Ezekiel M. Mariquit
  * @author Jan Zuriel Camba

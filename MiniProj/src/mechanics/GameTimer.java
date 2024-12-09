@@ -34,6 +34,7 @@ import scenes.SkinSwitching;
  * @created_date 2024-12-09
  */
 public class GameTimer extends AnimationTimer {
+	// Fundamental game objects
 	/** The GraphicsContext used for drawing on the Canvas. */
 	private GraphicsContext gc;
 	/** The current Scene of the game. */
@@ -44,59 +45,87 @@ public class GameTimer extends AnimationTimer {
 	private Player player2;
 	/** The map object. */
 	public GridMap map;
+	/** The Game scene object */
 	private Game game;
+	/** The SceneManager for switching scenes */
 	private SceneManager sceneManager;
-	/** Timer for spawning */
+	
+	// Objects in the map
+	/** List of passengers in the game */
 	private ArrayList<Passenger> passengers = new ArrayList<>();
+	/** Spawn timer for passengers */
 	private Spawn passengerSpawn;
 
+	/** List of power-ups in the game*/
 	private ArrayList<PowerUp> powerUps = new ArrayList<>();
+	/** Spawn timer for power-ups */
 	private Spawn powerUpSpawn;
 
+	/** List of obstacles in the game */
 	private ArrayList<Obstacle> obstacles = new ArrayList<>();
+	/** Spawn timer for obstacles */
 	private Spawn obstacleSpawn;
+	
 	// ArrayList<Effect> effects = new ArrayList<>();
+	/** Map each player to their list of active effects */
 	private HashMap<Player, ArrayList<Effect>> activeEffects = new HashMap<>();
+	/** Map each player to their list of active debuffs */
 	private HashMap<Player, ArrayList<Debuff>> activeDebuffs = new HashMap<>();
 
+	/** Random number for determining what powerup a mystery powerup will become */
 	int randomIndex = (int) (Math.random() * PowerUp.TYPES.length);
+	/** The random powerup that was selected*/
 	String randomType = PowerUp.TYPES[randomIndex];
 
+	/** Indicates whether or not the game is over */
 	public boolean isGameOver;
 
+	/** Duration of the game in seconds */
 	public final int GAME_DURATION_SECS = 300;
 
-	// scatched hashset based input due to performance issues
-//    private final HashSet<KeyCode> inputs = new HashSet<KeyCode>();
+//		scatched hashset based input due to performance issues
+//		private final HashSet<KeyCode> inputs = new HashSet<KeyCode>();
 
+    /**
+     * Constructs a GameTimer object. Initializes the game elements, sets up
+     * the map, players, spawn timers, and key event handling
+     *
+     * @param gc  The GraphicsContext for drawing on the game canvas.
+     * @param bg  The GraphicsContext for drawing on the background canvas.
+     * @param game The Game scene object.
+     */
 	public GameTimer(GraphicsContext gc, GraphicsContext bg, Game game) {
+		// Initialize the game elements
 		this.gc = gc;
 		this.scene = game.getScene();
 		this.game = game;
-
 		this.map = new GridMap(bg);
 
+		// Initialize the two players and their mechanics
 		player1 = new Player(300, 20, SkinSwitching.selectedImageP1, KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D);
 		player2 = new Player(400, 20, SkinSwitching.selectedImageP2, KeyCode.UP, KeyCode.DOWN, KeyCode.LEFT,
 				KeyCode.RIGHT);
-
 		keyDetection();
+		
+		// Initializes the level
 		bg.drawImage(Graphics.background, 0, 0);
-		map.drawMap(bg);
 		bg.drawImage(Graphics.routes, 0, 0);
+		map.drawMap(bg);
+		
+		// Initializes the different spawning timers
 		passengerSpawn = new Spawn();
 		powerUpSpawn = new Spawn();
 		obstacleSpawn = new Spawn();
 
+		// Initialize the player's effects
 		activeEffects.put(player1, new ArrayList<>());
 		activeEffects.put(player2, new ArrayList<>());
-
 		activeDebuffs.put(player1, new ArrayList<>());
 		activeDebuffs.put(player2, new ArrayList<>());
 
-		this.isGameOver = false;
+		// Starts the timer
 		TimeElapsed.start();
-
+		this.isGameOver = false;
 	}
 
 	// TODO fix the bug when player hits both up and down button
@@ -109,6 +138,8 @@ public class GameTimer extends AnimationTimer {
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent e) {
 				KeyCode code = e.getCode();
+				
+				// Player 1 movement
 				if (code == player1.up || code == player1.down || code == player1.left || code == player1.right) {
 					System.out.print(player1.isColliding);
 					player1.simulateMove(code);
@@ -118,6 +149,7 @@ public class GameTimer extends AnimationTimer {
 					player1.setPlayerMovement(code);
 				}
 
+				// Player 2 movement
 				if (code == player2.up || code == player2.down || code == player2.left || code == player2.right) {
 					System.out.print(player2.isColliding);
 					player2.simulateMove(code);
@@ -127,6 +159,7 @@ public class GameTimer extends AnimationTimer {
 					player2.setPlayerMovement(code);
 				}
 
+				// Player 1: Place oil spill
 				if (code == KeyCode.F) {
 					Obstacle newOilSpill = player1.placeOilSpill();
 					if (newOilSpill != null) {
@@ -134,6 +167,7 @@ public class GameTimer extends AnimationTimer {
 					}
 				}
 
+				// Player 2: Place oil spill
 				if (code == KeyCode.L) {
 					Obstacle newOilSpill = player2.placeOilSpill();
 					if (newOilSpill != null) {
@@ -161,31 +195,38 @@ public class GameTimer extends AnimationTimer {
 	 */
 	@Override
 	public void handle(long currentNanoTime) {
+		// Check first if the game is over.
 		if (TimeElapsed.getElapsedSeconds() >= GAME_DURATION_SECS) {
 			this.isGameOver = true;
 			this.game.sceneManager.switchToWinningScene();
 		}
 
-		gc.clearRect(0, 0, 800, 800);
+		gc.clearRect(0, 0, 800, 800); // Clear the canvas
+		
+		// Render players and update their hitboxes
 		player1.render(gc);
 		player2.render(gc);
 		player1.hitbox = player1.generateHitBox();
 		player2.hitbox = player2.generateHitBox();
 		player1.collisionBox = player1.generateCollisionBox();
 		player2.collisionBox = player2.generateCollisionBox();
+		
+		// For debugging, render the hitboxes
 		player1.renderBox(gc, player1.collisionBox);
 		player1.renderBox(gc, player1.hitbox);
 		player1.renderBox(gc, player2.collisionBox);
 		player1.renderBox(gc, player2.hitbox);
 
+		// Update player positions
 		this.player1.move();
 		this.player2.move();
+		
+		// Update FPS counter and timer
 		game.fpsCounter.setText(Double.toString(FPS.getAverageFPS()));
 		game.timeElapsed.setText(Double.toString(TimeElapsed.getElapsedSeconds()));
-
 		TimeElapsed.update();
 
-		// Passenger spawning code
+		// Passenger spawning
 		if (passengerSpawn.shouldSpawn(currentNanoTime)) {
 			Tile tempTile = map.getRandomTile(10);
 			passengers.add(new Passenger(tempTile.x, tempTile.y, Passenger.PASSENGER));
@@ -195,7 +236,7 @@ public class GameTimer extends AnimationTimer {
 			passenger.render(gc);
 		}
 
-		// Powerups spawning code
+		// Power-up spawning
 		if (powerUpSpawn.shouldSpawn(currentNanoTime)) {
 //			Tile tempTile = map.getRandomTile(9);
 //			powerUps.add(new PowerUp(tempTile.x, tempTile.y, PowerUp.SPEED_BUFF, "speed"));
@@ -211,6 +252,7 @@ public class GameTimer extends AnimationTimer {
 			powerUp.render(gc);
 		}
 
+		// Collision for powerups
 		for (int i = 0; i < powerUps.size(); i++) {
 			PowerUp powerUp = powerUps.get(i);
 			if (player1.hitbox.intersects(powerUp.getHitbox())) {
@@ -236,6 +278,7 @@ public class GameTimer extends AnimationTimer {
 			obstacle.render(gc);
 		}
 
+		// Collision for obstacles
 		for (int i = 0; i < obstacles.size(); i++) {
 			Obstacle obstacle = obstacles.get(i);
 			if (player1.hitbox.intersects(obstacle.getHitbox())) {
@@ -250,6 +293,12 @@ public class GameTimer extends AnimationTimer {
 		}
 	}
 
+    /**
+     * Applies an effect to the player for a specific duration.
+     *
+     * @param player The player to apply the effect to.
+     * @param effect The effect to apply.
+     */
 	private void applyEffect(Player player, Effect effect) {
 		effect.apply(player);
 		activeEffects.get(player).add(effect);
@@ -265,6 +314,12 @@ public class GameTimer extends AnimationTimer {
 		}).start();
 	}
 
+    /**
+     * Applies a debuff to the player for a specific duration.
+     *
+     * @param player The player to apply the debuff to.
+     * @param debuff The debuff to apply.
+     */
 	private void applyDebuff(Player player, Debuff debuff) {
 		debuff.apply(player);
 		activeDebuffs.get(player).add(debuff);
@@ -280,6 +335,12 @@ public class GameTimer extends AnimationTimer {
 		}).start();
 	}
 
+    /**
+     * Creates an Effect object based on the type of PowerUp.
+     *
+     * @param powerUp The PowerUp object.
+     * @return The Effect corresponding to the power-up type.
+     */
 	private Effect createEffectFromPowerUp(PowerUp powerUp) {
 		switch (powerUp.getType()) {
 		case "speed":
@@ -299,7 +360,13 @@ public class GameTimer extends AnimationTimer {
 			throw new IllegalArgumentException("Unknown power-up type");
 		}
 	}
-
+	
+    /**
+     * Creates a Debuff object based on the type of Obstacle.
+     *
+     * @param obstacle The Obstacle object.
+     * @return The Debuff corresponding to the obstacle type.
+     */
 	private Debuff createObstacleFromDebuff(Obstacle obstacle) {
 		switch (obstacle.getType()) {
 		case "oilspill_obstacle":

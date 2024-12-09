@@ -11,8 +11,11 @@ package mechanics;
  */
 public class TimeElapsed {
 
+	/** The time in nanoseconds when the timer started */
 	private static long startTime;
+	/** The elapsed time in seconds */
 	private static int elapsedSeconds;
+	/** The amount of nanoseconds in one second for conversion */
 	private static final long NANO = 1_000_000_000L;
 
 	/** Start the timer */
