@@ -447,7 +447,9 @@ public class Player extends Sprite {
 	public Obstacle placeOilSpill() {
 		if (hasOilSpillDebuff) {
 			hasOilSpillDebuff = false;
-			return new Obstacle((int) this.getXPos(), (int) this.getYPos(), Obstacle.OILSPILL_OBSTACLE,
+			if(isLeft) return new Obstacle((int) this.getXPos() - 90, (int) this.getYPos() + 20, Obstacle.OILSPILL_OBSTACLE,
+					"oilspill_obstacle");
+			if(!isLeft) return new Obstacle((int) this.getXPos() + 90, (int) this.getYPos() + 20, Obstacle.OILSPILL_OBSTACLE,
 					"oilspill_obstacle");
 		}
 		return null;
