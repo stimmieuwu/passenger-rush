@@ -4,6 +4,7 @@ import entities.Player;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.input.KeyCode;
 import map.GridMap;
+import map.Tile;
 
 /**
  * The `CollisionDetector` class provides methods for detecting collisions
@@ -26,19 +27,35 @@ public class CollisionDetector {
 	 * @param dy     The change in y-coordinate (vertical movement).
 	 * @return true if a collision is detected, false otherwise.
 	 */
-	public boolean detectTile(Player player, KeyCode key, double dx, double dy) {
-		player.isColliding = false;
-		Rectangle2D predictedHitbox = new Rectangle2D(player.collisionBox.getMinX() + dx,
-				player.collisionBox.getMinY() + dy, player.collisionBox.getWidth(), player.collisionBox.getHeight());
+	public double[] detectTile(Player player, KeyCode key, double dx, double dy) {
+
+		double newX = player.collisionBox.getMinX() + dx;
+		double newY = player.collisionBox.getMinY() + dy;
+
+		Rectangle2D predictedHitbox = new Rectangle2D(newX, newY, player.collisionBox.getWidth(),
+				player.collisionBox.getHeight());
 
 		// Check if the predicted hitbox intersects with any corner
-		if (GridMap.isWallAt((int) predictedHitbox.getMinX(), (int) predictedHitbox.getMinY()) || // Top-left
-				GridMap.isWallAt((int) predictedHitbox.getMaxX(), (int) predictedHitbox.getMinY()) || // Top-right
-				GridMap.isWallAt((int) predictedHitbox.getMinX(), (int) predictedHitbox.getMaxY()) || // Bottom-left
-				GridMap.isWallAt((int) predictedHitbox.getMaxX(), (int) predictedHitbox.getMaxY())) { // Bottom-right
-			return true; // Collision detected
-		}
-		return false; // No collision
+		for (Rectangle2D wall : GridMap.walls) {
+	        if (predictedHitbox.intersects(wall)) {
+
+	            double overlapX = 0;
+	            double overlapY = 0;
+
+	            if (key == player.up) {
+	                overlapY = predictedHitbox.getMinY() - wall.getMaxY();  // Correct
+	            } else if (key == player.down) {
+	                overlapY = predictedHitbox.getMaxY() - wall.getMinY();  // Corrected
+	            } else if (key == player.left) {
+	                overlapX = predictedHitbox.getMinX() - wall.getMaxX();  // Correct
+	            } else if (key == player.right) {
+	                overlapX = predictedHitbox.getMaxX() - wall.getMaxX();  // Correct
+	            }
+
+	            return new double[] { overlapX, overlapY }; // Return the overlap values
+	        }
+	    }
+		return null; // No collision
 	}
 
 }

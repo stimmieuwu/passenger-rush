@@ -44,8 +44,5 @@ public class Tile {
      */
 	public void draw(GraphicsContext gc) {
 		gc.drawImage(img, x, y);
-		if (isWall) {
-			gc.strokeRect(x, y, TILE_HEIGHT, TILE_WIDTH);
-		}
 	}
 }

@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -28,6 +29,8 @@ public class GridMap {
 	public static Image tiles[] = new Image[TILES];
 	/** 2D array representing the map grid. */
 	public static Tile gridMap[][];
+
+    public static ArrayList<Rectangle2D> walls = new ArrayList<>();
 
 	/**
 	 * Construct a GridMap object, which loads the map array and the map data.
@@ -73,6 +76,10 @@ public class GridMap {
 					gridMap[row][col].y = row * 20;
 					if (tileData < 9)
 						gridMap[row][col].isWall = true;
+					
+					if (tileData < 9) {
+                        walls.add(new Rectangle2D(col * 20, row * 20, Tile.TILE_WIDTH, Tile.TILE_HEIGHT)); 
+                    }
 				}
 			}
 			br.close();

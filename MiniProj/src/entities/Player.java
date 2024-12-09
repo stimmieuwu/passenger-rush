@@ -24,7 +24,7 @@ import mechanics.CollisionDetector;
 	public class Player extends Sprite {
 
 		/** The name of the jeepney */
-		private String name;
+		public String name;
 		
 		// Variables for movement
 		/** The change in x-coordinate (horizontal movement). */
@@ -38,7 +38,7 @@ import mechanics.CollisionDetector;
 		/** The speed multiplier of the player's movement. */
 		private double speedMultiplier;
 		/** The amount of pixels that a jeepney moves per game tick */
-		public static final double MOVE_AMOUNT = 0.70;
+		public static final double MOVE_AMOUNT = 0.40;
 		
 		// Objects related to images
 		/** The image representing the player. */
@@ -65,8 +65,11 @@ import mechanics.CollisionDetector;
 		public Rectangle2D collisionBox;
 		/** Mechanism for detecting colission with walls */
 		public CollisionDetector collision;
-		public boolean isColliding;
-		public boolean flippedControls;
+		public boolean isCollidingUp = false;
+		public boolean isCollidingDown = false;
+		public boolean isCollidingLeft = false;
+		public boolean isCollidingRight = false;
+		public boolean flippedControls = false;
 		// Buffs
 		/** Indicates whether the player has the speed buff */
 		private boolean hasSpeedBuff;
@@ -166,35 +169,33 @@ import mechanics.CollisionDetector;
 		 * @param key The KeyCode representing the direction of movement.
 		 */
 		private void move(KeyCode key) {
-			/**
-			 * value of setRotationAngle is not yet final, will change depending on the
-			 * orientation of the jeepney icons; current value based on testing_car's
-			 * orientation
-			 */
-	
-			if (!this.isColliding) {
-				if (key == this.up) {
-					this.setDY(-MOVE_AMOUNT);
-				} else if (key == this.down) {
-					this.setDY(MOVE_AMOUNT);
-				} else if (key == this.right) {
-					this.setDX(MOVE_AMOUNT);
-					this.isLeft = false;
-				} else if (key == this.left) {
-					this.setDX(-MOVE_AMOUNT);
-					this.isLeft = true;
-				}
-		    } else { // If colliding, stop movement in that direction
-		        if (key == this.up) {
-		        	this.setDY(0); 
-		        } else if (key == this.down) {
-		            this.setDY(0); 
-		        } else if (key == this.left) {
-		        	this.setDX(0);
-		        } else if(key == this.right) {
-		            this.setDX(0);
-		        }
+		    if (key == this.up && !isCollidingUp) {
+		        this.setDY(-MOVE_AMOUNT);
+		    } else if (key == this.down && !isCollidingDown) {
+		        this.setDY(MOVE_AMOUNT);
+		    } else if (key == this.right && !isCollidingRight) {
+		        this.setDX(MOVE_AMOUNT);
+		        this.isLeft = false;
+		    } else if (key == this.left && !isCollidingLeft) {
+		        this.setDX(-MOVE_AMOUNT);
+		        this.isLeft = true;
 		    }
+		}
+		
+		public void move() {
+			if (!flippedControls) {
+				this.setXPos(this.getXPos() + dx * speedMultiplier);
+				this.setYPos(this.getYPos() + dy * speedMultiplier);
+			} else {
+				this.setXPos(this.getXPos() - dx * speedMultiplier);
+				this.setYPos(this.getYPos() - dy * speedMultiplier);
+			}
+			
+		}
+		
+		public void pushBack(double overlapX, double overlapY) {
+		    this.setXPos(this.getXPos() - overlapX);   // Adjust the player's x position
+		    this.setYPos(this.getYPos() - overlapY);  // Adjust the player's y position
 		}
 	
 		/**
@@ -211,15 +212,13 @@ import mechanics.CollisionDetector;
 			 */
 	
 			if (key == this.up) {
-				this.setDY(-MOVE_AMOUNT);
+				this.setPredictDY(-MOVE_AMOUNT);
 			} else if (key == this.down) {
-				this.setDY(MOVE_AMOUNT);
+				this.setPredictDY(MOVE_AMOUNT);
 			} else if (key == this.right) {
-				this.setDX(MOVE_AMOUNT);
-				this.isLeft = false;
+				this.setPredictDX(MOVE_AMOUNT);
 			} else if (key == this.left) {
-				this.setDX(-MOVE_AMOUNT);
-				this.isLeft = true;
+				this.setPredictDX(-MOVE_AMOUNT);
 	
 			}
 		}
@@ -230,7 +229,7 @@ import mechanics.CollisionDetector;
 		 * 
 		 * @param key The KeyCode representing the direction to stop.
 		 */
-		private void stop(KeyCode key) {
+		public void stop(KeyCode key) {
 			if (key == this.up)
 				this.setDY(0);
 			if (key == this.down)
@@ -240,7 +239,7 @@ import mechanics.CollisionDetector;
 			if (key == this.right)
 				this.setDX(0);
 		}
-	
+		
 		/**
 		 * Sets the player's movement based on the provided KeyCode.
 		 * 
@@ -365,20 +364,6 @@ import mechanics.CollisionDetector;
 		 */
 		public double getPredictDX() {
 			return this.predictDX;
-		}
-	
-		/**
-		 * Move the player based on the current dx and dy values.
-		 */
-		public void move() {
-			if (!flippedControls) {
-				this.setXPos(this.getXPos() + dx * speedMultiplier);
-				this.setYPos(this.getYPos() + dy * speedMultiplier);
-			} else {
-				this.setXPos(this.getXPos() - dx * speedMultiplier);
-				this.setYPos(this.getYPos() - dy * speedMultiplier);
-			}
-			
 		}
 	
 		public void setOnKeyPressed(EventHandler<KeyEvent> eventHandler) {
