@@ -7,7 +7,10 @@
 	import javafx.scene.input.KeyCode;
 	import javafx.scene.input.KeyEvent;
 	import javafx.scene.paint.Color;
-	import mechanics.CollisionDetector;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+import mechanics.CollisionDetector;
 	
 	/**
 	 * This class represents a player (jeepney) in the game. It handles the player's
@@ -133,6 +136,9 @@
 	//		gc.rotate(rotationAngle);
 			gc.drawImage(playerImage, -playerImage.getWidth() / 2, -playerImage.getHeight() / 2);
 			gc.restore();
+			gc.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.REGULAR, 12));
+			gc.setFill(Color.BLACK);
+			gc.fillText(name, this.getXPos(), this.getYPos());
 			renderBox(gc, this.hitbox);
 			renderBox(gc, this.collisionBox);
 	//		slowDown();

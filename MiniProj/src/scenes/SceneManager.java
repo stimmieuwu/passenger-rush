@@ -41,7 +41,10 @@ public class SceneManager {
 	/** The spacing of buttons */
 	protected final static int BUTTON_SPACING = 10;
 
+	// Audio variables
+	/** Music for the lobby, i.e. the Main Menu, About, and Instructions */
 	private Audio lobbyMusic;
+	/** Music for the game */
 	private Audio bgMusic;
 
 	/**
@@ -125,9 +128,11 @@ public class SceneManager {
 
 		GraphicsContext gc = gameScene.canvas.getGraphicsContext2D();
 		GraphicsContext bg = gameScene.bg.getGraphicsContext2D();
+		
 		// Start the game loop using GameTimer
 		GameTimer gameTimer = new GameTimer(gc, bg, gameScene);
 		gameTimer.start();
+		
 		lobbyMusic.stopMusic();
 		this.bgMusic = new Audio("./assets/music/game_music.mp3", 0.5f);
 	}
