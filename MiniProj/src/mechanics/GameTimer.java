@@ -133,7 +133,7 @@ public class GameTimer extends AnimationTimer {
 
 		// Initializes the different spawning timers
 		passengerSpawn = new Spawn(1, 2);
-		powerUpSpawn = new Spawn(20, 30);
+		powerUpSpawn = new Spawn(1, 2);
 		obstacleSpawn = new Spawn(20, 30);
 
 		// Initialize the player's effects
@@ -265,7 +265,7 @@ public class GameTimer extends AnimationTimer {
 			if (player2.score > player1.score) {
 				this.game.sceneManager.switchToWinningScene(player2);
 			} else {
-				this.game.sceneManager.switchToWinningScene(new Player("atay", 0, 0, new Image("./../assets/atay.png"),
+				this.game.sceneManager.switchToWinningScene(new Player("atay", 0, 0, new Image("./../assets/sprites/atay.png"),
 						KeyCode.UP, KeyCode.LEFT, KeyCode.DOWN, KeyCode.RIGHT));
 			}
 		}
@@ -376,11 +376,11 @@ public class GameTimer extends AnimationTimer {
 //			Tile tempTile = map.getRandomTile(9);
 //			powerUps.add(new PowerUp(tempTile.x, tempTile.y, PowerUp.SPEED_BUFF, "speed"));
 //			
-			Tile tempTile2 = map.getRandomTile(9);
-			if (tempTile2 != null) {
-				powerUps.add(new PowerUp(tempTile2.x, tempTile2.y, PowerUp.INSURANCE_BUFF, "insured"));
-			}
-//			
+//			Tile tempTile2 = map.getRandomTile(9);
+//			if (tempTile2 != null) {
+//				powerUps.add(new PowerUp(tempTile2.x, tempTile2.y, PowerUp.INSURANCE_BUFF, "insured"));
+//			}
+////			
 			Tile tempTile = map.getRandomTile(9);
 			if (tempTile != null) {
 				powerUps.add(new PowerUp(tempTile.x, tempTile.y, PowerUp.POWERUP_ICON, randomType));

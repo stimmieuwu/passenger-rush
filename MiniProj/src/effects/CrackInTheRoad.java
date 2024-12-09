@@ -18,9 +18,6 @@ public class CrackInTheRoad extends Debuff {
 	}
 
 	public void apply(Player player) {
-		if (!player.isInsured()) {
-			player.passengers = 0;
-		}
 		player.teleportToStart();
 	}
 

@@ -15,19 +15,15 @@ import entities.Player;
  * @created_date 2024-12-09
  */
 public class Insurance extends Effect {
-	private boolean isInsured;
 
 	public Insurance(long duration) {
 		super("insured", duration);
-		this.isInsured = false;
 	}
 
 	public void apply(Player player) {
 		// TODO Auto-generated method stub
-		if (player.isInsured() == true) {
-			player.hasInvincibilityToggle();
-		}
-		;
+		player.hasInsurance = true;
+		System.out.println(player.hasInsurance);
 
 		new Timer().schedule(new TimerTask() {
 			public void run() {
@@ -37,6 +33,6 @@ public class Insurance extends Effect {
 	}
 
 	public void remove(Player player) {
-		player.hasInvincibilityToggle();
+		player.hasInsurance = false;
 	}
 }

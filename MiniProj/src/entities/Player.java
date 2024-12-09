@@ -464,15 +464,8 @@ public class Player extends Sprite {
 			this.hasInvincibility = false;
 	}
 
-	public boolean isInsured() {
-		if (hasInsurance)
-			return true;
-		else
-			return false;
-	}
-
 	public void teleportToStart() {
-		if (!isInsured()) {
+		if (!this.hasInsurance) {
 			passengers = 0;
 		}
 		this.setXPos(startingX);

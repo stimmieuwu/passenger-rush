@@ -37,7 +37,7 @@ public class PowerUp extends Sprite {
 	public static final Image POWERUP_ICON = new Image("./../assets/sprites/mysteryItem.png", 40, 40, true, true);
 
 	/** Array of possible powerup types */
-	public static final String[] TYPES = { "speed", "oilbarrel" };
+	public static final String[] TYPES = { "speed", "oilbarrel", "insured" };
 
 	/**
 	 * Constructs a PowerUp object.
