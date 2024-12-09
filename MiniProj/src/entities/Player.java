@@ -116,9 +116,8 @@ public class Player extends Sprite {
 
 		// Colission-related
 		this.collision = new CollisionDetector();
-		this.collisionBox = new Rectangle2D(this.getXPos() + 30, this.getYPos() + 20, playerImage.getWidth() - 60,
-				playerImage.getHeight() - 25);
-		this.hitbox = new Rectangle2D(this.getXPos(), this.getYPos(), playerImage.getWidth(), playerImage.getHeight());
+		this.collisionBox = generateCollisionBox();
+		this.hitbox = generateHitBox();
 
 	}
 
@@ -147,7 +146,7 @@ public class Player extends Sprite {
 	}
 
 	public Rectangle2D generateHitBox() {
-		return new Rectangle2D(this.getXPos(), this.getYPos(), playerImage.getWidth(), playerImage.getHeight());
+		return new Rectangle2D(this.getXPos() + 8, this.getYPos() + 8, playerImage.getWidth() - 12, playerImage.getHeight() - 12);
 	}
 
 	public Rectangle2D generateCollisionBox() {
