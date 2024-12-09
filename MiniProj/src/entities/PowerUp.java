@@ -30,6 +30,8 @@ public class PowerUp extends Sprite {
 	public static final Image SPEED_BUFF = new Image("./../assets/sprites/speed.png", 40, 40, true, true);
 	/** Image for the oil spill debuff */
 	public static final Image OILSPILL_DEBUFF = new Image("./../assets/sprites/oil.png", 40, 40, true, true);
+	/** Image for Insurance powerup */
+	public static final Image INSURANCE_BUFF = new Image("./../assets/sprites/insurance_placeholder.png", 40, 40, true, true);
 	/** Image for a generic powerup */
 	public static final Image POWERUP_ICON = new Image("./../assets/sprites/mysteryItem.png", 40, 40, true, true);
 

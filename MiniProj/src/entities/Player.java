@@ -72,18 +72,19 @@ import mechanics.CollisionDetector;
 		public boolean isCollidingLeft = false;
 		public boolean isCollidingRight = false;
 		public boolean flippedControls = false;
+		public boolean isInvincible = false;
 		// Buffs
 		/** Indicates whether the player has the speed buff */
-		private boolean hasSpeedBuff;
+		private boolean hasSpeedBuff = false;
 		/** Indicates whether the player has the insurance buff */
-		private boolean hasInsurance;
+		private boolean hasInsurance = false;
 		/** Indicates whether the player has the invincibility buff */
-		private boolean hasInvincibility;
+		private boolean hasInvincibility = false;
 	
 		// Debuffs
 		/** Indicates whether the player has the oil spill debuff */
 		private boolean hasOilSpillDebuff = false;
-	
+		
 		// Game attributes
 		/** Amount of passengers the player has transported */
 		public int score;
@@ -104,6 +105,8 @@ import mechanics.CollisionDetector;
 			this.speedMultiplier = 1.0;
 			this.playerImage = image;
 			this.name = name;
+			this.startingX = xPos;
+			this.startingY = yPos;
 			
 			// Controls-related
 			this.up = up;
@@ -446,6 +449,19 @@ import mechanics.CollisionDetector;
 				return new Obstacle((int)this.getXPos(), (int)this.getYPos(), Obstacle.OILSPILL_OBSTACLE, "oilspill_obstacle");
 			}
 			return null;
+		}
+		
+		public boolean hasInvincibility() {
+			return hasInvincibility;
+		}
+		public void hasInvincibilityToggle() {
+			if (this.hasInvincibility == false) this.hasInvincibility = true;
+			else this.hasInvincibility = false;
+		}
+		
+		public boolean isInsured() {
+			if (hasInsurance) return true;
+			else return false;
 		}
 		
 		public void teleportToStart() {
