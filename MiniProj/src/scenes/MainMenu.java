@@ -107,8 +107,8 @@ public class MainMenu {
 		this.about.setLayoutX(56);
 		this.about.setLayoutY(322);
 
-		this.start.setLayoutX(280);
-		this.start.setLayoutY(298);
+		this.start.setLayoutX(290);
+		this.start.setLayoutY(300);
 
 		this.instructions.setLayoutX(526);
 		this.instructions.setLayoutY(308);
