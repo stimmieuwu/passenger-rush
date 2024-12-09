@@ -25,9 +25,9 @@ public class OilBarrel extends Effect {
 	 * @param duration        The duration of the effect in milliseconds.
 	 * @param flippedControls The initial state of the controls (flipped or not).
 	 */
-	public OilBarrel(long duration, boolean flippedControls) {
+	public OilBarrel(long duration) {
 		super("oilbarrel", duration);
-		this.flippedControls = flippedControls;
+		this.flippedControls = false;
 	}
 
 	/**

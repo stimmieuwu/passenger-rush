@@ -25,9 +25,9 @@ public class OilSpill extends Debuff {
 	 * @param duration        The duration of the effect in milliseconds.
 	 * @param flippedControls The initial state of the controls (flipped or not).
 	 */
-	public OilSpill(long duration, boolean flippedControls) {
+	public OilSpill(long duration) {
 		super("oilspill", duration);
-		this.flippedControls = flippedControls;
+		this.flippedControls = false;
 	}
 
 	/**
