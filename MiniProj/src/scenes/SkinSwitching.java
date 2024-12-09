@@ -1,6 +1,5 @@
 package scenes;
 
-import javafx.scene.image.Image;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -9,6 +8,10 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import mechanics.Graphics;
 
@@ -241,9 +244,23 @@ public class SkinSwitching {
 			public void handle(ActionEvent event) {
 				selectedNameP1 = player1Name.getText();
 				selectedNameP2 = player2Name.getText();
-				sceneManager.switchToGameScene();
+				if (selectedNameP1.length() > 15 || selectedNameP2.length() > 15) {
+					// Create a Text object to display the error message
+					Text errorMessage = new Text("Names must be 15 characters or less!");
+					errorMessage.setFill(Color.RED); // Set the color to red
+					errorMessage.setFont(Font.font("Arial", FontWeight.BOLD, 14)); // Set font
+
+					// Add the error message to the scene (you might need to adjust positioning)
+					((Group) skinSwitchingScene.getRoot()).getChildren().add(errorMessage);
+					errorMessage.setLayoutX(270); // Example x-coordinate
+					errorMessage.setLayoutY(630); // Example y-coordinate
+				} else { 
+					sceneManager.switchToGameScene();
+				}
+				
 			}
 		});
+
 		// go back to main menu
 		back.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -262,24 +279,18 @@ public class SkinSwitching {
 	public Scene getScene() {
 		return skinSwitchingScene;
 	}
-	
-	
+
 	public static Image getSelectedImageP1() {
 		return selectedImageP1;
 	}
-
-
 
 	public static Image getSelectedImageP2() {
 		return selectedImageP2;
 	}
 
-
-
 	public static String getSelectedNameP1() {
 		return selectedNameP1;
 	}
-
 
 	public static String getSelectedNameP2() {
 		return selectedNameP2;

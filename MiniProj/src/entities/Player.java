@@ -22,9 +22,11 @@ import mechanics.CollisionDetector;
 	 * @created_date 2024-12-09
 	 */
 	public class Player extends Sprite {
-	
-		// Variables for movement
+
+		/** The name of the jeepney */
 		private String name;
+		
+		// Variables for movement
 		/** The change in x-coordinate (horizontal movement). */
 		private double dx;
 		/** The change in y-coordinate (vertical movement). */
