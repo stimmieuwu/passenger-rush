@@ -27,6 +27,8 @@ import mechanics.CollisionDetector;
 		public String name;
 		
 		// Variables for movement
+		private double startingX;
+		private double startingY;
 		/** The change in x-coordinate (horizontal movement). */
 		private double dx;
 		/** The change in y-coordinate (vertical movement). */
@@ -417,5 +419,11 @@ import mechanics.CollisionDetector;
 				return new Obstacle((int)this.getXPos(), (int)this.getYPos(), Obstacle.OILSPILL_OBSTACLE, "oilspill_obstacle");
 			}
 			return null;
+		}
+		
+		public void teleportToStart() {
+			this.setXPos(startingX);
+			this.setYPos(startingY);
+			System.out.println("Player teleported to starting point.");
 		}
 	}

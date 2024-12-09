@@ -313,12 +313,12 @@ public class GameTimer extends AnimationTimer {
 			}
 		}
 
-//		//Obstacles Spawning Code
-//		if (obstacleSpawn.shouldSpawn(currentNanoTime)) {
-//			Tile tempTile = map.getRandomTile(9);
-//			obstacles.add(new Obstacle(tempTile.x, tempTile.y, Obstacle.OILSPILL_OBSTACLE, "oilspill_obstacle"));
-//		}
-//		
+		//Obstacles Spawning Code
+		if (obstacleSpawn.shouldSpawn(currentNanoTime)) {
+			Tile tempTile = map.getRandomTile(9);
+			obstacles.add(new Obstacle(tempTile.x, tempTile.y, Obstacle.HOLE_OBSTACLE, "crackintheroad"));
+		}
+		
 		for (Obstacle obstacle : obstacles) {
 			obstacle.render(gc);
 		}
@@ -416,6 +416,8 @@ public class GameTimer extends AnimationTimer {
 		switch (obstacle.getType()) {
 		case "oilspill_obstacle":
 			return new OilSpill(5000, true);
+		case "crackintheroad":
+			return new CrackInTheRoad();
 		default:
 			throw new IllegalArgumentException("Unknown obstacle type");
 		}
