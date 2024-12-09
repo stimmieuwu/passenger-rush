@@ -1,5 +1,6 @@
 package scenes;
 
+import javafx.scene.image.Image;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -7,7 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
+import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import mechanics.Graphics;
 
@@ -31,6 +32,8 @@ public class SkinSwitching {
 	private Canvas player1C;
 	private Canvas player2C;
 
+	private TextField player1Name = new TextField("Enter Name");
+	private TextField player2Name = new TextField("Enter Name");
 	private Button start = new Button("Start");
 	private Button back = new Button("back");
 	private Button next1 = new Button(">");
@@ -39,8 +42,11 @@ public class SkinSwitching {
 	private Button prev2 = new Button("<");
 	private int player1Selection = 0;
 	private int player2Selection = 0;
-	public static Image selectedImageP1 = Graphics.SKIN_1;
-	public static Image selectedImageP2 = Graphics.SKIN_1;
+
+	private static Image selectedImageP1 = Graphics.SKIN_1;
+	private static Image selectedImageP2 = Graphics.SKIN_1;
+	private static String selectedNameP1 = "";
+	private static String selectedNameP2 = "";
 
 	boolean[] skinsSelected = new boolean[3];
 
@@ -63,69 +69,7 @@ public class SkinSwitching {
 		GraphicsContext p2 = player2C.getGraphicsContext2D();
 		GraphicsContext bg = canvas.getGraphicsContext2D();
 
-		// player 1 next
-		next1.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				if (player1Selection < 2)
-					player1Selection++;
-				else
-					player1Selection = 0;
-				showSelections(p1, true, player1Selection);
-			}
-		});
-		// player 1 prev
-		prev1.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				if (player1Selection > 0)
-					player1Selection--;
-				else
-					player1Selection = 2;
-				showSelections(p1, true, player1Selection);
-			}
-		});
-
-		// player 2 next
-		next2.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				if (player2Selection < 2)
-					player2Selection++;
-				else
-					player2Selection = 0;
-				showSelections(p2, false, player2Selection);
-			}
-		});
-
-		// player 2 prev
-		prev2.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				if (player2Selection > 0)
-					player2Selection--;
-				else
-					player2Selection = 2;
-				showSelections(p2, false, player2Selection);
-			}
-		});
-
-		// start game
-		start.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-
-				sceneManager.switchToGameScene();
-			}
-		});
-		// go back to main menu
-		back.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-
-				sceneManager.switchToMainMenu();
-			}
-		});
+		buttonEvents(p1, p2, sceneManager);
 
 		showSelections(p1, true, player1Selection);
 		showSelections(p2, false, player2Selection);
@@ -139,15 +83,22 @@ public class SkinSwitching {
 
 		layout.getChildren().addAll(canvas, player1C, player2C);
 		layout.getChildren().addAll(start, back, next1, prev1, next2, prev2);
+		layout.getChildren().addAll(player1Name, player2Name);
 
-		setButtonLayout();
+		setElementLayout();
 
 		// for css
 		assignStyleSheets();
 	}
 
 	// assigns button locations for each button
-	private void setButtonLayout() {
+	private void setElementLayout() {
+
+		this.player1Name.setLayoutX(316);
+		this.player1Name.setLayoutY(324);
+
+		this.player2Name.setLayoutX(316);
+		this.player2Name.setLayoutY(581);
 
 		this.next1.setLayoutX(570);
 		this.next1.setLayoutY(210);
@@ -179,6 +130,8 @@ public class SkinSwitching {
 		this.next2.getStyleClass().add("next");
 		this.start.getStyleClass().add("start");
 		this.back.getStyleClass().add("back");
+		this.player1Name.getStyleClass().add("playerNames");
+		this.player2Name.getStyleClass().add("playerNames");
 	}
 
 	private void showSelections(GraphicsContext draw, boolean isPlayer1, int selection) {
@@ -234,6 +187,73 @@ public class SkinSwitching {
 			draw.drawImage(selectedImageP2, 345, 470, 104, 66);
 	}
 
+	private void buttonEvents(GraphicsContext p1, GraphicsContext p2, SceneManager sceneManager) {
+		// player 1 next
+		next1.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				if (player1Selection < 2)
+					player1Selection++;
+				else
+					player1Selection = 0;
+				showSelections(p1, true, player1Selection);
+			}
+		});
+		// player 1 prev
+		prev1.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				if (player1Selection > 0)
+					player1Selection--;
+				else
+					player1Selection = 2;
+				showSelections(p1, true, player1Selection);
+			}
+		});
+
+		// player 2 next
+		next2.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				if (player2Selection < 2)
+					player2Selection++;
+				else
+					player2Selection = 0;
+				showSelections(p2, false, player2Selection);
+			}
+		});
+
+		// player 2 prev
+		prev2.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				if (player2Selection > 0)
+					player2Selection--;
+				else
+					player2Selection = 2;
+				showSelections(p2, false, player2Selection);
+			}
+		});
+
+		// start game
+		start.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				selectedNameP1 = player1Name.getText();
+				selectedNameP2 = player2Name.getText();
+				sceneManager.switchToGameScene();
+			}
+		});
+		// go back to main menu
+		back.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+
+				sceneManager.switchToMainMenu();
+			}
+		});
+	}
+
 	/**
 	 * Returns the Scene object representing the skin switching scene.
 	 *
@@ -242,4 +262,27 @@ public class SkinSwitching {
 	public Scene getScene() {
 		return skinSwitchingScene;
 	}
+	
+	
+	public static Image getSelectedImageP1() {
+		return selectedImageP1;
+	}
+
+
+
+	public static Image getSelectedImageP2() {
+		return selectedImageP2;
+	}
+
+
+
+	public static String getSelectedNameP1() {
+		return selectedNameP1;
+	}
+
+
+	public static String getSelectedNameP2() {
+		return selectedNameP2;
+	}
+
 }

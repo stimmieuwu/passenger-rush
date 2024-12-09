@@ -102,8 +102,8 @@ public class GameTimer extends AnimationTimer {
 		this.map = new GridMap(bg);
 
 		// Initialize the two players and their mechanics
-		player1 = new Player(300, 20, SkinSwitching.selectedImageP1, KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D);
-		player2 = new Player(400, 20, SkinSwitching.selectedImageP2, KeyCode.UP, KeyCode.DOWN, KeyCode.LEFT,
+		player1 = new Player(SkinSwitching.getSelectedNameP1(),300, 20, SkinSwitching.getSelectedImageP1(), KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D);
+		player2 = new Player(SkinSwitching.getSelectedNameP2(),400, 20, SkinSwitching.getSelectedImageP2(), KeyCode.UP, KeyCode.DOWN, KeyCode.LEFT,
 				KeyCode.RIGHT);
 		keyDetection();
 		

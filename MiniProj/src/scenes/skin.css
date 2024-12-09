@@ -1,4 +1,11 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+@font-face {
+    src: url("file:assets/font/Pangolin-Regular.ttf");
+}
+
+
+
 .start{
 	-fx-text-fill:transparent;
     -fx-padding: 0;
@@ -70,5 +77,13 @@
 }
 
 
+.playerNames{
+	-fx-font-family: Pangolin;
+	-fx-text-fill:"#464646";
+    -fx-padding: 0;
+    -fx-background-color:transparent;
+ 	-fx-font-size: 20px;
+     -fx-pref-width: 160px;
+}
 
 
