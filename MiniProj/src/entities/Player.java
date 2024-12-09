@@ -115,8 +115,8 @@ import mechanics.CollisionDetector;
 			this.collision = new CollisionDetector();
 			this.collisionBox = new Rectangle2D(this.getXPos() + 30, this.getYPos() + 20, playerImage.getWidth() - 60,
 					playerImage.getHeight() - 25);
-			this.hitbox = new Rectangle2D(this.getXPos() + 30, this.getYPos() + 30, playerImage.getWidth() - 30,
-					playerImage.getHeight() - 30);
+			this.hitbox = new Rectangle2D(this.getXPos(), this.getYPos(), playerImage.getWidth(),
+					playerImage.getHeight());
 	
 		}
 		
@@ -145,8 +145,8 @@ import mechanics.CollisionDetector;
 		}
 	
 		public Rectangle2D generateHitBox() {
-		    return new Rectangle2D(this.getXPos() + 30, this.getYPos() + 30, 
-		                            playerImage.getWidth() - 30, playerImage.getHeight() - 30);
+		    return new Rectangle2D(this.getXPos(), this.getYPos(), 
+		                            playerImage.getWidth(), playerImage.getHeight());
 		}
 	
 		public Rectangle2D generateCollisionBox() {
@@ -171,6 +171,8 @@ import mechanics.CollisionDetector;
 			gc.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.REGULAR, 12));
 			gc.setFill(Color.BLACK);
 			gc.fillText(name, this.getXPos(), this.getYPos());
+			gc.fillText(Integer.toString(passengers), this.getXPos() + playerImage.getWidth(), this.getYPos() + playerImage.getHeight());
+			gc.fillText(Integer.toString(score), this.getXPos(), this.getYPos() + playerImage.getHeight());
 			renderBox(gc, this.hitbox);
 			renderBox(gc, this.collisionBox);
 	//		slowDown();

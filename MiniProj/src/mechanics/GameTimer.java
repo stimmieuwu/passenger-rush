@@ -83,7 +83,9 @@ public class GameTimer extends AnimationTimer {
 	public boolean isGameOver;
 
 	/** Duration of the game in seconds */
-	public final int GAME_DURATION_SECS = 5;
+	public final int GAME_DURATION_SECS = 300;
+
+	Rectangle2D junction = new Rectangle2D(300, 20, 300, 60);
 
 //		scatched hashset based input due to performance issues
 //		private final HashSet<KeyCode> inputs = new HashSet<KeyCode>();
@@ -129,6 +131,7 @@ public class GameTimer extends AnimationTimer {
 		// Starts the timer
 		TimeElapsed.start();
 		this.isGameOver = false;
+		
 	}
 
 	// TODO fix the bug when player hits both up and down button
@@ -141,69 +144,68 @@ public class GameTimer extends AnimationTimer {
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent e) {
 				KeyCode code = e.getCode();
-	            player1.simulateMove(code);
-	            player2.simulateMove(code);
-	            double dx1 = player1.getPredictDX();
-	            double dy1 = player1.getPredictDY();
-	            double dx2 = player1.getPredictDX();
-	            double dy2 = player1.getPredictDY();
-	            
-	            // Perform collision detection
-	            double[] overlap1 = player1.collision.detectTile(player1, code, dx1, dy1);
-	            double[] overlap2 = player1.collision.detectTile(player1, code, dx1, dy1);
+				player1.simulateMove(code);
+				player2.simulateMove(code);
+				double dx1 = player1.getPredictDX();
+				double dy1 = player1.getPredictDY();
+				double dx2 = player1.getPredictDX();
+				double dy2 = player1.getPredictDY();
 
-	            if (overlap1 != null) { // Collision detected
-	                if (code == player1.up) {
-	                    player1.isCollidingUp = true;
-	                } else if (code == player1.down) {
-	                    player1.isCollidingDown = true;
-	                } else if (code == player1.left) {
-	                    player1.isCollidingLeft = true;
-	                } else if (code == player1.right) {
-	                    player1.isCollidingRight = true;
-	                }
-	                player1.pushBack(overlap1[0], overlap1[1]);
+				// Perform collision detection
+				double[] overlap1 = player1.collision.detectTile(player1, code, dx1, dy1);
+				double[] overlap2 = player1.collision.detectTile(player1, code, dx1, dy1);
 
-	            } else { // No collision
-	                if (code == player1.up) {
-	                    player1.isCollidingUp = false;
-	                } else if (code == player1.down) {
-	                    player1.isCollidingDown = false;
-	                } else if (code == player1.left) {
-	                    player1.isCollidingLeft = false;
-	                } else if (code == player1.right) {
-	                    player1.isCollidingRight = false;
-	                }
+				if (overlap1 != null) { // Collision detected
+					if (code == player1.up) {
+						player1.isCollidingUp = true;
+					} else if (code == player1.down) {
+						player1.isCollidingDown = true;
+					} else if (code == player1.left) {
+						player1.isCollidingLeft = true;
+					} else if (code == player1.right) {
+						player1.isCollidingRight = true;
+					}
+					player1.pushBack(overlap1[0], overlap1[1]);
 
-	                player1.setPlayerMovement(code); // Start movement
-	            }
-	            
-	            if (overlap2 != null) { // Collision detected
-	                if (code == player2.up) {
-	                    player2.isCollidingUp = true;
-	                } else if (code == player2.down) {
-	                    player2.isCollidingDown = true;
-	                } else if (code == player2.left) {
-	                    player2.isCollidingLeft = true;
-	                } else if (code == player2.right) {
-	                    player2.isCollidingRight = true;
-	                }
-	                player1.pushBack(overlap2[0], overlap2[1]);
+				} else { // No collision
+					if (code == player1.up) {
+						player1.isCollidingUp = false;
+					} else if (code == player1.down) {
+						player1.isCollidingDown = false;
+					} else if (code == player1.left) {
+						player1.isCollidingLeft = false;
+					} else if (code == player1.right) {
+						player1.isCollidingRight = false;
+					}
 
-	            } else { // No collision
-	                if (code == player2.up) {
-	                    player2.isCollidingUp = false;
-	                } else if (code == player2.down) {
-	                    player2.isCollidingDown = false;
-	                } else if (code == player2.left) {
-	                    player2.isCollidingLeft = false;
-	                } else if (code == player2.right) {
-	                    player2.isCollidingRight = false;
-	                }
+					player1.setPlayerMovement(code); // Start movement
+				}
 
-	                player2.setPlayerMovement(code); // Start movement
-	            }
-				
+				if (overlap2 != null) { // Collision detected
+					if (code == player2.up) {
+						player2.isCollidingUp = true;
+					} else if (code == player2.down) {
+						player2.isCollidingDown = true;
+					} else if (code == player2.left) {
+						player2.isCollidingLeft = true;
+					} else if (code == player2.right) {
+						player2.isCollidingRight = true;
+					}
+					player1.pushBack(overlap2[0], overlap2[1]);
+
+				} else { // No collision
+					if (code == player2.up) {
+						player2.isCollidingUp = false;
+					} else if (code == player2.down) {
+						player2.isCollidingDown = false;
+					} else if (code == player2.left) {
+						player2.isCollidingLeft = false;
+					} else if (code == player2.right) {
+						player2.isCollidingRight = false;
+					}
+
+					player2.setPlayerMovement(code); // Start movement
+				}
 
 				// Player 1: Place oil spill
 				if (code == KeyCode.F) {
@@ -275,11 +277,32 @@ public class GameTimer extends AnimationTimer {
 		// Passenger spawning
 		if (passengerSpawn.shouldSpawn(currentNanoTime)) {
 			Tile tempTile = map.getRandomTile(10);
-			passengers.add(new Passenger(tempTile.x, tempTile.y, Passenger.PASSENGER));
+			if(tempTile != null) {
+				passengers.add(new Passenger(tempTile.x, tempTile.y, Passenger.PASSENGER));
+			}
 		}
 
-		for (Passenger passenger : passengers) {
+		for (int i = 0; i < passengers.size(); i++) {
+			Passenger passenger = passengers.get(i);
 			passenger.render(gc);
+			if(player1.hitbox.intersects(passenger.hitBox())) {
+				player1.passengers++;
+				passengers.remove(i);
+			}
+			if(player2.hitbox.intersects(passenger.hitBox())) {
+				player1.passengers++;
+				passengers.remove(i);
+			}
+		}
+		
+		if(player1.hitbox.intersects(junction)) {
+			player1.score += player1.passengers;
+			player1.passengers = 0;
+		}	
+		
+		if(player2.hitbox.intersects(junction)) {
+			player2.score += player2.passengers;
+			player2.passengers = 0;
 		}
 
 		// Power-up spawning
@@ -291,7 +314,9 @@ public class GameTimer extends AnimationTimer {
 //			powerUps.add(new PowerUp(tempTile2.x, tempTile2.y, PowerUp.OILSPILL_DEBUFF, "oilspill"));
 //			
 			Tile tempTile = map.getRandomTile(9);
+			if(tempTile != null) {
 			powerUps.add(new PowerUp(tempTile.x, tempTile.y, PowerUp.POWERUP_ICON, randomType));
+			}
 		}
 
 		for (PowerUp powerUp : powerUps) {
@@ -317,7 +342,9 @@ public class GameTimer extends AnimationTimer {
 		//Obstacles Spawning Code
 		if (obstacleSpawn.shouldSpawn(currentNanoTime)) {
 			Tile tempTile = map.getRandomTile(9);
+			if(tempTile != null) {
 			obstacles.add(new Obstacle(tempTile.x, tempTile.y, Obstacle.HOLE_OBSTACLE, "crackintheroad"));
+			}
 		}
 		
 		for (Obstacle obstacle : obstacles) {
@@ -423,7 +450,7 @@ public class GameTimer extends AnimationTimer {
 			throw new IllegalArgumentException("Unknown obstacle type");
 		}
 	}
-	
+
 	public void resetGame() {
 		player1.reset();
 		player2.reset();
@@ -431,15 +458,15 @@ public class GameTimer extends AnimationTimer {
 		player2.setXPos(400);
 		player1.setYPos(20);
 		player2.setYPos(20);
-		
+
 		passengers.clear();
 		powerUps.clear();
 		obstacles.clear();
 		activeEffects.clear();
 		activeDebuffs.clear();
-		
+
 		TimeElapsed.reset();
-		
+
 		isGameOver = false;
 	}
 }

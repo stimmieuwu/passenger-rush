@@ -131,7 +131,7 @@ public class GridMap {
 		// Find all tiles with the given tileNumber
 		for (int row = 0; row < ROWS; row++) {
 			for (int col = 0; col < COLUMNS; col++) {
-				if (gridMap[row][col].number == tileNumber) {
+				if (gridMap[row][col].number == tileNumber && !gridMap[row][col].occupied) {
 					matchingTiles.add(gridMap[row][col]);
 				}
 			}
