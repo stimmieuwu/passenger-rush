@@ -27,8 +27,8 @@ import mechanics.CollisionDetector;
 		public String name;
 		
 		// Variables for movement
-		private static final double startingX = 350;
-		private static final double startingY = 25;
+		private double startingX;
+		private double startingY;
 		/** The change in x-coordinate (horizontal movement). */
 		private double dx;
 		/** The change in y-coordinate (vertical movement). */
@@ -467,6 +467,7 @@ import mechanics.CollisionDetector;
 		public void teleportToStart() {
 			this.setXPos(startingX);
 			this.setYPos(startingY);
+			this.hasInsurance = false;
 			System.out.println("Player teleported to starting point.");
 		}
 	}
