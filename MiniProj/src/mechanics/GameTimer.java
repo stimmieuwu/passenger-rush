@@ -3,6 +3,7 @@ package mechanics;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import effects.CrackInTheRoad;
 import effects.Debuff;
 import effects.Effect;
 import effects.OilBarrel;
@@ -82,7 +83,7 @@ public class GameTimer extends AnimationTimer {
 	public boolean isGameOver;
 
 	/** Duration of the game in seconds */
-	public final int GAME_DURATION_SECS = 300;
+	public final int GAME_DURATION_SECS = 5;
 
 //		scatched hashset based input due to performance issues
 //		private final HashSet<KeyCode> inputs = new HashSet<KeyCode>();
@@ -241,6 +242,7 @@ public class GameTimer extends AnimationTimer {
 	@Override
 	public void handle(long currentNanoTime) {
 		// Check first if the game is over.
+		TimeElapsed.update();
 		if (TimeElapsed.getElapsedSeconds() >= GAME_DURATION_SECS) {
 			this.isGameOver = true;
 			this.game.sceneManager.switchToWinningScene();
@@ -269,7 +271,6 @@ public class GameTimer extends AnimationTimer {
 		// Update FPS counter and timer
 		game.fpsCounter.setText(Double.toString(FPS.getAverageFPS()));
 		game.timeElapsed.setText(Double.toString(TimeElapsed.getElapsedSeconds()));
-		TimeElapsed.update();
 
 		// Passenger spawning
 		if (passengerSpawn.shouldSpawn(currentNanoTime)) {
@@ -421,5 +422,24 @@ public class GameTimer extends AnimationTimer {
 		default:
 			throw new IllegalArgumentException("Unknown obstacle type");
 		}
+	}
+	
+	public void resetGame() {
+		player1.reset();
+		player2.reset();
+		player1.setXPos(300);
+		player2.setXPos(400);
+		player1.setYPos(20);
+		player2.setYPos(20);
+		
+		passengers.clear();
+		powerUps.clear();
+		obstacles.clear();
+		activeEffects.clear();
+		activeDebuffs.clear();
+		
+		TimeElapsed.reset();
+		
+		isGameOver = false;
 	}
 }

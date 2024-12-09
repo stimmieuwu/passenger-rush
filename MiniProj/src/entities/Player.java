@@ -87,6 +87,7 @@ import mechanics.CollisionDetector;
 		// Game attributes
 		/** Amount of passengers the player has transported */
 		public int score;
+		public int passengers;
 	
 		/**
 		 * Constructs a Player object. Initializes the player's position, speed, and
@@ -117,6 +118,30 @@ import mechanics.CollisionDetector;
 			this.hitbox = new Rectangle2D(this.getXPos() + 30, this.getYPos() + 30, playerImage.getWidth() - 30,
 					playerImage.getHeight() - 30);
 	
+		}
+		
+		public void reset() {
+			this.dx = 0;
+			this.dy = 0;
+			this.predictDX = 0;
+			this.predictDY = 0;
+			this.speedMultiplier = 1.0;
+			this.isLeft = false;
+			
+			this.isCollidingUp = false;
+			this.isCollidingDown = false;
+			this.isCollidingLeft = false;
+			this.isCollidingRight = false;
+			this.isColliding = false;
+			this.flippedControls = false;
+			
+			this.hasInsurance = false;
+			this.hasInvincibility = false;
+			this.hasOilSpillDebuff = false;
+			this.hasSpeedBuff = true;
+			
+			this.score = 0;
+			this.passengers = 0;
 		}
 	
 		public Rectangle2D generateHitBox() {

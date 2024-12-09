@@ -46,6 +46,8 @@ public class SceneManager {
 	private Audio lobbyMusic;
 	/** Music for the game */
 	private Audio bgMusic;
+	
+	private GameTimer gameTimer;
 
 	/**
 	 * Returns the width of the game window.
@@ -110,6 +112,8 @@ public class SceneManager {
 	public void switchToWinningScene() {
 		stage.setScene(winningScene.getScene());
 		bgMusic.stopMusic();
+		gameTimer.resetGame();
+		gameTimer.stop();
 	}
 
 	/**
@@ -130,7 +134,7 @@ public class SceneManager {
 		GraphicsContext bg = gameScene.bg.getGraphicsContext2D();
 		
 		// Start the game loop using GameTimer
-		GameTimer gameTimer = new GameTimer(gc, bg, gameScene);
+		this.gameTimer = new GameTimer(gc, bg, gameScene);
 		gameTimer.start();
 		
 		lobbyMusic.stopMusic();
