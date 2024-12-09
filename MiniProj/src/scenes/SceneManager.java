@@ -77,6 +77,7 @@ public class SceneManager {
         developersScene = new Developers(this);
         winningScene = new Winning(this);
         skinSwitchingScene = new SkinSwitching(this);
+        this.lobbyMusic = new Audio("./assets/music/lobby_music.mp3", 0.5f);
     }
 
     /**
@@ -84,7 +85,7 @@ public class SceneManager {
      */
     public void switchToMainMenu() {
         stage.setScene(mainMenu.getScene());
-        this.lobbyMusic = new Audio("./assets/music/lobby_music.mp3", 0.5f);
+        
     }
 
     /**
