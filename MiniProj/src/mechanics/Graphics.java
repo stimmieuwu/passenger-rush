@@ -16,6 +16,10 @@ public class Graphics {
 	public static final Image background = new Image("../assets/backgrounds/bg.png");
 	/** The background image for the selection screen */
 	public static final Image JEEPSELECT = new Image("../assets/backgrounds/skinSelection.png");
+	
+	public static final Image HOW2 = new Image("../assets/backgrounds/howtoPlay.png");
+	
+	public static final Image DEVS = new Image("../assets/backgrounds/devs.png");
 	/** Image for displaying stops in the game */
 	public static final Image routes = new Image("../assets/sprites/stops.png");
 	/** Array for storing frames of the menu animation */

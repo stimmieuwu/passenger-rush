@@ -87,3 +87,18 @@
 }
 
 
+.references{
+	-fx-text-fill:transparent;
+    -fx-padding: 0;
+    -fx-background-color:transparent;
+    -fx-background-image: url("file:assets/buttonImages/referenceNH.png");
+    -fx-pref-height: 134px;
+    -fx-pref-width: 508px;
+}
+
+.references:hover{
+	-fx-text-fill: transparent;
+        -fx-background-image: url("file:assets/buttonImages/referenceH.png");
+        -fx-scale-y: 1.1;
+        -fx-scale-x:1.1;
+}

@@ -1,5 +1,6 @@
 package scenes;
 
+
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -45,6 +46,7 @@ public class MainMenu {
 	public MainMenu(SceneManager sceneManager, Stage stage) {
 		// Create buttons for navigation
 		// Instructions button action
+//		Main link = new Main();
 		instructions.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -56,6 +58,7 @@ public class MainMenu {
 		about.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
+
 				sceneManager.switchToDevelopersScene();
 			}
 		});
