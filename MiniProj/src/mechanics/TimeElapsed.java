@@ -16,7 +16,7 @@ public class TimeElapsed {
 	/** The elapsed time in seconds */
 	private static int elapsedSeconds;
 	/** The amount of nanoseconds in one second for conversion */
-	private static final long NANO = 1_000_000_000L;
+	static final long NANO = 1_000_000_000L;
 
 	/** Start the timer */
 	public static void start() {
@@ -36,5 +36,9 @@ public class TimeElapsed {
 
 	public static void reset() {
 		elapsedSeconds = 0;
+	}
+	
+	public static double nanoToSeconds(long nanoseconds) {
+	    return (double) nanoseconds / NANO; // Divide nanoseconds by 1 billion to get seconds
 	}
 }

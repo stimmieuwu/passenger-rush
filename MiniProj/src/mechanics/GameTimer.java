@@ -91,6 +91,15 @@ public class GameTimer extends AnimationTimer {
 	public final int GAME_DURATION_SECS = 300;
 
 	public Rectangle2D junction = new Rectangle2D(200, 20, 300, 60);
+	private boolean isUnloading1 = false; // Flag to track unloading status for player 1
+	private boolean isUnloading2 = false; // Flag to track unloading status for player 2
+	private long unloadStartTime1 = 0; // To store the start time of unloading for player 1
+	private long unloadStartTime2 = 0;
+
+	public static final int LOADING_TIME_SECS = 3;
+	public static final int UNLOADING_TIME_SECS = 8;
+
+	private HashMap<Passenger, Long> passengerLoadingTimes = new HashMap<>();
 
 //		scatched hashset based input due to performance issues
 //		private final HashSet<KeyCode> inputs = new HashSet<KeyCode>();
@@ -123,9 +132,9 @@ public class GameTimer extends AnimationTimer {
 		map.drawMap(bg);
 
 		// Initializes the different spawning timers
-		passengerSpawn = new Spawn();
-		powerUpSpawn = new Spawn();
-		obstacleSpawn = new Spawn();
+		passengerSpawn = new Spawn(1, 2);
+		powerUpSpawn = new Spawn(20, 30);
+		obstacleSpawn = new Spawn(20, 30);
 
 		// Initialize the player's effects
 		activeEffects.put(player1, new ArrayList<>());
@@ -292,27 +301,71 @@ public class GameTimer extends AnimationTimer {
 			passengers.add(new Passenger(tempPassengerTile.x, tempPassengerTile.y, Passenger.PASSENGER));
 		}
 
-		for (int i = 0; i < passengers.size(); i++) {
-			Passenger passenger = passengers.get(i);
-			passenger.render(gc);
-			if (player1.hitbox.intersects(passenger.hitBox())) {
-				player1.passengers++;
-				passengers.remove(i);
-			}
-			if (player2.hitbox.intersects(passenger.hitBox())) {
-				player2.passengers++;
-				passengers.remove(i);
-			}
-		}
+	    for (int i = passengers.size() - 1; i >= 0; i--) {
+	    	Passenger passenger = passengers.get(i);
+	    	passenger.render(gc);
+
+	        if (player1.hitbox.intersects(passenger.hitBox())) {
+	            if (!passengerLoadingTimes.containsKey(passenger)) { 
+	                passengerLoadingTimes.put(passenger, currentNanoTime);
+	            } else { 
+	                long loadStartTime = passengerLoadingTimes.get(passenger);
+	                if (TimeElapsed.nanoToSeconds(currentNanoTime - loadStartTime) >= LOADING_TIME_SECS) { 
+	                    player1.passengers++;
+	                    passengers.remove(i);
+	                    passengerLoadingTimes.remove(passenger); 
+	                }
+	            }
+	        } else if (passengerLoadingTimes.containsKey(passenger) && !player2.hitbox.intersects(passenger.hitBox())) { 
+	            passengerLoadingTimes.remove(passenger); // Only remove if player2 is also not intersecting
+	        }
+
+	        if (player2.hitbox.intersects(passenger.hitBox())) {
+	            if (!passengerLoadingTimes.containsKey(passenger)) { // Start loading this passenger
+	                passengerLoadingTimes.put(passenger, currentNanoTime);
+	            } else { 
+	                long loadStartTime = passengerLoadingTimes.get(passenger);
+	                if (TimeElapsed.nanoToSeconds(currentNanoTime - loadStartTime) >= LOADING_TIME_SECS) { // Loading complete
+	                    player2.passengers++;
+	                    passengers.remove(i);
+	                    passengerLoadingTimes.remove(passenger); // Remove loading state for this passenger
+	                }
+	            }
+	        } else if (passengerLoadingTimes.containsKey(passenger) && !player1.hitbox.intersects(passenger.hitBox())) { 
+	            passengerLoadingTimes.remove(passenger); // Only remove if player2 is also not intersecting
+	        }
+	    }
 
 		if (player1.hitbox.intersects(junction)) {
-			player1.score += player1.passengers;
-			player1.passengers = 0;
+			if (!isUnloading1) {
+				isUnloading1 = true;
+				unloadStartTime1 = currentNanoTime;
+			} else {
+				// Check if 8 seconds have passed
+				if (TimeElapsed.nanoToSeconds(currentNanoTime - unloadStartTime1) >= UNLOADING_TIME_SECS) {
+					player1.score += player1.passengers;
+					player1.passengers = 0;
+					isUnloading1 = false;
+				}
+			}
+		} else {
+			isUnloading1 = false; // Reset if player leaves the junction
 		}
 
 		if (player2.hitbox.intersects(junction)) {
-			player2.score += player2.passengers;
-			player2.passengers = 0;
+			if (!isUnloading2) {
+				isUnloading2 = true;
+				unloadStartTime2 = currentNanoTime;
+			} else {
+				// Check if 8 seconds have passed
+				if (TimeElapsed.nanoToSeconds(currentNanoTime - unloadStartTime2) >= UNLOADING_TIME_SECS) {
+					player2.score += player2.passengers;
+					player2.passengers = 0;
+					isUnloading2 = false;
+				}
+			}
+		} else {
+			isUnloading2 = false; // Reset if player leaves the junction
 		}
 
 		// Power-up spawning

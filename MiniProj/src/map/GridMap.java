@@ -140,7 +140,9 @@ public class GridMap {
 		// Return a random tile from the list
 		if (!matchingTiles.isEmpty()) {
 			int randomIndex = random.nextInt(matchingTiles.size());
-			return matchingTiles.get(randomIndex);
+			Tile randTile = matchingTiles.get(randomIndex);
+			randTile.occupied = true;
+			return randTile;
 		} else {
 			return null; // No tile found with that number
 		}
