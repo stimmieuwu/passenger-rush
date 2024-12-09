@@ -27,8 +27,8 @@ import mechanics.CollisionDetector;
 		public String name;
 		
 		// Variables for movement
-		private double startingX;
-		private double startingY;
+		private static final double startingX = 350;
+		private static final double startingY = 25;
 		/** The change in x-coordinate (horizontal movement). */
 		private double dx;
 		/** The change in y-coordinate (vertical movement). */

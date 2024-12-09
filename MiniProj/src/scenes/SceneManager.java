@@ -1,5 +1,6 @@
 package scenes;
 
+import entities.Player;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 import mechanics.Audio;
@@ -109,7 +110,7 @@ public class SceneManager {
 	/**
 	 * Switches the current scene to the winning/game over scene.
 	 */
-	public void switchToWinningScene() {
+	public void switchToWinningScene(Player winner) {
 		stage.setScene(winningScene.getScene());
 		bgMusic.stopMusic();
 		gameTimer.resetGame();

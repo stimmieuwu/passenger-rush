@@ -6,6 +6,7 @@ import java.util.HashMap;
 import effects.CrackInTheRoad;
 import effects.Debuff;
 import effects.Effect;
+import effects.Missile;
 import effects.OilBarrel;
 import effects.OilSpill;
 import effects.Speed;
@@ -18,6 +19,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import map.GridMap;
@@ -73,6 +75,8 @@ public class GameTimer extends AnimationTimer {
 	private HashMap<Player, ArrayList<Effect>> activeEffects = new HashMap<>();
 	/** Map each player to their list of active debuffs */
 	private HashMap<Player, ArrayList<Debuff>> activeDebuffs = new HashMap<>();
+	
+	private Missile missile = null;
 
 	/** Random number for determining what powerup a mystery powerup will become */
 	int randomIndex = (int) (Math.random() * PowerUp.TYPES.length);
@@ -247,7 +251,14 @@ public class GameTimer extends AnimationTimer {
 		TimeElapsed.update();
 		if (TimeElapsed.getElapsedSeconds() >= GAME_DURATION_SECS) {
 			this.isGameOver = true;
-			this.game.sceneManager.switchToWinningScene();
+			if(player1.score > player2.score) {
+				this.game.sceneManager.switchToWinningScene(player1);
+			}
+			if(player2.score > player1.score) {
+				this.game.sceneManager.switchToWinningScene(player2);
+			} else {
+				this.game.sceneManager.switchToWinningScene(new Player("atay", 0, 0, new Image("./../assets/atay.png") , KeyCode.UP, KeyCode.LEFT, KeyCode.DOWN, KeyCode.RIGHT));
+			}
 		}
 
 		gc.clearRect(0, 0, 800, 800); // Clear the canvas
@@ -281,6 +292,7 @@ public class GameTimer extends AnimationTimer {
 				passengers.add(new Passenger(tempTile.x, tempTile.y, Passenger.PASSENGER));
 			}
 		}
+		
 
 		for (int i = 0; i < passengers.size(); i++) {
 			Passenger passenger = passengers.get(i);
@@ -294,6 +306,7 @@ public class GameTimer extends AnimationTimer {
 				passengers.remove(i);
 			}
 		}
+		
 		
 		if(player1.hitbox.intersects(junction)) {
 			player1.score += player1.passengers;
@@ -363,6 +376,11 @@ public class GameTimer extends AnimationTimer {
 				applyDebuff(player2, debuff);
 				obstacles.remove(i);
 			}
+		}
+		
+		if(player1.hitbox.intersects(player2.hitbox)) {
+			player1.teleportToStart();
+			player2.teleportToStart();
 		}
 	}
 
