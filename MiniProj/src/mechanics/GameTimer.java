@@ -298,43 +298,46 @@ public class GameTimer extends AnimationTimer {
 		// Passenger spawning
 		if (passengerSpawn.shouldSpawn(currentNanoTime)) {
 			Tile tempPassengerTile = map.getRandomTile(10);
-			passengers.add(new Passenger(tempPassengerTile.x, tempPassengerTile.y, Passenger.PASSENGER));
+			if (tempPassengerTile != null) {
+				passengers.add(new Passenger(tempPassengerTile.x, tempPassengerTile.y, Passenger.PASSENGER));
+			}
 		}
 
-	    for (int i = passengers.size() - 1; i >= 0; i--) {
-	    	Passenger passenger = passengers.get(i);
-	    	passenger.render(gc);
+		for (int i = passengers.size() - 1; i >= 0; i--) {
+			Passenger passenger = passengers.get(i);
+			passenger.render(gc);
 
-	        if (player1.hitbox.intersects(passenger.hitBox())) {
-	            if (!passengerLoadingTimes.containsKey(passenger)) { 
-	                passengerLoadingTimes.put(passenger, currentNanoTime);
-	            } else { 
-	                long loadStartTime = passengerLoadingTimes.get(passenger);
-	                if (TimeElapsed.nanoToSeconds(currentNanoTime - loadStartTime) >= LOADING_TIME_SECS) { 
-	                    player1.passengers++;
-	                    passengers.remove(i);
-	                    passengerLoadingTimes.remove(passenger); 
-	                }
-	            }
-	        } else if (passengerLoadingTimes.containsKey(passenger) && !player2.hitbox.intersects(passenger.hitBox())) { 
-	            passengerLoadingTimes.remove(passenger); // Only remove if player2 is also not intersecting
-	        }
+			if (player1.hitbox.intersects(passenger.hitBox())) {
+				if (!passengerLoadingTimes.containsKey(passenger)) {
+					passengerLoadingTimes.put(passenger, currentNanoTime);
+				} else {
+					long loadStartTime = passengerLoadingTimes.get(passenger);
+					if (TimeElapsed.nanoToSeconds(currentNanoTime - loadStartTime) >= LOADING_TIME_SECS) {
+						player1.passengers++;
+						passengers.remove(i);
+						passengerLoadingTimes.remove(passenger);
+					}
+				}
+			} else if (passengerLoadingTimes.containsKey(passenger) && !player2.hitbox.intersects(passenger.hitBox())) {
+				passengerLoadingTimes.remove(passenger); // Only remove if player2 is also not intersecting
+			}
 
-	        if (player2.hitbox.intersects(passenger.hitBox())) {
-	            if (!passengerLoadingTimes.containsKey(passenger)) { // Start loading this passenger
-	                passengerLoadingTimes.put(passenger, currentNanoTime);
-	            } else { 
-	                long loadStartTime = passengerLoadingTimes.get(passenger);
-	                if (TimeElapsed.nanoToSeconds(currentNanoTime - loadStartTime) >= LOADING_TIME_SECS) { // Loading complete
-	                    player2.passengers++;
-	                    passengers.remove(i);
-	                    passengerLoadingTimes.remove(passenger); // Remove loading state for this passenger
-	                }
-	            }
-	        } else if (passengerLoadingTimes.containsKey(passenger) && !player1.hitbox.intersects(passenger.hitBox())) { 
-	            passengerLoadingTimes.remove(passenger); // Only remove if player2 is also not intersecting
-	        }
-	    }
+			if (player2.hitbox.intersects(passenger.hitBox())) {
+				if (!passengerLoadingTimes.containsKey(passenger)) { // Start loading this passenger
+					passengerLoadingTimes.put(passenger, currentNanoTime);
+				} else {
+					long loadStartTime = passengerLoadingTimes.get(passenger);
+					if (TimeElapsed.nanoToSeconds(currentNanoTime - loadStartTime) >= LOADING_TIME_SECS) { // Loading
+																											// complete
+						player2.passengers++;
+						passengers.remove(i);
+						passengerLoadingTimes.remove(passenger); // Remove loading state for this passenger
+					}
+				}
+			} else if (passengerLoadingTimes.containsKey(passenger) && !player1.hitbox.intersects(passenger.hitBox())) {
+				passengerLoadingTimes.remove(passenger); // Only remove if player2 is also not intersecting
+			}
+		}
 
 		if (player1.hitbox.intersects(junction)) {
 			if (!isUnloading1) {
@@ -374,7 +377,9 @@ public class GameTimer extends AnimationTimer {
 //			powerUps.add(new PowerUp(tempTile.x, tempTile.y, PowerUp.SPEED_BUFF, "speed"));
 //			
 			Tile tempTile2 = map.getRandomTile(9);
-			powerUps.add(new PowerUp(tempTile2.x, tempTile2.y, PowerUp.INSURANCE_BUFF, "insured"));
+			if (tempTile2 != null) {
+				powerUps.add(new PowerUp(tempTile2.x, tempTile2.y, PowerUp.INSURANCE_BUFF, "insured"));
+			}
 //			
 			Tile tempTile = map.getRandomTile(9);
 			if (tempTile != null) {
@@ -405,8 +410,10 @@ public class GameTimer extends AnimationTimer {
 		// Obstacles Spawning Code
 		if (obstacleSpawn.shouldSpawn(currentNanoTime)) {
 			Tile tempObstacleTile = map.getRandomTile(9);
+			if (tempObstacleTile != null) {
 			obstacles.add(
 					new Obstacle(tempObstacleTile.x, tempObstacleTile.y, Obstacle.HOLE_OBSTACLE, "crackintheroad"));
+			}
 		}
 
 		for (Obstacle obstacle : obstacles) {
