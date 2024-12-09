@@ -1,6 +1,5 @@
 package scenes;
 
-import entities.Player;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;

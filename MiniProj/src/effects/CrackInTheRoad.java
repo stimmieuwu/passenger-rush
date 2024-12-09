@@ -10,17 +10,20 @@ import entities.Player;
  * @author Norman Marfa III
  * @created_date 2024-12-09
  */
-public class CrackInTheRoad extends Debuff{
+public class CrackInTheRoad extends Debuff {
 	private boolean tpToSpawn;
-	
+
 	public CrackInTheRoad() {
 		super("crackintheroad", 0);
 	}
-	
+
 	public void apply(Player player) {
+		if (!player.isInsured()) {
+			player.passengers = 0;
+		}
 		player.teleportToStart();
 	}
-	
+
 	public void remove(Player player) {
 	}
 }

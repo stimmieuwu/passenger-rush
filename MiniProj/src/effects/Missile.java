@@ -25,14 +25,14 @@ public class Missile extends Sprite {
 
 		sep = Math.sqrt(dx * dx + dy * dy);
 		speed = scale / sep;
-		
-		if(dy < 50 && dx < 50) {
+
+		if (dy < 50 && dx < 50) {
 			homing = false;
 		}
 
 		if (homing) {
 			this.setXPos(this.getXPos() + dx * speed);
-			this.setYPos(this.getYPos()* speed);
+			this.setYPos(this.getYPos() * speed);
 		} else {
 			this.setXPos(this.getXPos());
 			this.setYPos(this.getYPos() + scale);

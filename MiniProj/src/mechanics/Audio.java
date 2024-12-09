@@ -35,7 +35,7 @@ public class Audio {
 		mediaPlayer.play(); // Start the audio
 	}
 
-    /** Stops the audio playback. */
+	/** Stops the audio playback. */
 	public void stopMusic() {
 		if (mediaPlayer != null) {
 			mediaPlayer.stop();

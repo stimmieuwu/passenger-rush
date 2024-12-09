@@ -47,7 +47,7 @@ public class SceneManager {
 	private Audio lobbyMusic;
 	/** Music for the game */
 	private Audio bgMusic;
-	
+
 	private GameTimer gameTimer;
 
 	/**
@@ -133,11 +133,11 @@ public class SceneManager {
 
 		GraphicsContext gc = gameScene.canvas.getGraphicsContext2D();
 		GraphicsContext bg = gameScene.bg.getGraphicsContext2D();
-		
+
 		// Start the game loop using GameTimer
 		this.gameTimer = new GameTimer(gc, bg, gameScene);
 		gameTimer.start();
-		
+
 		lobbyMusic.stopMusic();
 		this.bgMusic = new Audio("./assets/music/game_music.mp3", 0.4f);
 	}

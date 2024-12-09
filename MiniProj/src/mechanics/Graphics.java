@@ -3,8 +3,8 @@ package mechanics;
 import javafx.scene.image.Image;
 
 /**
- * The Graphics class manages the storage of image assets used 
- * in the Passenger Rush game.
+ * The Graphics class manages the storage of image assets used in the Passenger
+ * Rush game.
  *
  * @author Simonee Ezekiel M. Mariquit
  * @author Jan Zuriel Camba
@@ -16,9 +16,9 @@ public class Graphics {
 	public static final Image background = new Image("../assets/backgrounds/bg.png");
 	/** The background image for the selection screen */
 	public static final Image JEEPSELECT = new Image("../assets/backgrounds/skinSelection.png");
-	
+
 	public static final Image HOW2 = new Image("../assets/backgrounds/howtoPlay.png");
-	
+
 	public static final Image DEVS = new Image("../assets/backgrounds/devs.png");
 	/** Image for displaying stops in the game */
 	public static final Image routes = new Image("../assets/sprites/stops.png");
@@ -39,7 +39,7 @@ public class Graphics {
 	/** The image for skin 6 */
 	public static final Image SKIN_6 = new Image("./../assets/sprites/jeep5.png", 80, 80, true, true);
 
-    /** Loads the frames of the menu animation into the menuAnimation array. */
+	/** Loads the frames of the menu animation into the menuAnimation array. */
 	public static void generateMenuGraphics() {
 		for (int i = 0; i < FRAMES; i++) {
 			menuAnimation[i] = new Image("../assets/menuAnimation/menu" + i + ".png");

@@ -1,10 +1,5 @@
 package scenes;
 
-import java.awt.Desktop;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -39,37 +34,34 @@ public class Instructions {
 	 */
 	public Instructions(SceneManager sceneManager) {
 		// Go back to the main menu upon the click of this button
-		
+
 		buttonEvents(sceneManager);
-		
+
 		Group layout = new Group();
 		instructionsScene = new Scene(layout, SceneManager.getWindowWidth(), SceneManager.getWindowHeight());
-		
-		
+
 		setUpButton();
-		
+
 		Canvas canvas = new Canvas(SceneManager.getWindowWidth(), SceneManager.getWindowHeight());
 		GraphicsContext bg = canvas.getGraphicsContext2D();
-		
-		
+
 		// drawing of background
 		bg.drawImage(Graphics.HOW2, 0, 0);
 		layout.getChildren().add(canvas);
 		layout.getChildren().add(back);
 
-		
 	}
-	
+
 	// sets up button layout and styling
 	private void setUpButton() {
 		this.back.getStyleClass().add("back");
 		instructionsScene.getStylesheets().add((getClass()).getResource("skin.css").toExternalForm());
 		this.back.setLayoutX(25);
 		this.back.setLayoutY(667);
-		
+
 	}
-	
-	private void buttonEvents(SceneManager sceneManager){
+
+	private void buttonEvents(SceneManager sceneManager) {
 		back.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -77,7 +69,6 @@ public class Instructions {
 			}
 		});
 	}
-	
 
 	/**
 	 * Returns the Scene object representing the instructions scene.

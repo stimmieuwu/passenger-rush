@@ -254,10 +254,10 @@ public class SkinSwitching {
 					((Group) skinSwitchingScene.getRoot()).getChildren().add(errorMessage);
 					errorMessage.setLayoutX(270); // Example x-coordinate
 					errorMessage.setLayoutY(630); // Example y-coordinate
-				} else { 
+				} else {
 					sceneManager.switchToGameScene();
 				}
-				
+
 			}
 		});
 

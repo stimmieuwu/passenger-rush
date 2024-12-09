@@ -29,13 +29,13 @@ public class Spawn {
 		nextSpawnDelay = random.nextInt(1) + 1;
 	}
 
-    /**
-     * Checks if a spawn event should occur based on the current time.
-     * This is passed to the AnimationTimer.
-     *
-     * @param now The current time in nanoseconds.
-     * @return true if a spawn should occur, false otherwise.
-     */
+	/**
+	 * Checks if a spawn event should occur based on the current time. This is
+	 * passed to the AnimationTimer.
+	 *
+	 * @param now The current time in nanoseconds.
+	 * @return true if a spawn should occur, false otherwise.
+	 */
 	public boolean shouldSpawn(long now) {
 		if (now - lastSpawnTime >= nextSpawnDelay * NANO) {
 			lastSpawnTime = now;

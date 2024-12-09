@@ -5,7 +5,6 @@ import java.util.TimerTask;
 
 import entities.Player;
 
-
 /**
  * When a jeepney obtains the Insurance effect, it can return to the starting
  * point without losing passengers.
@@ -15,19 +14,20 @@ import entities.Player;
  * @author Norman Marfa III
  * @created_date 2024-12-09
  */
-public class Insurance extends Effect{
+public class Insurance extends Effect {
 	private boolean isInsured;
-	
+
 	public Insurance(long duration) {
 		super("insured", duration);
 		this.isInsured = false;
 	}
-	
+
 	public void apply(Player player) {
 		// TODO Auto-generated method stub
 		if (player.isInsured() == true) {
 			player.hasInvincibilityToggle();
-		};
+		}
+		;
 
 		new Timer().schedule(new TimerTask() {
 			public void run() {
@@ -35,7 +35,7 @@ public class Insurance extends Effect{
 			}
 		}, duration);
 	}
-	
+
 	public void remove(Player player) {
 		player.hasInvincibilityToggle();
 	}

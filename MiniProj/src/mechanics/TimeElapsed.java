@@ -33,7 +33,7 @@ public class TimeElapsed {
 	public static int getElapsedSeconds() {
 		return elapsedSeconds;
 	}
-	
+
 	public static void reset() {
 		elapsedSeconds = 0;
 	}

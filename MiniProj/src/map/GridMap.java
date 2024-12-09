@@ -30,7 +30,7 @@ public class GridMap {
 	/** 2D array representing the map grid. */
 	public static Tile gridMap[][];
 
-    public static ArrayList<Rectangle2D> walls = new ArrayList<>();
+	public static ArrayList<Rectangle2D> walls = new ArrayList<>();
 
 	/**
 	 * Construct a GridMap object, which loads the map array and the map data.
@@ -76,10 +76,10 @@ public class GridMap {
 					gridMap[row][col].y = row * 20;
 					if (tileData < 9)
 						gridMap[row][col].isWall = true;
-					
+
 					if (tileData < 9) {
-                        walls.add(new Rectangle2D(col * 20, row * 20, Tile.TILE_WIDTH, Tile.TILE_HEIGHT)); 
-                    }
+						walls.add(new Rectangle2D(col * 20, row * 20, Tile.TILE_WIDTH, Tile.TILE_HEIGHT));
+					}
 				}
 			}
 			br.close();

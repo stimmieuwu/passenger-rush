@@ -4,7 +4,6 @@ import entities.Player;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.input.KeyCode;
 import map.GridMap;
-import map.Tile;
 
 /**
  * The `CollisionDetector` class provides methods for detecting collisions
@@ -37,24 +36,24 @@ public class CollisionDetector {
 
 		// Check if the predicted hitbox intersects with any corner
 		for (Rectangle2D wall : GridMap.walls) {
-	        if (predictedHitbox.intersects(wall)) {
+			if (predictedHitbox.intersects(wall)) {
 
-	            double overlapX = 0;
-	            double overlapY = 0;
+				double overlapX = 0;
+				double overlapY = 0;
 
-	            if (key == player.up) {
-	                overlapY = predictedHitbox.getMinY() - wall.getMaxY();  // Correct
-	            } else if (key == player.down) {
-	                overlapY = predictedHitbox.getMaxY() - wall.getMinY();  // Corrected
-	            } else if (key == player.left) {
-	                overlapX = predictedHitbox.getMinX() - wall.getMaxX();  // Correct
-	            } else if (key == player.right) {
-	                overlapX = predictedHitbox.getMaxX() - wall.getMaxX();  // Correct
-	            }
+				if (key == player.up) {
+					overlapY = predictedHitbox.getMinY() - wall.getMaxY(); // Correct
+				} else if (key == player.down) {
+					overlapY = predictedHitbox.getMaxY() - wall.getMinY(); // Corrected
+				} else if (key == player.left) {
+					overlapX = predictedHitbox.getMinX() - wall.getMaxX(); // Correct
+				} else if (key == player.right) {
+					overlapX = predictedHitbox.getMaxX() - wall.getMaxX(); // Correct
+				}
 
-	            return new double[] { overlapX, overlapY }; // Return the overlap values
-	        }
-	    }
+				return new double[] { overlapX, overlapY }; // Return the overlap values
+			}
+		}
 		return null; // No collision
 	}
 

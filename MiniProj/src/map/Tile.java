@@ -36,12 +36,12 @@ public class Tile {
 	/** The rectangular boundary of the tile */
 	public Rectangle2D tileBox = new Rectangle2D(x, y, TILE_HEIGHT, TILE_WIDTH);
 
-    /**
-     * Draws the tile on the canvas. 
-     * If the tile is a wall, a rectangle is drawn around it.
-     *
-     * @param gc The `GraphicsContext` used for drawing.
-     */
+	/**
+	 * Draws the tile on the canvas. If the tile is a wall, a rectangle is drawn
+	 * around it.
+	 *
+	 * @param gc The `GraphicsContext` used for drawing.
+	 */
 	public void draw(GraphicsContext gc) {
 		gc.drawImage(img, x, y);
 	}
