@@ -502,13 +502,13 @@ public class GameTimer extends AnimationTimer {
 			if (player1.hitbox.intersects(obstacle.getHitbox())) {
 				if (player1.hasInvincibility() == false) {
 					Debuff debuff = createObstacleFromDebuff(obstacle);
-					applyDebuff(player2, debuff);
+					applyDebuff(player1, debuff);
 				}
 				obstacles.remove(i);
 			} else if (player2.hitbox.intersects(obstacle.getHitbox())) {
 				if (player2.hasInvincibility() == false) {
 					Debuff debuff = createObstacleFromDebuff(obstacle);
-					applyDebuff(player1, debuff);
+					applyDebuff(player2, debuff);
 				}
 				obstacles.remove(i);
 			}
