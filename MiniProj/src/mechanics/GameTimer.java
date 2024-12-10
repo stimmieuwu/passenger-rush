@@ -134,8 +134,9 @@ public class GameTimer extends AnimationTimer {
 
 		// Initializes the level
 		bg.drawImage(Graphics.background, 0, 0);
-		bg.drawImage(Graphics.routes, 0, 0);
 		map.drawMap(bg);
+		bg.drawImage(Graphics.routes, 0, 0);
+		
 
 		// Initializes the different spawning timers
 		passengerSpawn = new Spawn(1, 2);
