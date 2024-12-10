@@ -110,7 +110,8 @@ public class SceneManager {
 	/**
 	 * Switches the current scene to the winning/game over scene.
 	 */
-	public void switchToWinningScene(Player winner) {
+	public void switchToWinningScene() {
+		winningScene.displayResult();
 		stage.setScene(winningScene.getScene());
 		bgMusic.stopMusic();
 		gameTimer.resetGame();
@@ -129,15 +130,17 @@ public class SceneManager {
 	 * Initializes the GameTimer and starts the animation.
 	 */
 	public void switchToGameScene() {
-		stage.setScene(gameScene.getScene());
-
 		GraphicsContext gc = gameScene.canvas.getGraphicsContext2D();
 		GraphicsContext bg = gameScene.bg.getGraphicsContext2D();
-
+		
+		stage.setScene(gameScene.getScene());
 		// Start the game loop using GameTimer
+		
 		this.gameTimer = new GameTimer(gc, bg, gameScene);
 		gameTimer.start();
+		
 
+		
 		lobbyMusic.stopMusic();
 		this.bgMusic = new Audio("./assets/music/game_music.mp3", 0.4f);
 	}

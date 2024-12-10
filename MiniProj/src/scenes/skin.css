@@ -102,3 +102,33 @@
         -fx-scale-y: 1.1;
         -fx-scale-x:1.1;
 }
+
+
+.again{
+	-fx-text-fill:transparent;
+    -fx-padding: 0;
+    -fx-background-color:transparent;
+    -fx-background-image: url("file:assets/buttonImages/againNH.png");
+    -fx-pref-height: 158px;
+    -fx-pref-width: 254px;
+}
+
+.again:hover{
+	-fx-text-fill: transparent;
+        -fx-background-image: url("file:assets/buttonImages/againH.png");
+        -fx-scale-y: 1.1;
+        -fx-scale-x:1.1;
+}
+
+
+.winnerName{
+	-fx-font-family: Pangolin;
+	-fx-fill: rgba(47,47,47,0.6);
+ 	-fx-font-size: 100px;
+}
+
+.winnerScore{
+	-fx-font-family: Pangolin;
+	-fx-fill: rgba(47,47,47,0.6);
+ 	-fx-font-size: 50px;
+}

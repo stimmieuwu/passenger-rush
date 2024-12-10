@@ -78,6 +78,9 @@ public class GameTimer extends AnimationTimer {
 	private HashMap<Player, ArrayList<Debuff>> activeDebuffs = new HashMap<>();
 
 	private Missile missile = null;
+	public static boolean isTied = false;
+	public static int winningScore = 0;
+	public static String winningName = "";
 
 	/** Random number for determining what powerup a mystery powerup will become */
 	int randomIndex = (int) (Math.random() * PowerUp.TYPES.length);
@@ -85,10 +88,10 @@ public class GameTimer extends AnimationTimer {
 	String randomType = PowerUp.TYPES[randomIndex];
 
 	/** Indicates whether or not the game is over */
-	public boolean isGameOver;
+	public static boolean isGameOver = false;
 
 	/** Duration of the game in seconds */
-	public final int GAME_DURATION_SECS = 300;
+	public final int GAME_DURATION_SECS = 1;
 
 	public Rectangle2D junction = new Rectangle2D(200, 20, 300, 60);
 	private boolean isUnloading1 = false; // Flag to track unloading status for player 1
@@ -114,6 +117,7 @@ public class GameTimer extends AnimationTimer {
 	 */
 	public GameTimer(GraphicsContext gc, GraphicsContext bg, Game game) {
 		// Initialize the game elements
+		GameTimer.isGameOver = false;
 		this.gc = gc;
 		this.scene = game.getScene();
 		this.game = game;
@@ -144,7 +148,7 @@ public class GameTimer extends AnimationTimer {
 
 		// Starts the timer
 		TimeElapsed.start();
-		this.isGameOver = false;
+		
 	}
 
 	// TODO fix the bug when player hits both up and down button
@@ -258,16 +262,19 @@ public class GameTimer extends AnimationTimer {
 	public void handle(long currentNanoTime) {
 		// Check first if the game is over.
 		if (TimeElapsed.getElapsedSeconds() >= GAME_DURATION_SECS) {
-			this.isGameOver = true;
+			
 			if (player1.score > player2.score) {
-				this.game.sceneManager.switchToWinningScene(player1);
+				GameTimer.winningScore = player1.score;
+				GameTimer.winningName = player1.name;
 			}
 			if (player2.score > player1.score) {
-				this.game.sceneManager.switchToWinningScene(player2);
+				GameTimer.winningScore = player2.score;
+				GameTimer.winningName = player2.name;
 			} else {
-				this.game.sceneManager.switchToWinningScene(new Player("atay", 0, 0, new Image("./../assets/sprites/atay.png"),
-						KeyCode.UP, KeyCode.LEFT, KeyCode.DOWN, KeyCode.RIGHT));
+				GameTimer.isTied = true;
 			}
+			GameTimer.isGameOver = true;
+			this.game.sceneManager.switchToWinningScene();
 		}
 
 		gc.clearRect(0, 0, 800, 800); // Clear the canvas

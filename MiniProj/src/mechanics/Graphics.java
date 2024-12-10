@@ -18,6 +18,8 @@ public class Graphics {
 	public static final Image JEEPSELECT = new Image("../assets/backgrounds/skinSelection.png");
 
 	public static final Image HOW2 = new Image("../assets/backgrounds/howtoPlay.png");
+	public static final Image WINNER = new Image("../assets/backgrounds/winner.png");
+	public static final Image TIED = new Image("../assets/backgrounds/tied.png");
 
 	public static final Image DEVS = new Image("../assets/backgrounds/devs.png");
 	/** Image for displaying stops in the game */
