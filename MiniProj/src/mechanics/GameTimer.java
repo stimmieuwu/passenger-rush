@@ -83,6 +83,8 @@ public class GameTimer extends AnimationTimer {
 	public static boolean isTied = false;
 	public static int winningScore = 0;
 	public static String winningName = "";
+	
+	private Audio sfx;
 
 	/** Random number for determining what powerup a mystery powerup will become */
 	int randomIndex = (int) (Math.random() * PowerUp.TYPES.length);
@@ -476,11 +478,13 @@ public class GameTimer extends AnimationTimer {
 		for (int i = 0; i < powerUps.size(); i++) {
 			PowerUp powerUp = powerUps.get(i);
 			if (player1.hitbox.intersects(powerUp.getHitbox())) {
+				this.sfx = new Audio("./assets/sfx/collision.mp3", 0.4f, true);
 				Effect effect = createEffectFromPowerUp(powerUp);
 				applyEffect(player1, effect);
 				powerUps.remove(i);
 				i--;
 			} else if (player2.hitbox.intersects(powerUp.getHitbox())) {
+				this.sfx = new Audio("./assets/sfx/collision.mp3", 0.4f, true);
 				Effect effect = createEffectFromPowerUp(powerUp);
 				applyEffect(player2, effect);
 				powerUps.remove(i);
@@ -505,12 +509,14 @@ public class GameTimer extends AnimationTimer {
 		for (int i = 0; i < obstacles.size(); i++) {
 			Obstacle obstacle = obstacles.get(i);
 			if (player1.hitbox.intersects(obstacle.getHitbox())) {
+				this.sfx = new Audio("./assets/sfx/collision.mp3", 0.4f, true);
 				if (player1.hasInvincibility() == false) {
 					Debuff debuff = createObstacleFromDebuff(obstacle);
 					applyDebuff(player1, debuff);
 				}
 				obstacles.remove(i);
 			} else if (player2.hitbox.intersects(obstacle.getHitbox())) {
+				this.sfx = new Audio("./assets/sfx/collision.mp3", 0.4f, true);
 				if (player2.hasInvincibility() == false) {
 					Debuff debuff = createObstacleFromDebuff(obstacle);
 					applyDebuff(player2, debuff);
@@ -520,6 +526,9 @@ public class GameTimer extends AnimationTimer {
 		}
 
 		if (player1.hitbox.intersects(player2.hitbox)) {
+			
+			this.sfx = new Audio("./assets/sfx/collision.mp3", 0.4f, true);
+
 			player1.teleportToStart();
 			player2.teleportToStart();
 		}

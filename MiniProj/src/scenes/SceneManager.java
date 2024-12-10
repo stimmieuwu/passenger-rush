@@ -82,7 +82,7 @@ public class SceneManager {
 		developersScene = new Developers(this);
 		winningScene = new Winning(this);
 		skinSwitchingScene = new SkinSwitching(this);
-		this.lobbyMusic = new Audio("./assets/music/lobby_music.mp3", 0.4f);
+		this.lobbyMusic = new Audio("./assets/music/lobby_music.mp3", 0.4f, false);
 	}
 
 	/**
@@ -142,6 +142,6 @@ public class SceneManager {
 
 		
 		lobbyMusic.stopMusic();
-		this.bgMusic = new Audio("./assets/music/game_music.mp3", 0.4f);
+		this.bgMusic = new Audio("./assets/music/game_music.mp3", 0.4f, false);
 	}
 }

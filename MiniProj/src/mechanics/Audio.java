@@ -24,13 +24,16 @@ public class Audio {
 	 * @param audioFile The path to the audio file.
 	 * @param volume    The volume of the audio from 0 to 1
 	 */
-	public Audio(String audioFile, float volume) {
+	public Audio(String audioFile, float volume, boolean isSfx) {
 		File file = new File(audioFile);
 		String filePath = file.toURI().toString(); // Convert the file path to a Universal Resource Indexer (URI)
 
 		Media sound = new Media(filePath);
 		mediaPlayer = new MediaPlayer(sound);
-		mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Loop the audio indefinitely
+		if(!isSfx) {
+			mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // does not loop audio
+		}
+		
 		mediaPlayer.setVolume(volume);
 		mediaPlayer.play(); // Start the audio
 	}
