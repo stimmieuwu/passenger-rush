@@ -47,9 +47,9 @@ public class GameTimer extends AnimationTimer {
 	/** The current Scene of the game. */
 	private Scene scene;
 	/** The first player object. */
-	private Player player1;
+	public Player player1;
 	/** The second player object. */
-	private Player player2;
+	public Player player2;
 	/** The map object. */
 	public GridMap map;
 	/** The Game scene object */
@@ -83,8 +83,6 @@ public class GameTimer extends AnimationTimer {
 	public static boolean isTied = false;
 	public static int winningScore = 0;
 	public static String winningName = "";
-	
-	private Audio sfx;
 
 	/** Random number for determining what powerup a mystery powerup will become */
 	int randomIndex = (int) (Math.random() * PowerUp.TYPES.length);
@@ -95,7 +93,7 @@ public class GameTimer extends AnimationTimer {
 	public static boolean isGameOver = false;
 
 	/** Duration of the game in seconds */
-	public final int GAME_DURATION_SECS = 500;
+	public final int GAME_DURATION_SECS = 300;
 
 	public Rectangle2D junction = new Rectangle2D(200, 20, 300, 60);
 	private boolean isUnloading1 = false; // Flag to track unloading status for player 1
@@ -141,9 +139,9 @@ public class GameTimer extends AnimationTimer {
 		
 
 		// Initializes the different spawning timers
-		passengerSpawn = new Spawn(1, 2);
-		powerUpSpawn = new Spawn(1, 2);
-		obstacleSpawn = new Spawn(20, 30);
+		passengerSpawn = new Spawn(6, 9);
+		powerUpSpawn = new Spawn(20, 30);
+		obstacleSpawn = new Spawn(20, 40);
 
 		// Initialize the player's effects
 		activeEffects.put(player1, new ArrayList<>());
@@ -325,7 +323,7 @@ public class GameTimer extends AnimationTimer {
 
 		HashSet<KeyCode> player2Keys = player2.getCurrentKeyPressed();
 
-		for (KeyCode code : player1Keys) {
+		for (KeyCode code : player2Keys) {
 			player2.simulateMove(code);
 			double dx1 = player2.getPredictDX();
 			double dy1 = player2.getPredictDY();
@@ -337,11 +335,6 @@ public class GameTimer extends AnimationTimer {
 			}
 
 		}
-		// For debugging, render the hitboxes
-		player1.renderBox(gc, player1.collisionBox);
-		player1.renderBox(gc, player1.hitbox);
-		player1.renderBox(gc, player2.collisionBox);
-		player1.renderBox(gc, player2.hitbox);
 
 		game.player1Name.setText(player1.name);
 		game.player2Name.setText(player2.name);
@@ -478,13 +471,11 @@ public class GameTimer extends AnimationTimer {
 		for (int i = 0; i < powerUps.size(); i++) {
 			PowerUp powerUp = powerUps.get(i);
 			if (player1.hitbox.intersects(powerUp.getHitbox())) {
-				this.sfx = new Audio("./assets/sfx/collision.mp3", 0.4f, true);
 				Effect effect = createEffectFromPowerUp(powerUp);
 				applyEffect(player1, effect);
 				powerUps.remove(i);
 				i--;
 			} else if (player2.hitbox.intersects(powerUp.getHitbox())) {
-				this.sfx = new Audio("./assets/sfx/collision.mp3", 0.4f, true);
 				Effect effect = createEffectFromPowerUp(powerUp);
 				applyEffect(player2, effect);
 				powerUps.remove(i);
@@ -509,14 +500,12 @@ public class GameTimer extends AnimationTimer {
 		for (int i = 0; i < obstacles.size(); i++) {
 			Obstacle obstacle = obstacles.get(i);
 			if (player1.hitbox.intersects(obstacle.getHitbox())) {
-				this.sfx = new Audio("./assets/sfx/collision.mp3", 0.4f, true);
 				if (player1.hasInvincibility() == false) {
 					Debuff debuff = createObstacleFromDebuff(obstacle);
 					applyDebuff(player1, debuff);
 				}
 				obstacles.remove(i);
 			} else if (player2.hitbox.intersects(obstacle.getHitbox())) {
-				this.sfx = new Audio("./assets/sfx/collision.mp3", 0.4f, true);
 				if (player2.hasInvincibility() == false) {
 					Debuff debuff = createObstacleFromDebuff(obstacle);
 					applyDebuff(player2, debuff);
@@ -526,9 +515,6 @@ public class GameTimer extends AnimationTimer {
 		}
 
 		if (player1.hitbox.intersects(player2.hitbox)) {
-			
-			this.sfx = new Audio("./assets/sfx/collision.mp3", 0.4f, true);
-
 			player1.teleportToStart();
 			player2.teleportToStart();
 		}

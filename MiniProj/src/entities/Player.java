@@ -180,8 +180,6 @@ public class Player extends Sprite {
 		gc.fillText(name, this.getXPos(), this.getYPos());
 		gc.fillText(Integer.toString(passengers), this.getXPos() + playerImage.getWidth() / 2,
 				this.getYPos() + playerImage.getHeight());
-		renderBox(gc, this.hitbox);
-		renderBox(gc, this.collisionBox);
 		// slowDown();
 	}
 

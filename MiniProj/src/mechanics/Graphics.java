@@ -40,11 +40,6 @@ public class Graphics {
 	public static final Image SKIN_5 = new Image("./../assets/sprites/jeep4.png", 80, 80, true, true);
 	/** The image for skin 6 */
 	public static final Image SKIN_6 = new Image("./../assets/sprites/jeep5.png", 80, 80, true, true);
-	
-	
-	public static final Image SPEED = new Image("./../assets/sprites/speed.png", 100, 100, true, true);
-	
-	public static final Image OIL = new Image("./../assets/sprites/oil.png", 100, 100, true, true);
 
 	/** Loads the frames of the menu animation into the menuAnimation array. */
 	public static void generateMenuGraphics() {

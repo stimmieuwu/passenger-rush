@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 /**
  * This class represents the main game scene where the gameplay takes place. It
@@ -69,28 +70,47 @@ public class Game {
 
 		this.fpsCounter = addText(20, 20, 1.5);
 		this.timeElapsed = addText(760, 20, 1.5);
-		this.player1Name = addText(25, 45, 1.5);
-		this.player2Name = addText(680, 45, 1.5);
-		this.player1Score = addText(20, 70, 1.5);
-		this.player2Score = addText(750, 70, 1.5);
+		this.player1Name = addText(20, 35, 1.5);
+		this.player2Name = addText(700, 35, 1.5);
+		this.player1Score = addText(20, 50, 1.5);
+		this.player2Score = addText(770, 50, 1.5);
 		
 
 		// Buffs
-		this.player1HasSpeed = addText(25, 95, 1.5);
-		this.player1HasInsurance = addText(30, 120, 1.5);
-		this.player1HasInvincibility = addText(32, 145, 1.5);
+		this.player1HasSpeed = addText(29, 65, 1.5);
+		this.player1HasInsurance = addText(33, 80, 1.5);
+		this.player1HasInvincibility = addText(40, 95, 1.5);
 
-		this.player2HasSpeed = addText(680, 95, 1.5);
-		this.player2HasInsurance = addText(680, 120, 1.5);
-		this.player2HasInvincibility = addText(680, 145, 1.5);
+		this.player2HasSpeed = addText(700, 65, 1.5);
+		this.player2HasInsurance = addText(670, 80, 1.5);
+		this.player2HasInvincibility = addText(640, 95, 1.5);
 
 		// Debuffs
-		this.player1HasCrackInTheRoad = addText(25, 170, 1.5);
-		this.player1HasOilSpill = addText(25, 195, 1.5);
+		this.player1HasCrackInTheRoad = addText(25, 125, 1.5);
+		this.player1HasOilSpill = addText(27, 140, 1.5);
 
-		this.player2HasCrackInTheRoad = addText(675, 170, 1.5);
-		this.player2HasOilSpill = addText(680, 195, 1.5);
+		this.player2HasCrackInTheRoad = addText(710, 125, 1.5);
+		this.player2HasOilSpill = addText(700, 140, 1.5);
+
+		this.player1Name.setTextAlignment(TextAlignment.RIGHT); 
+		this.fpsCounter.setTextAlignment(TextAlignment.RIGHT); 
+		this.player1Score.setTextAlignment(TextAlignment.RIGHT); 
+		this.player1HasSpeed.setTextAlignment(TextAlignment.RIGHT); 
+		this.player1HasInsurance.setTextAlignment(TextAlignment.RIGHT); 
+		this.player1HasInvincibility.setTextAlignment(TextAlignment.RIGHT); 
+		this.player1HasCrackInTheRoad.setTextAlignment(TextAlignment.RIGHT); 
+		this.player1HasOilSpill.setTextAlignment(TextAlignment.RIGHT); 
+
+		this.player2Name.setTextAlignment(TextAlignment.LEFT); 
+		this.timeElapsed.setTextAlignment(TextAlignment.LEFT); 
+		this.player2Score.setTextAlignment(TextAlignment.LEFT); 
+		this.player2HasSpeed.setTextAlignment(TextAlignment.LEFT); 
+		this.player2HasInsurance.setTextAlignment(TextAlignment.LEFT); 
+		this.player2HasInvincibility.setTextAlignment(TextAlignment.LEFT); 
+		this.player2HasCrackInTheRoad.setTextAlignment(TextAlignment.LEFT); 
+		this.player2HasOilSpill.setTextAlignment(TextAlignment.LEFT); 
 		this.sceneManager = sceneManager;
+		
 
 
 		this.root.getChildren().addAll(this.bg, this.canvas, fpsCounter, timeElapsed, player1Score, player2Score, 
@@ -99,35 +119,6 @@ public class Game {
 		                               player2HasSpeed, player2HasInsurance, player2HasInvincibility,
 		                               player1HasCrackInTheRoad, player1HasOilSpill,
 		                               player2HasCrackInTheRoad, player2HasOilSpill);
-		gameScene.getStylesheets().add((getClass()).getResource("skin.css").toExternalForm());
-		assignStyleSheets();
-	}
-	
-	
-	private void assignStyleSheets() {
-		this.fpsCounter.getStyleClass().add("details");
-		this.timeElapsed.getStyleClass().add("details");
-		this.player1Name.getStyleClass().add("details");
-		this.player2Name.getStyleClass().add("details");
-		this.player1Score.getStyleClass().add("details");
-		this.player2Score.getStyleClass().add("details");
-		
-
-		// Buffs
-		this.player1HasSpeed.getStyleClass().add("details");
-		this.player1HasInsurance.getStyleClass().add("details");
-		this.player1HasInvincibility.getStyleClass().add("details");
-
-		this.player2HasSpeed.getStyleClass().add("details");
-		this.player2HasInsurance.getStyleClass().add("details");
-		this.player2HasInvincibility.getStyleClass().add("details");
-
-		// Debuffs
-		this.player1HasCrackInTheRoad.getStyleClass().add("details");
-		this.player1HasOilSpill.getStyleClass().add("details");
-
-		this.player2HasCrackInTheRoad.getStyleClass().add("details");
-		this.player2HasOilSpill.getStyleClass().add("details");
 	}
 
 	/**

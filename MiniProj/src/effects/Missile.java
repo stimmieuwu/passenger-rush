@@ -17,7 +17,9 @@ public class Missile extends Effect {
 		super("missile", duration);
 	}
 	
-	public void apply(Player player) {}
+	public void apply(Player player) {
+		
+	}
 	
 	public void remove(Player player) {}
 	
