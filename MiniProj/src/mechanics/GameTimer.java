@@ -91,7 +91,7 @@ public class GameTimer extends AnimationTimer {
 	public static boolean isGameOver = false;
 
 	/** Duration of the game in seconds */
-	public final int GAME_DURATION_SECS = 1;
+	public final int GAME_DURATION_SECS = 5;
 
 	public Rectangle2D junction = new Rectangle2D(200, 20, 300, 60);
 	private boolean isUnloading1 = false; // Flag to track unloading status for player 1
@@ -260,6 +260,7 @@ public class GameTimer extends AnimationTimer {
 	 */
 	@Override
 	public void handle(long currentNanoTime) {
+		TimeElapsed.update();
 		// Check first if the game is over.
 		if (TimeElapsed.getElapsedSeconds() >= GAME_DURATION_SECS) {
 			
@@ -300,7 +301,6 @@ public class GameTimer extends AnimationTimer {
 		// Update FPS counter and timer
 		game.fpsCounter.setText(Double.toString(FPS.getAverageFPS()));
 		game.timeElapsed.setText(Double.toString(TimeElapsed.getElapsedSeconds()));
-		TimeElapsed.update();
 
 		// Passenger spawning
 		if (passengerSpawn.shouldSpawn(currentNanoTime)) {
