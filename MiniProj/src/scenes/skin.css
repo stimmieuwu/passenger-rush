@@ -132,3 +132,8 @@
 	-fx-fill: rgba(47,47,47,0.6);
  	-fx-font-size: 50px;
 }
+
+.details{
+	-fx-font-family: Pangolin;
+	-fx-fill: rgba(47,47,47,0.6);
+}

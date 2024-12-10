@@ -85,7 +85,7 @@ public class Player extends Sprite {
 	private boolean hasMissileBuff = false;
 	// Debuffs
 	/** Indicates whether the player has the oil spill debuff */
-	private boolean hasOilSpillDebuff = false;
+	public boolean hasOilSpillDebuff = false;
 	/** Indicates whether the player has the oil spill debuff */
 	public boolean hasCrack = false;
 

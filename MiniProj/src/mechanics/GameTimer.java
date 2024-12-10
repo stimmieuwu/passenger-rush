@@ -150,7 +150,7 @@ public class GameTimer extends AnimationTimer {
 
 		// Starts the timer
 		TimeElapsed.start();
-
+		
 	}
 
 	// TODO fix the bug when player hits both up and down button
@@ -350,7 +350,9 @@ public class GameTimer extends AnimationTimer {
 		game.player1HasSpeed.setText("Speed: " + player1.hasSpeedBuff);
 		game.player1HasInsurance.setText("Insurance: " + player1.hasInsurance);
 		game.player1HasInvincibility.setText("Invincibility: " + player1.hasInvincibility());
-
+		
+		
+		
 		game.player2HasSpeed.setText("Speed: " + player2.hasSpeedBuff);
 		game.player2HasInsurance.setText("Insurance: " + player2.hasInsurance);
 		game.player2HasInvincibility.setText("Invincibility: " + player2.hasInvincibility());
@@ -360,6 +362,8 @@ public class GameTimer extends AnimationTimer {
 
 		game.player2HasCrackInTheRoad.setText("Crack: " + player2.hasCrack);
 		game.player2HasOilSpill.setText("Oil Spill: " + player2.hasOilSpillDebuff());
+		
+		
 
 		// Update player positions
 		this.player1.move();
@@ -520,6 +524,7 @@ public class GameTimer extends AnimationTimer {
 		}
 
 	}
+	
 
 	/**
 	 * Applies an effect to the player for a specific duration.
