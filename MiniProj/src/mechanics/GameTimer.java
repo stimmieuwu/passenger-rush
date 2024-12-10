@@ -92,7 +92,7 @@ public class GameTimer extends AnimationTimer {
 	public static boolean isGameOver = false;
 
 	/** Duration of the game in seconds */
-	public final int GAME_DURATION_SECS = 5;
+	public final int GAME_DURATION_SECS = 500;
 
 	public Rectangle2D junction = new Rectangle2D(200, 20, 300, 60);
 	private boolean isUnloading1 = false; // Flag to track unloading status for player 1
@@ -149,7 +149,7 @@ public class GameTimer extends AnimationTimer {
 
 		// Starts the timer
 		TimeElapsed.start();
-		
+
 	}
 
 	// TODO fix the bug when player hits both up and down button
@@ -159,71 +159,73 @@ public class GameTimer extends AnimationTimer {
 	 * player moves there When a key is released, that movement is stopped.
 	 */
 	public void keyDetection() {
+
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent e) {
+
 				KeyCode code = e.getCode();
-				player1.simulateMove(code);
-				player2.simulateMove(code);
-				double dx1 = player1.getPredictDX();
-				double dy1 = player1.getPredictDY();
-				double dx2 = player1.getPredictDX();
-				double dy2 = player1.getPredictDY();
+//				player1.simulateMove(code);
+//				player2.simulateMove(code);
+//				double dx1 = player1.getPredictDX();
+//				double dy1 = player1.getPredictDY();
+//				double dx2 = player1.getPredictDX();
+//				double dy2 = player1.getPredictDY();
+//
+//				// Perform collision detection
+//				double[] overlap1 = player1.collision.detectTile(player1, code, dx1, dy1);
+//				double[] overlap2 = player1.collision.detectTile(player1, code, dx1, dy1);
+//
+//				if (overlap1 != null) { // Collision detected
+//					if (code == player1.up) {
+//						player1.isCollidingUp = true;
+//					} else if (code == player1.down) {
+//						player1.isCollidingDown = true;
+//					} else if (code == player1.left) {
+//						player1.isCollidingLeft = true;
+//					} else if (code == player1.right) {
+//						player1.isCollidingRight = true;
+//					}
+//					player1.pushBack(overlap1[0], overlap1[1]);
+//
+//				} else { // No collision
+//					if (code == player1.up) {
+//						player1.isCollidingUp = false;
+//					} else if (code == player1.down) {
+//						player1.isCollidingDown = false;
+//					} else if (code == player1.left) {
+//						player1.isCollidingLeft = false;
+//					} else if (code == player1.right) {
+//						player1.isCollidingRight = false;
+//					}
 
-				// Perform collision detection
-				double[] overlap1 = player1.collision.detectTile(player1, code, dx1, dy1);
-				double[] overlap2 = player1.collision.detectTile(player1, code, dx1, dy1);
+				player1.setPlayerMovement(code); // Start movement
+//				}
+//
+//				if (overlap2 != null) { // Collision detected
+//					if (code == player2.up) {
+//						player2.isCollidingUp = true;
+//					} else if (code == player2.down) {
+//						player2.isCollidingDown = true;
+//					} else if (code == player2.left) {
+//						player2.isCollidingLeft = true;
+//					} else if (code == player2.right) {
+//						player2.isCollidingRight = true;
+//					}
+//					player1.pushBack(overlap2[0], overlap2[1]);
+//
+//				} else { // No collision
+//					if (code == player2.up) {
+//						player2.isCollidingUp = false;
+//					} else if (code == player2.down) {
+//						player2.isCollidingDown = false;
+//					} else if (code == player2.left) {
+//						player2.isCollidingLeft = false;
+//					} else if (code == player2.right) {
+//						player2.isCollidingRight = false;
+//					}
 
-				if (overlap1 != null) { // Collision detected
-					if (code == player1.up) {
-						player1.isCollidingUp = true;
-					} else if (code == player1.down) {
-						player1.isCollidingDown = true;
-					} else if (code == player1.left) {
-						player1.isCollidingLeft = true;
-					} else if (code == player1.right) {
-						player1.isCollidingRight = true;
-					}
-					player1.pushBack(overlap1[0], overlap1[1]);
-
-				} else { // No collision
-					if (code == player1.up) {
-						player1.isCollidingUp = false;
-					} else if (code == player1.down) {
-						player1.isCollidingDown = false;
-					} else if (code == player1.left) {
-						player1.isCollidingLeft = false;
-					} else if (code == player1.right) {
-						player1.isCollidingRight = false;
-					}
-
-					player1.setPlayerMovement(code); // Start movement
-				}
-
-				if (overlap2 != null) { // Collision detected
-					if (code == player2.up) {
-						player2.isCollidingUp = true;
-					} else if (code == player2.down) {
-						player2.isCollidingDown = true;
-					} else if (code == player2.left) {
-						player2.isCollidingLeft = true;
-					} else if (code == player2.right) {
-						player2.isCollidingRight = true;
-					}
-					player1.pushBack(overlap2[0], overlap2[1]);
-
-				} else { // No collision
-					if (code == player2.up) {
-						player2.isCollidingUp = false;
-					} else if (code == player2.down) {
-						player2.isCollidingDown = false;
-					} else if (code == player2.left) {
-						player2.isCollidingLeft = false;
-					} else if (code == player2.right) {
-						player2.isCollidingRight = false;
-					}
-
-					player2.setPlayerMovement(code); // Start movement
-				}
+				player2.setPlayerMovement(code); // Start movement
+//				}
 
 				// Player 1: Place oil spill
 				if (code == KeyCode.F) {
@@ -277,7 +279,7 @@ public class GameTimer extends AnimationTimer {
 		TimeElapsed.update();
 		// Check first if the game is over.
 		if (TimeElapsed.getElapsedSeconds() >= GAME_DURATION_SECS) {
-			
+
 			if (player1.score > player2.score) {
 				GameTimer.winningScore = player1.score;
 				GameTimer.winningName = player1.name;
@@ -302,6 +304,13 @@ public class GameTimer extends AnimationTimer {
 		player1.collisionBox = player1.generateCollisionBox();
 		player2.collisionBox = player2.generateCollisionBox();
 
+	    player1.simulateMove(player1.getCurrentKeyPressed()); // Simulate movement based on the current key pressed
+	    double dx1 = player1.getPredictDX();
+	    double dy1 = player1.getPredictDY();
+	    double[] overlap1 = player1.collision.detectTile(player1, player1.getCurrentKeyPressed(), dx1, dy1);
+	    if (overlap1 != null) {
+			player1.stopPlayerMovement(player1.getCurrentKeyPressed());
+	    }
 		// For debugging, render the hitboxes
 		player1.renderBox(gc, player1.collisionBox);
 		player1.renderBox(gc, player1.hitbox);
@@ -432,8 +441,8 @@ public class GameTimer extends AnimationTimer {
 		if (obstacleSpawn.shouldSpawn(currentNanoTime)) {
 			Tile tempObstacleTile = map.getRandomTile(9);
 			if (tempObstacleTile != null) {
-			obstacles.add(
-					new Obstacle(tempObstacleTile.x, tempObstacleTile.y, Obstacle.HOLE_OBSTACLE, "crackintheroad"));
+				obstacles.add(
+						new Obstacle(tempObstacleTile.x, tempObstacleTile.y, Obstacle.HOLE_OBSTACLE, "crackintheroad"));
 			}
 		}
 
@@ -570,11 +579,21 @@ public class GameTimer extends AnimationTimer {
 		player1.setYPos(20);
 		player2.setYPos(20);
 
-		passengers.clear();
-		powerUps.clear();
-		obstacles.clear();
-		activeEffects.clear();
-		activeDebuffs.clear();
+		if (!passengers.isEmpty()) {
+			passengers.clear();
+		}
+		if (!powerUps.isEmpty()) {
+			powerUps.clear();
+		}
+		if (!obstacles.isEmpty()) {
+			obstacles.clear();
+		}
+		if (!activeEffects.isEmpty()) {
+			activeEffects.clear();
+		}
+		if (!activeDebuffs.isEmpty()) {
+			activeDebuffs.clear();
+		}
 
 		TimeElapsed.reset();
 

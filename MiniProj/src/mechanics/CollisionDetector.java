@@ -42,13 +42,13 @@ public class CollisionDetector {
 				double overlapY = 0;
 
 				if (key == player.up) {
-					overlapY = predictedHitbox.getMinY() - wall.getMaxY(); // Correct
+					overlapY = predictedHitbox.getMinY() - wall.getMaxY(); 
 				} else if (key == player.down) {
-					overlapY = predictedHitbox.getMaxY() - wall.getMinY(); // Corrected
+					overlapY = predictedHitbox.getMaxY() - wall.getMinY(); 
 				} else if (key == player.left) {
-					overlapX = predictedHitbox.getMinX() - wall.getMaxX(); // Correct
+					overlapX = predictedHitbox.getMinX() - wall.getMaxX(); 
 				} else if (key == player.right) {
-					overlapX = predictedHitbox.getMaxX() - wall.getMaxX(); // Correct
+					overlapX = predictedHitbox.getMaxX() - wall.getMaxX(); 
 				}
 
 				return new double[] { overlapX, overlapY }; // Return the overlap values
@@ -56,5 +56,5 @@ public class CollisionDetector {
 		}
 		return null; // No collision
 	}
-
+	
 }

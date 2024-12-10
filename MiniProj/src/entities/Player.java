@@ -40,7 +40,7 @@ public class Player extends Sprite {
 	/** The speed multiplier of the player's movement. */
 	private double speedMultiplier;
 	/** The amount of pixels that a jeepney moves per game tick */
-	public static final double MOVE_AMOUNT = 0.40;
+	public static final double MOVE_AMOUNT = 1.0;
 
 	// Objects related to images
 	/** The image representing the player. */
@@ -89,6 +89,7 @@ public class Player extends Sprite {
 	/** Amount of passengers the player has transported */
 	public int score;
 	public int passengers;
+    private KeyCode currentKeyPressed = null;
 
 	/**
 	 * Constructs a Player object. Initializes the player's position, speed, and
@@ -277,6 +278,7 @@ public class Player extends Sprite {
 	 */
 	public void setPlayerMovement(KeyCode key) {
 		move(key);
+		this.currentKeyPressed = key;
 	}
 
 	/**
@@ -286,8 +288,13 @@ public class Player extends Sprite {
 	 */
 	public void stopPlayerMovement(KeyCode key) {
 		stop(key);
+		this.currentKeyPressed = null;
 	}
 
+    public KeyCode getCurrentKeyPressed() {
+        return this.currentKeyPressed;
+    }
+	
 	/**
 	 * Returns the player's image.
 	 *
