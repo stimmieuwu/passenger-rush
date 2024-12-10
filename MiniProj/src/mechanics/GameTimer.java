@@ -8,6 +8,7 @@ import effects.Debuff;
 import effects.Effect;
 import effects.Insurance;
 import effects.Missile;
+import effects.MissileObstacle;
 import effects.OilBarrel;
 import effects.OilSpill;
 import effects.Speed;
@@ -231,12 +232,25 @@ public class GameTimer extends AnimationTimer {
 						obstacles.add(newOilSpill);
 					}
 				}
-
+				
+				if (code == KeyCode.E) {
+					Obstacle newMissile = player1.launchMissile();
+					if (newMissile != null) {
+						obstacles.add(newMissile);
+					}
+				}
 				// Player 2: Place oil spill
 				if (code == KeyCode.L) {
 					Obstacle newOilSpill = player2.placeOilSpill();
 					if (newOilSpill != null) {
 						obstacles.add(newOilSpill);
+					}
+				}
+				
+				if (code == KeyCode.O) {
+					Obstacle newMissile = player2.launchMissile();
+					if (newMissile != null) {
+						obstacles.add(newMissile);
 					}
 				}
 			}
@@ -515,6 +529,15 @@ public class GameTimer extends AnimationTimer {
 			};
 		case "insured":
 			return new Insurance(5000);
+		case "missile":
+			return new Missile(10000) {
+				public void apply(Player player) {
+					player.setMissileBuff(true);
+				}
+				
+				public void remove(Player player) {
+				}
+			};
 		default:
 			throw new IllegalArgumentException("Unknown power-up type");
 		}
@@ -532,6 +555,8 @@ public class GameTimer extends AnimationTimer {
 			return new OilSpill(5000);
 		case "crackintheroad":
 			return new CrackInTheRoad();
+		case "missile_obstacle":
+			return new MissileObstacle(10000);
 		default:
 			throw new IllegalArgumentException("Unknown obstacle type");
 		}

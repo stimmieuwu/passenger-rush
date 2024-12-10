@@ -20,7 +20,7 @@ public class PowerUp extends Sprite {
 	/** The horizontal and vertical position of the powerup */
 	private double xPos, yPos;
 	/** The image that represents the powerup */
-	private Image obstacleImage;
+	private Image powerUpImage;
 	/** The rectangular boundary of the powerup for collision detection */
 	private Rectangle2D hitbox;
 	/** The type of powerup */
@@ -33,11 +33,13 @@ public class PowerUp extends Sprite {
 	/** Image for Insurance powerup */
 	public static final Image INSURANCE_BUFF = new Image("./../assets/sprites/insurance_placeholder.png", 40, 40, true,
 			true);
+	/** Image for Missile Powerup*/
+	public static final Image MISSILE_BUFF = new Image("./../assets/sprites/rocket.png?", 40, 40, true, true);
 	/** Image for a generic powerup */
 	public static final Image POWERUP_ICON = new Image("./../assets/sprites/mysteryItem.png", 40, 40, true, true);
 
 	/** Array of possible powerup types */
-	public static final String[] TYPES = { "speed", "oilbarrel", "insured" };
+	public static final String[] TYPES = { "speed", "oilbarrel", "insured", "missile"};
 
 	/**
 	 * Constructs a PowerUp object.

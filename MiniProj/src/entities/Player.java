@@ -80,7 +80,7 @@ public class Player extends Sprite {
 	public boolean hasInsurance = false;
 	/** Indicates whether the player has the invincibility buff */
 	private boolean hasInvincibility = false;
-
+	private boolean hasMissileBuff = false;
 	// Debuffs
 	/** Indicates whether the player has the oil spill debuff */
 	private boolean hasOilSpillDebuff = false;
@@ -434,7 +434,22 @@ public class Player extends Sprite {
 		else
 			this.flippedControls = false;
 	}
-
+	/**for missile launch*/
+	public boolean hasMissileBuff() {
+		return hasMissileBuff;
+	}
+	
+	public void setMissileBuff(boolean value) {
+		hasMissileBuff = value;
+	}
+	
+	public Obstacle launchMissile() {
+		if (hasMissileBuff) {
+			hasMissileBuff = false;
+			return new Obstacle((int)this.getXPos(), (int)this.getYPos(), Obstacle.MISSILE_OBSTACLE, "missile_obstacle");
+		}
+		return null;
+	}
 	public boolean hasOilSpillDebuff() {
 		return hasOilSpillDebuff;
 	}
@@ -442,7 +457,7 @@ public class Player extends Sprite {
 	public void setOilSpillDebuff(boolean value) {
 		hasOilSpillDebuff = value;
 	}
-
+	
 	public Obstacle placeOilSpill() {
 		if (hasOilSpillDebuff) {
 			hasOilSpillDebuff = false;

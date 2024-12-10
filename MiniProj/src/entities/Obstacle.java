@@ -14,6 +14,7 @@ public class Obstacle extends Sprite {
 	public static final Image OILSPILL_OBSTACLE = new Image("./../assets/sprites/spill.png", 40, 40, true, true);
 	/** Image for the hole obstacle */
 	public static final Image HOLE_OBSTACLE = new Image("./../assets/sprites/hole.png", 40, 40, true, true);
+	public static final Image MISSILE_OBSTACLE = new Image("./../assets/sprites/rocket.png", 40, 40, true, true);
 	/** The horizontal and vertical position of the obstacle */
 	private double xPos, yPos;
 	/** The image that represents the obstacle */

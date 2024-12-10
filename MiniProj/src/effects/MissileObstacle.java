@@ -12,12 +12,14 @@ import javafx.scene.image.Image;
  * @author Norman Marfa III
  * @created_date 2024-12-09
  */
-public class Missile extends Effect {
-	public Missile(long duration) {
+public class MissileObstacle extends Debuff {
+	public MissileObstacle(long duration) {
 		super("missile", duration);
 	}
 	
-	public void apply(Player player) {}
+	public void apply(Player player) {
+		player.teleportToStart();
+	}
 	
 	public void remove(Player player) {}
 	
