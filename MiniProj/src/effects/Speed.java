@@ -39,6 +39,7 @@ public class Speed extends Effect {
 	 */
 	@Override
 	public void apply(Player player) {
+		player.hasSpeedBuff = true;
 		player.setSpeedMultiplier(speedMultiplier);
 	}
 
@@ -50,6 +51,7 @@ public class Speed extends Effect {
 	 */
 	@Override
 	public void remove(Player player) {
+		player.hasSpeedBuff = false;
 		player.setSpeedMultiplier(1.0);
 	}
 }

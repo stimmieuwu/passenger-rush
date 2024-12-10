@@ -2,7 +2,9 @@ package mechanics;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
+import effects.Crack;
 import effects.CrackInTheRoad;
 import effects.Debuff;
 import effects.Effect;
@@ -21,7 +23,6 @@ import javafx.event.EventHandler;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import map.GridMap;
@@ -234,7 +235,7 @@ public class GameTimer extends AnimationTimer {
 						obstacles.add(newOilSpill);
 					}
 				}
-				
+
 				if (code == KeyCode.E) {
 					Obstacle newMissile = player1.launchMissile();
 					if (newMissile != null) {
@@ -248,7 +249,7 @@ public class GameTimer extends AnimationTimer {
 						obstacles.add(newOilSpill);
 					}
 				}
-				
+
 				if (code == KeyCode.O) {
 					Obstacle newMissile = player2.launchMissile();
 					if (newMissile != null) {
@@ -304,26 +305,71 @@ public class GameTimer extends AnimationTimer {
 		player1.collisionBox = player1.generateCollisionBox();
 		player2.collisionBox = player2.generateCollisionBox();
 
-	    player1.simulateMove(player1.getCurrentKeyPressed()); // Simulate movement based on the current key pressed
-	    double dx1 = player1.getPredictDX();
-	    double dy1 = player1.getPredictDY();
-	    double[] overlap1 = player1.collision.detectTile(player1, player1.getCurrentKeyPressed(), dx1, dy1);
-	    if (overlap1 != null) {
-			player1.stopPlayerMovement(player1.getCurrentKeyPressed());
-	    }
+		HashSet<KeyCode> player1Keys = player1.getCurrentKeyPressed();
+
+		for (KeyCode code : player1Keys) {
+			player1.simulateMove(code);
+			double dx1 = player1.getPredictDX();
+			double dy1 = player1.getPredictDY();
+
+			double[] overlap1 = player1.collision.detectTile(player1, code, dx1, dy1);
+			if (overlap1 != null) {
+				player1.stopPlayerMovement(code);
+				break;
+			}
+
+		}
+
+		HashSet<KeyCode> player2Keys = player2.getCurrentKeyPressed();
+
+		for (KeyCode code : player1Keys) {
+			player2.simulateMove(code);
+			double dx1 = player2.getPredictDX();
+			double dy1 = player2.getPredictDY();
+
+			double[] overlap1 = player2.collision.detectTile(player2, code, dx1, dy1);
+			if (overlap1 != null) {
+				player2.stopPlayerMovement(code);
+				break;
+			}
+
+		}
 		// For debugging, render the hitboxes
 		player1.renderBox(gc, player1.collisionBox);
 		player1.renderBox(gc, player1.hitbox);
 		player1.renderBox(gc, player2.collisionBox);
 		player1.renderBox(gc, player2.hitbox);
 
+		game.player1Name.setText(player1.name);
+		game.player2Name.setText(player2.name);
+
+		game.player1Score.setText(Integer.toString(player1.score));
+		game.player2Score.setText(Integer.toString(player2.score));
+
+		// Update the Text nodes based on player booleans
+		game.player1HasSpeed.setText("Speed: " + player1.hasSpeedBuff);
+		game.player1HasInsurance.setText("Insurance: " + player1.hasInsurance);
+		game.player1HasInvincibility.setText("Invincibility: " + player1.hasInvincibility());
+
+		game.player2HasSpeed.setText("Speed: " + player2.hasSpeedBuff);
+		game.player2HasInsurance.setText("Insurance: " + player2.hasInsurance);
+		game.player2HasInvincibility.setText("Invincibility: " + player2.hasInvincibility());
+
+		game.player1HasCrackInTheRoad.setText("Crack: " + player1.hasCrack);
+		game.player1HasOilSpill.setText("Oil Spill: " + player1.hasOilSpillDebuff());
+
+		game.player2HasCrackInTheRoad.setText("Crack: " + player2.hasCrack);
+		game.player2HasOilSpill.setText("Oil Spill: " + player2.hasOilSpillDebuff());
+
 		// Update player positions
 		this.player1.move();
 		this.player2.move();
 
 		// Update FPS counter and timer
-		game.fpsCounter.setText(Double.toString(FPS.getAverageFPS()));
-		game.timeElapsed.setText(Double.toString(TimeElapsed.getElapsedSeconds()));
+		game.fpsCounter.setText("FPS: " + Integer.toString((int) FPS.getAverageFPS()));
+		int minutes = TimeElapsed.getElapsedSeconds() / 60;
+		int seconds = TimeElapsed.getElapsedSeconds() % 60;
+		game.timeElapsed.setText(String.format("%d:%02d", minutes, seconds));
 
 		// Passenger spawning
 		if (passengerSpawn.shouldSpawn(currentNanoTime)) {
@@ -456,13 +502,13 @@ public class GameTimer extends AnimationTimer {
 			if (player1.hitbox.intersects(obstacle.getHitbox())) {
 				if (player1.hasInvincibility() == false) {
 					Debuff debuff = createObstacleFromDebuff(obstacle);
-					applyDebuff(player1, debuff);
+					applyDebuff(player2, debuff);
 				}
 				obstacles.remove(i);
 			} else if (player2.hitbox.intersects(obstacle.getHitbox())) {
 				if (player2.hasInvincibility() == false) {
 					Debuff debuff = createObstacleFromDebuff(obstacle);
-					applyDebuff(player2, debuff);
+					applyDebuff(player1, debuff);
 				}
 				obstacles.remove(i);
 			}
@@ -543,10 +589,13 @@ public class GameTimer extends AnimationTimer {
 				public void apply(Player player) {
 					player.setMissileBuff(true);
 				}
-				
+
 				public void remove(Player player) {
 				}
 			};
+
+		case "crack":
+			return new Crack(5000);
 		default:
 			throw new IllegalArgumentException("Unknown power-up type");
 		}

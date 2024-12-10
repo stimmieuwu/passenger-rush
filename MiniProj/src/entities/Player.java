@@ -1,5 +1,7 @@
 package entities;
 
+import java.util.HashSet;
+
 import javafx.event.EventHandler;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
@@ -75,7 +77,7 @@ public class Player extends Sprite {
 	public boolean isInvincible = false;
 	// Buffs
 	/** Indicates whether the player has the speed buff */
-	private boolean hasSpeedBuff = false;
+	public boolean hasSpeedBuff = false;
 	/** Indicates whether the player has the insurance buff */
 	public boolean hasInsurance = false;
 	/** Indicates whether the player has the invincibility buff */
@@ -84,12 +86,14 @@ public class Player extends Sprite {
 	// Debuffs
 	/** Indicates whether the player has the oil spill debuff */
 	private boolean hasOilSpillDebuff = false;
+	/** Indicates whether the player has the oil spill debuff */
+	public boolean hasCrack = false;
 
 	// Game attributes
 	/** Amount of passengers the player has transported */
 	public int score;
 	public int passengers;
-    private KeyCode currentKeyPressed = null;
+	private HashSet<KeyCode> currentKeysPressed = new HashSet<>();
 
 	/**
 	 * Constructs a Player object. Initializes the player's position, speed, and
@@ -140,14 +144,16 @@ public class Player extends Sprite {
 		this.hasInsurance = false;
 		this.hasInvincibility = false;
 		this.hasOilSpillDebuff = false;
-		this.hasSpeedBuff = true;
+		this.hasSpeedBuff = false;
+		this.hasCrack = false;
 
 		this.score = 0;
 		this.passengers = 0;
 	}
 
 	public Rectangle2D generateHitBox() {
-		return new Rectangle2D(this.getXPos() + 8, this.getYPos() + 8, playerImage.getWidth() - 12, playerImage.getHeight() - 12);
+		return new Rectangle2D(this.getXPos() + 8, this.getYPos() + 8, playerImage.getWidth() - 12,
+				playerImage.getHeight() - 12);
 	}
 
 	public Rectangle2D generateCollisionBox() {
@@ -172,9 +178,8 @@ public class Player extends Sprite {
 		gc.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.REGULAR, 12));
 		gc.setFill(Color.BLACK);
 		gc.fillText(name, this.getXPos(), this.getYPos());
-		gc.fillText(Integer.toString(passengers), this.getXPos() + playerImage.getWidth(),
+		gc.fillText(Integer.toString(passengers), this.getXPos() + playerImage.getWidth() / 2,
 				this.getYPos() + playerImage.getHeight());
-		gc.fillText(Integer.toString(score), this.getXPos(), this.getYPos() + playerImage.getHeight());
 		renderBox(gc, this.hitbox);
 		renderBox(gc, this.collisionBox);
 		// slowDown();
@@ -278,7 +283,7 @@ public class Player extends Sprite {
 	 */
 	public void setPlayerMovement(KeyCode key) {
 		move(key);
-		this.currentKeyPressed = key;
+		this.currentKeysPressed.add(key);
 	}
 
 	/**
@@ -288,13 +293,13 @@ public class Player extends Sprite {
 	 */
 	public void stopPlayerMovement(KeyCode key) {
 		stop(key);
-		this.currentKeyPressed = null;
+		this.currentKeysPressed.remove(key);
 	}
 
-    public KeyCode getCurrentKeyPressed() {
-        return this.currentKeyPressed;
-    }
-	
+	public HashSet<KeyCode> getCurrentKeyPressed() {
+		return this.currentKeysPressed;
+	}
+
 	/**
 	 * Returns the player's image.
 	 *
@@ -441,22 +446,25 @@ public class Player extends Sprite {
 		else
 			this.flippedControls = false;
 	}
-	/**for missile launch*/
+
+	/** for missile launch */
 	public boolean hasMissileBuff() {
 		return hasMissileBuff;
 	}
-	
+
 	public void setMissileBuff(boolean value) {
 		hasMissileBuff = value;
 	}
-	
+
 	public Obstacle launchMissile() {
 		if (hasMissileBuff) {
 			hasMissileBuff = false;
-			return new Obstacle((int)this.getXPos(), (int)this.getYPos(), Obstacle.MISSILE_OBSTACLE, "missile_obstacle");
+			return new Obstacle((int) this.getXPos(), (int) this.getYPos(), Obstacle.MISSILE_OBSTACLE,
+					"missile_obstacle");
 		}
 		return null;
 	}
+
 	public boolean hasOilSpillDebuff() {
 		return hasOilSpillDebuff;
 	}
@@ -464,14 +472,16 @@ public class Player extends Sprite {
 	public void setOilSpillDebuff(boolean value) {
 		hasOilSpillDebuff = value;
 	}
-	
+
 	public Obstacle placeOilSpill() {
 		if (hasOilSpillDebuff) {
 			hasOilSpillDebuff = false;
-			if(isLeft) return new Obstacle((int) this.getXPos() - 90, (int) this.getYPos() + 20, Obstacle.OILSPILL_OBSTACLE,
-					"oilspill_obstacle");
-			if(!isLeft) return new Obstacle((int) this.getXPos() + 90, (int) this.getYPos() + 20, Obstacle.OILSPILL_OBSTACLE,
-					"oilspill_obstacle");
+			if (isLeft)
+				return new Obstacle((int) this.getXPos() - 90, (int) this.getYPos() + 20, Obstacle.OILSPILL_OBSTACLE,
+						"oilspill_obstacle");
+			if (!isLeft)
+				return new Obstacle((int) this.getXPos() + 90, (int) this.getYPos() + 20, Obstacle.OILSPILL_OBSTACLE,
+						"oilspill_obstacle");
 		}
 		return null;
 	}

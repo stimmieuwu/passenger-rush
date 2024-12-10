@@ -31,6 +31,24 @@ public class Game {
 	public Text timeElapsed;
 	public Text player1Score;
 	public Text player2Score;
+	public Text player1Name;
+	public Text player2Name;
+	
+	// Buffs - replace with image if may time 
+	public Text player1HasSpeed;
+	public Text player1HasInsurance;
+	public Text player1HasInvincibility;
+
+	public Text player2HasSpeed;
+	public Text player2HasInsurance;
+	public Text player2HasInvincibility;
+
+	// Debuffs - replace with image if may time
+	public Text player1HasCrackInTheRoad;
+	public Text player1HasOilSpill;
+
+	public Text player2HasCrackInTheRoad;
+	public Text player2HasOilSpill;
 
 	public SceneManager sceneManager;
 
@@ -50,14 +68,37 @@ public class Game {
 		this.bg = new Canvas(SceneManager.getWindowWidth(), SceneManager.getWindowHeight());
 
 		this.fpsCounter = addText(20, 20, 1.5);
-		this.timeElapsed = addText(750, 20, 1.5);
-		this.player1Score = addText(20, 750, 1.5);
-		this.player2Score = addText(750, 750, 1.5);
+		this.timeElapsed = addText(760, 20, 1.5);
+		this.player1Name = addText(20, 35, 1.5);
+		this.player2Name = addText(750, 35, 1.5);
+		this.player1Score = addText(20, 50, 1.5);
+		this.player2Score = addText(750, 50, 1.5);
+		
 
+		// Buffs
+		this.player1HasSpeed = addText(20, 65, 1.5);
+		this.player1HasInsurance = addText(20, 80, 1.5);
+		this.player1HasInvincibility = addText(20, 95, 1.5);
+
+		this.player2HasSpeed = addText(750, 65, 1.5);
+		this.player2HasInsurance = addText(750, 80, 1.5);
+		this.player2HasInvincibility = addText(750, 95, 1.5);
+
+		// Debuffs
+		this.player1HasCrackInTheRoad = addText(20, 125, 1.5);
+		this.player1HasOilSpill = addText(20, 140, 1.5);
+
+		this.player2HasCrackInTheRoad = addText(750, 125, 1.5);
+		this.player2HasOilSpill = addText(750, 140, 1.5);
 		this.sceneManager = sceneManager;
 
-		this.root.getChildren().addAll(this.bg, this.canvas, fpsCounter, timeElapsed, player1Score, player2Score);
 
+		this.root.getChildren().addAll(this.bg, this.canvas, fpsCounter, timeElapsed, player1Score, player2Score, 
+		                               player1Name, player2Name, 
+		                               player1HasSpeed, player1HasInsurance, player1HasInvincibility,
+		                               player2HasSpeed, player2HasInsurance, player2HasInvincibility,
+		                               player1HasCrackInTheRoad, player1HasOilSpill,
+		                               player2HasCrackInTheRoad, player2HasOilSpill);
 	}
 
 	/**
